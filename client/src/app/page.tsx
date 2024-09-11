@@ -1,6 +1,5 @@
 const Home = () => {
-  console.log("ENV:", process.env.NEXT_PUBLIC_API_URL);
-  return <div>Hello</div>;
+  return <div>{process.env.NEXT_PUBLIC_API_URL}</div>;
 };
 
 export default Home;
