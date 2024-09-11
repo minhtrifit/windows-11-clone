@@ -60,7 +60,7 @@ const WindowCpn = (props: PropType) => {
     >
       <motion.div
         ref={windowRef}
-        className={`w-[60%] h-[70%] border-[1px] border-black rounded-[10px]`}
+        className={`w-[60%] h-[70%] min-h-[600px] border-[1px] border-zinc-300 dark:border-zinc-800 rounded-[10px]`}
         drag
         dragConstraints={constraints}
         dragControls={parentControls}
@@ -75,8 +75,8 @@ const WindowCpn = (props: PropType) => {
       >
         <header
           ref={windowHeaderRef}
-          className={`w-full h-[7%] min-h-[40px] bg-black rounded-t-[10px]
-                      text-white flex justify-between items-center`}
+          className={`w-full h-[7%] min-h-[40px] dark:bg-black rounded-t-[10px]
+                      dark:text-white flex justify-between items-center`}
           onPointerDown={(e) => {
             parentControls.start(e);
           }}
@@ -84,7 +84,7 @@ const WindowCpn = (props: PropType) => {
           <div></div>
           <div className="h-[100%] pb-2 flex items-center">
             <button
-              className={`h-full px-4 flex hover:bg-[#171717]`}
+              className={`h-full px-4 flex hover:bg-[#efefef] dark:hover:bg-[#171717]`}
               onClick={() => {
                 handleMinimizeScreen();
               }}
@@ -92,7 +92,7 @@ const WindowCpn = (props: PropType) => {
               <MdMinimize size={23} />
             </button>
             <button
-              className={`h-full px-4 flex items-center hover:bg-[#171717]`}
+              className={`h-full px-4 flex items-center hover:bg-[#efefef] dark:hover:bg-[#171717]`}
               onClick={() => {
                 handleFullScreen();
               }}
