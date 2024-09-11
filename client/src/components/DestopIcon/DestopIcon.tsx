@@ -54,7 +54,7 @@ const DestopIcon = (props: PropType) => {
   return (
     <div
       className="w-[90px] h-[90px] p-[1px] rounded-lg flex gap-2 flex-col items-center justify-center
-                hover:bg-sky-100 dark:hover:bg-sky-500 hover:cursor-pointer"
+                  hover:shadow-md hover:shadow-zinc-500 hover:cursor-pointer"
       onDoubleClick={() => {
         handleOpenApp();
       }}

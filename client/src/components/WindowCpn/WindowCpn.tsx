@@ -95,7 +95,10 @@ const WindowCpn = (props: PropType) => {
           >
             {isTargetWindowTab ? (
               <div className="h-full flex items-end px-4">
-                <div className="h-[80%] px-4 text-sm text-white flex items-center justify-start gap-20 bg-[#3c3c3c] rounded-t-[6px]">
+                <div
+                  className="h-[80%] px-4 text-sm text-white flex items-center justify-start
+                                gap-20 bg-[#3c3c3c] rounded-t-[6px]"
+                >
                   <div className="flex items-center justify-center gap-3">
                     {targetWindowTabIcon}
                     <p>{targetWindowTabName}</p>
@@ -110,7 +113,10 @@ const WindowCpn = (props: PropType) => {
                   </button>
                 </div>
                 <div className="h-[100%] ml-3 p-2 flex items-center">
-                  <button className="h-full mt-1 p-1 rounded-full flex items-center justify-center hover:bg-[#4f4f4f]">
+                  <button
+                    className="h-full mt-1 p-1 rounded-full flex items-center justify-center
+                                    hover:bg-[#efefef] dark:hover:bg-[#4f4f4f]"
+                  >
                     <IoMdAdd size={20} />
                   </button>
                 </div>
