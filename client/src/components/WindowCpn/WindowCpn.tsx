@@ -87,7 +87,7 @@ const WindowCpn = (props: PropType) => {
         >
           <header
             ref={windowHeaderRef}
-            className={`w-full h-[7%] min-h-[40px] dark:bg-black rounded-t-[10px]
+            className={`w-full h-[7%] min-h-[40px] bg-white dark:bg-black rounded-t-[10px]
                       dark:text-white flex justify-between items-center`}
             onPointerDown={(e) => {
               parentControls.start(e);
