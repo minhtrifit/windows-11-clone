@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-interface UserState {
-  users: any[];
-  updateUsers: (data: any[]) => void;
+interface WindowState {
+  targetWindow: React.ReactElement | null;
+  updateTargetWindow: (element: React.ReactElement | null) => void;
 }
 
-export const useUserStore = create<UserState>()(
+export const useWindowStore = create<WindowState>()(
   devtools((set) => ({
-    users: [],
-    updateUsers: (data) => set({ users: data }),
+    targetWindow: null,
+    updateTargetWindow: (element) => set({ targetWindow: element }),
   }))
 );

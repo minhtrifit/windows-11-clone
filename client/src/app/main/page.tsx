@@ -1,10 +1,9 @@
-import WindowCpn from "@/components/WindowCpn/WindowCpn";
-import BrowserContent from "@/components/WindowContentCpn/BrowserContent/BrowserContent";
+import WindowContainer from "@/components/WindowContainer/WindowContainer";
 
 const page = () => {
   return (
     <div className="w-screen h-screen overflow-hidden">
-      <WindowCpn contentCpn={<BrowserContent />} />
+      <WindowContainer />
     </div>
   );
 };
