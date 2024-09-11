@@ -7,18 +7,41 @@ interface PropType {
   iconUrl: string;
   iconName: string;
   targetElement: React.ReactElement;
+  targetElementTabName: string;
+  targetElementTabIcon: React.ReactElement;
 }
 
 const DestopIcon = (props: PropType) => {
-  const { iconUrl, iconName, targetElement } = props;
+  const {
+    iconUrl,
+    iconName,
+    targetElement,
+    targetElementTabName,
+    targetElementTabIcon,
+  } = props;
+
+  const updateIsCloseTargetWindow = useWindowStore((state) => {
+    return state.updateIsCloseTargetWindow;
+  });
 
   const updateTargetWindow = useWindowStore((state) => {
     return state.updateTargetWindow;
   });
 
+  const updateTargetWindowTabName = useWindowStore((state) => {
+    return state.updateTargetWindowTabName;
+  });
+
+  const updateTargetWindowTabIcon = useWindowStore((state) => {
+    return state.updateTargetWindowTabIcon;
+  });
+
   const handleOpenApp = () => {
     console.log("Open target element");
+    updateIsCloseTargetWindow(true);
     updateTargetWindow(targetElement);
+    updateTargetWindowTabName(targetElementTabName);
+    updateTargetWindowTabIcon(targetElementTabIcon);
   };
 
   return (
@@ -29,7 +52,7 @@ const DestopIcon = (props: PropType) => {
         handleOpenApp();
       }}
     >
-      <Image src={iconUrl} alt="favicon" width={50} height={50} />
+      <Image src={iconUrl} alt="favicon" width={45} height={45} />
       <div className={`max-w-[100%]`}>
         <p className="text-xs text-center line-clamp-2">{iconName}</p>
       </div>
