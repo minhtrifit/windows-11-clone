@@ -1,5 +1,5 @@
 const Home = () => {
-  return <div>{process.env.NEXT_PUBLIC_API_URL}</div>;
+  return <div>Home page</div>;
 };
 
 export default Home;
