@@ -39,6 +39,7 @@ const WindowContainer = () => {
           targetElement={<BrowserContent />}
           targetElementTabName="New Tab"
           targetElementTabIcon={<FaEdge size={15} />}
+          isTargetElementTab={true}
         />
         <DestopIcon
           iconUrl={"/Icons/folders/explorer.ico"}
@@ -46,6 +47,7 @@ const WindowContainer = () => {
           targetElement={<div>Hello</div>}
           targetElementTabName="Folder"
           targetElementTabIcon={<FaFolder size={15} />}
+          isTargetElementTab={true}
         />
       </div>
       {targetWindow !== null && (

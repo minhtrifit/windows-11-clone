@@ -53,7 +53,7 @@ const BrowserContent = () => {
             }}
           >
             <input
-              className="w-full h-full bg-[#282828] rounded-xl px-4"
+              className="w-full h-full bg-[#282828] rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);

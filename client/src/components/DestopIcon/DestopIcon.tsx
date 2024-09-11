@@ -9,6 +9,7 @@ interface PropType {
   targetElement: React.ReactElement;
   targetElementTabName: string;
   targetElementTabIcon: React.ReactElement;
+  isTargetElementTab: boolean;
 }
 
 const DestopIcon = (props: PropType) => {
@@ -18,10 +19,15 @@ const DestopIcon = (props: PropType) => {
     targetElement,
     targetElementTabName,
     targetElementTabIcon,
+    isTargetElementTab,
   } = props;
 
   const updateIsCloseTargetWindow = useWindowStore((state) => {
     return state.updateIsCloseTargetWindow;
+  });
+
+  const updateIsTargetWindowTab = useWindowStore((state) => {
+    return state.updateIsTargetWindowTab;
   });
 
   const updateTargetWindow = useWindowStore((state) => {
@@ -42,12 +48,13 @@ const DestopIcon = (props: PropType) => {
     updateTargetWindow(targetElement);
     updateTargetWindowTabName(targetElementTabName);
     updateTargetWindowTabIcon(targetElementTabIcon);
+    updateIsTargetWindowTab(isTargetElementTab);
   };
 
   return (
     <div
       className="w-[90px] h-[90px] p-[1px] rounded-lg flex gap-2 flex-col items-center justify-center
-                hover:bg-sky-100 dark:hover:bg-sky-900 hover:cursor-pointer"
+                hover:bg-sky-100 dark:hover:bg-sky-500 hover:cursor-pointer"
       onDoubleClick={() => {
         handleOpenApp();
       }}

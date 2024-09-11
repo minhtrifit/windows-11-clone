@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { MdMinimize } from "react-icons/md";
 import { FaRegSquare } from "react-icons/fa6";
 import { AiOutlineClose } from "react-icons/ai";
+import { IoMdAdd } from "react-icons/io";
 import { useWindowStore } from "@/lib/store";
 
 interface PropType {
@@ -17,6 +18,10 @@ const WindowCpn = (props: PropType) => {
 
   const isCloseTargetWindow = useWindowStore((state) => {
     return state.isCloseTargetWindow;
+  });
+
+  const isTargetWindowTab = useWindowStore((state) => {
+    return state.isTargetWindowTab;
   });
 
   const updateIsCloseTargetWindow = useWindowStore((state) => {
@@ -88,22 +93,36 @@ const WindowCpn = (props: PropType) => {
               parentControls.start(e);
             }}
           >
-            <div className="h-full flex items-end px-4">
-              <div className="h-[80%] px-4 text-sm text-white flex items-center justify-start gap-20 bg-[#3c3c3c] rounded-t-[6px]">
-                <div className="flex items-center justify-center gap-3">
+            {isTargetWindowTab ? (
+              <div className="h-full flex items-end px-4">
+                <div className="h-[80%] px-4 text-sm text-white flex items-center justify-start gap-20 bg-[#3c3c3c] rounded-t-[6px]">
+                  <div className="flex items-center justify-center gap-3">
+                    {targetWindowTabIcon}
+                    <p>{targetWindowTabName}</p>
+                  </div>
+                  <button
+                    className="p-1 rounded-full hover:bg-[#4f4f4f]"
+                    onClick={() => {
+                      handleClose();
+                    }}
+                  >
+                    <AiOutlineClose size={16} />
+                  </button>
+                </div>
+                <div className="h-[100%] ml-3 p-2 flex items-center">
+                  <button className="h-full mt-1 p-1 rounded-full flex items-center justify-center hover:bg-[#4f4f4f]">
+                    <IoMdAdd size={20} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="h-full flex items-center px-4">
+                <div className="flex items-center justify-center gap-5">
                   {targetWindowTabIcon}
                   <p>{targetWindowTabName}</p>
                 </div>
-                <button
-                  className="p-1 rounded-full hover:bg-[#4f4f4f]"
-                  onClick={() => {
-                    handleClose();
-                  }}
-                >
-                  <AiOutlineClose size={16} />
-                </button>
               </div>
-            </div>
+            )}
             <div className="h-[100%] pb-2 flex items-center">
               <button
                 className={`h-full px-4 flex hover:bg-[#efefef] dark:hover:bg-[#171717]`}
