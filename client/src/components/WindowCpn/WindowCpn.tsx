@@ -60,7 +60,7 @@ const WindowCpn = (props: PropType) => {
     >
       <motion.div
         ref={windowRef}
-        className={`w-[70%] xl:w-[60%] h-[70%] border-[1px] border-black rounded-[10px]`}
+        className={`w-[60%] h-[70%] border-[1px] border-black rounded-[10px]`}
         drag
         dragConstraints={constraints}
         dragControls={parentControls}
