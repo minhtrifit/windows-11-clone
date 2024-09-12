@@ -1,11 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import { useWindowStore } from "@/lib/store";
 
 interface PropType {
   iconUrl: string;
-  iconName: string;
   iconWidth: number;
   iconHeight: number;
   targetElement: React.ReactElement;
@@ -15,10 +12,9 @@ interface PropType {
   isTargetElementTab: boolean;
 }
 
-const DestopIcon = (props: PropType) => {
+const AppIcon = (props: PropType) => {
   const {
     iconUrl,
-    iconName,
     iconWidth,
     iconHeight,
     targetElement,
@@ -27,6 +23,10 @@ const DestopIcon = (props: PropType) => {
     targetElementTabIcon,
     isTargetElementTab,
   } = props;
+
+  const targetWindowName = useWindowStore((state) => {
+    return state.targetWindowName;
+  });
 
   const updateIsCloseTargetWindow = useWindowStore((state) => {
     return state.updateIsCloseTargetWindow;
@@ -64,9 +64,11 @@ const DestopIcon = (props: PropType) => {
 
   return (
     <div
-      className="w-[90px] h-[90px] p-[1px] rounded-lg flex gap-2 flex-col items-center justify-center
-                  hover:shadow-md hover:shadow-zinc-500 hover:cursor-pointer"
-      onDoubleClick={() => {
+      className={`${
+        targetElementname === targetWindowName && "bg-zinc-200 dark:bg-zinc-800"
+      } start-icon relative h-full flex items-center justify-center gap-2 p-2 rounded-md
+                  hover:bg-zinc-200 dark:hover:bg-zinc-800`}
+      onClick={() => {
         handleOpenApp();
       }}
     >
@@ -76,13 +78,11 @@ const DestopIcon = (props: PropType) => {
         width={iconWidth}
         height={iconHeight}
       />
-      <div className={`max-w-[100%]`}>
-        <p className="text-xs text-white select-none text-center line-clamp-2">
-          {iconName}
-        </p>
-      </div>
+      {targetElementname === targetWindowName && (
+        <div className="absolute bottom-0 w-[40%] h-[3px] bg-sky-400 rounded-md"></div>
+      )}
     </div>
   );
 };
 
-export default DestopIcon;
+export default AppIcon;

@@ -40,6 +40,10 @@ const WindowCpn = (props: PropType) => {
     return state.updateTargetWindow;
   });
 
+  const updateTargetWindowName = useWindowStore((state) => {
+    return state.updateTargetWindowName;
+  });
+
   const parentControls = useDragControls();
 
   const windowRef = useRef<HTMLDivElement>(null);
@@ -63,6 +67,7 @@ const WindowCpn = (props: PropType) => {
     updateIsCloseTargetWindow(false);
     setTimeout(() => {
       updateTargetWindow(null);
+      updateTargetWindowName("");
     }, 100);
   };
 
