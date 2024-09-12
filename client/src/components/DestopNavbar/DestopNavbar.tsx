@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavbarStore } from "@/lib/store";
 import { v4 as uuidv4 } from "uuid";
 import { APP_NAME } from "@/lib/utils";
@@ -5,9 +6,10 @@ import { APP_TYPE } from "@/lib/types";
 import AppIcon from "../NavbarIcon/AppIcon/AppIcon";
 import StartIcon from "../NavbarIcon/StartIcon/StartIcon";
 import { FaEdge, FaFolder } from "react-icons/fa";
+import { IoSettingsSharp } from "react-icons/io5";
 import BrowserContent from "../WindowContentCpn/BrowserContent/BrowserContent";
 import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
-import { useEffect } from "react";
+import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
 
 export const NAVBAR_APP_LIST: APP_TYPE[] = [
   {
@@ -29,6 +31,19 @@ export const NAVBAR_APP_LIST: APP_TYPE[] = [
     targetElementTabName: "New Tab",
     targetElementTabIcon: <FaEdge size={15} />,
     isTargetElementTab: true,
+  },
+];
+
+export const OPTION_NAVBAR_APP_LIST: APP_TYPE[] = [
+  {
+    iconUrl: "/Icons/applications/settings.ico",
+    iconWidth: 28,
+    iconHeight: 28,
+    targetElement: <SettingContent />,
+    targetElementname: APP_NAME.settings,
+    targetElementTabName: "Settings",
+    targetElementTabIcon: <IoSettingsSharp size={15} />,
+    isTargetElementTab: false,
   },
 ];
 

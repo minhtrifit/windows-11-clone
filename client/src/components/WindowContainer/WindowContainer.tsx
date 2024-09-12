@@ -10,7 +10,9 @@ import BrowserContent from "@/components/WindowContentCpn/BrowserContent/Browser
 import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import DestopIcon from "../DestopIcon/DestopIcon";
 import { FaEdge, FaFolder } from "react-icons/fa";
+import { IoSettingsSharp } from "react-icons/io5";
 import DestopNavbar from "../DestopNavbar/DestopNavbar";
+import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
 
 const DESTOP_APP_LIST: APP_TYPE[] = [
   {
@@ -34,6 +36,17 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElementTabName: "Folder",
     targetElementTabIcon: <FaFolder size={15} />,
     isTargetElementTab: true,
+  },
+  {
+    iconUrl: "/Icons/applications/settings.ico",
+    iconName: "Settings",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: <SettingContent />,
+    targetElementname: APP_NAME.settings,
+    targetElementTabName: "Settings",
+    targetElementTabIcon: <IoSettingsSharp size={15} />,
+    isTargetElementTab: false,
   },
 ];
 

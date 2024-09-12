@@ -7,7 +7,7 @@ import { FaRegSquare } from "react-icons/fa6";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
 import { useNavbarStore, useWindowStore } from "@/lib/store";
-import { checkIsNavbarFixedApp, filterNavbarListByName } from "@/lib/utils";
+import { checkIsExistNavbarAppList, filterNavbarListByName } from "@/lib/utils";
 import { NAVBAR_APP_LIST } from "../DestopNavbar/DestopNavbar";
 
 interface PropType {
@@ -79,7 +79,7 @@ const WindowCpn = (props: PropType) => {
       updateTargetWindow(null);
       updateTargetWindowName("");
 
-      const isFixedNavbarApp = checkIsNavbarFixedApp(
+      const isFixedNavbarApp = checkIsExistNavbarAppList(
         NAVBAR_APP_LIST,
         targetWindowName
       );

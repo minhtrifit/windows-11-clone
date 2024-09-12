@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useWindowStore } from "@/lib/store";
+import { useNavbarStore, useWindowStore } from "@/lib/store";
+import { checkIsExistNavbarAppList, getAppByName } from "@/lib/utils";
+import { OPTION_NAVBAR_APP_LIST } from "../DestopNavbar/DestopNavbar";
 
 interface PropType {
   iconUrl: string;
@@ -52,6 +54,10 @@ const DestopIcon = (props: PropType) => {
     return state.updateTargetWindowTabIcon;
   });
 
+  const addAppList = useNavbarStore((state) => {
+    return state.addAppList;
+  });
+
   const handleOpenApp = () => {
     console.log("Open target element");
     updateIsCloseTargetWindow(false);
@@ -60,6 +66,17 @@ const DestopIcon = (props: PropType) => {
     updateTargetWindowTabName(targetElementTabName);
     updateTargetWindowTabIcon(targetElementTabIcon);
     updateIsTargetWindowTab(isTargetElementTab);
+
+    // Navbar item update
+    const isOptionNavbarApp = checkIsExistNavbarAppList(
+      OPTION_NAVBAR_APP_LIST,
+      targetElementname
+    );
+
+    if (isOptionNavbarApp) {
+      const newApp = getAppByName(OPTION_NAVBAR_APP_LIST, targetElementname);
+      if (newApp !== null) addAppList(newApp);
+    }
   };
 
   return (

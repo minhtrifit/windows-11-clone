@@ -19,7 +19,10 @@ export const SETTING_NAME = {
   ["personalize"]: "Personalize",
 };
 
-export const checkIsNavbarFixedApp = (list: APP_TYPE[], appName: string) => {
+export const checkIsExistNavbarAppList = (
+  list: APP_TYPE[],
+  appName: string
+) => {
   for (let i = 0; i < list.length; ++i)
     if (list[i].targetElementname === appName) return true;
 
@@ -38,4 +41,12 @@ export const filterNavbarListByName = (
   }
 
   return filterList;
+};
+
+export const getAppByName = (list: APP_TYPE[], appName: string) => {
+  for (let i = 0; i < list.length; ++i) {
+    if (list[i].targetElementname === appName) return list[i];
+  }
+
+  return null;
 };

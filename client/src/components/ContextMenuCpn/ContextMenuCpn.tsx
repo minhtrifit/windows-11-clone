@@ -109,7 +109,7 @@ const ContextMenuCpn = (props: PropType) => {
         targetElementname: APP_NAME.settings,
         targetElementTabName: "Settings",
         targetElementTabIcon: <IoSettingsSharp size={15} />,
-        isTargetElementTab: true,
+        isTargetElementTab: false,
       };
 
       addAppList(settingApp);

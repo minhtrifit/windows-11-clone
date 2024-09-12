@@ -3,6 +3,8 @@
 import { FormEvent, useRef, useState } from "react";
 import { GrFormPreviousLink, GrFormNextLink } from "react-icons/gr";
 import { TbReload } from "react-icons/tb";
+import { MdOutlineMoreVert } from "react-icons/md";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const GOOGLE_URL = "https://www.google.com";
 
@@ -60,8 +62,19 @@ const BrowserContent = () => {
               }}
             />
           </form>
-          <div className="w-[10%] h-full flex items-center justify-center">
-            Right
+          <div className="w-[10%] h-full flex gap-3 items-center justify-center">
+            <button className="p-1 rounded-full hover:bg-[#4f4f4f]">
+              <Avatar className="w-7 h-7">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>T</AvatarFallback>
+              </Avatar>
+            </button>
+            <button className="p-1 rounded-full hover:bg-[#4f4f4f]">
+              <MdOutlineMoreVert size={25} />
+            </button>
           </div>
         </div>
       </header>
