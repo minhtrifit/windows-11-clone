@@ -33,3 +33,15 @@ export const useWindowStore = create<WindowState>()(
       set({ targetWindowTabIcon: element }),
   }))
 );
+
+interface NavbarState {
+  isOpenStart: boolean;
+  updateIsOpenStart: (value: boolean) => void;
+}
+
+export const useNavbarStore = create<NavbarState>()(
+  devtools((set) => ({
+    isOpenStart: false,
+    updateIsOpenStart: (value) => set({ isOpenStart: value }),
+  }))
+);

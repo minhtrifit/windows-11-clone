@@ -1,5 +1,5 @@
-import { useState } from "react";
 import Image from "next/image";
+import { useNavbarStore } from "@/lib/store";
 import StartIconDropdown from "../StartIconDropdown/StartIconDropdown";
 
 interface PropType {
@@ -9,19 +9,22 @@ interface PropType {
 const StartIcon = (props: PropType) => {
   const { iconUrl } = props;
 
-  const [isOpenStart, setIsOpenStart] = useState<boolean>(false);
+  const isOpenStart = useNavbarStore((state) => {
+    return state.isOpenStart;
+  });
+
+  const updateIsOpenStart = useNavbarStore((state) => {
+    return state.updateIsOpenStart;
+  });
 
   return (
     <>
-      <StartIconDropdown
-        isOpenStart={isOpenStart}
-        setIsOpenStart={setIsOpenStart}
-      />
+      <StartIconDropdown />
       <div
         className="start-icon relative h-full flex items-center justify-center gap-2 p-2 rounded-md
                     hover:bg-zinc-200 dark:hover:bg-zinc-800"
         onClick={() => {
-          setIsOpenStart(!isOpenStart);
+          updateIsOpenStart(!isOpenStart);
         }}
       >
         <Image

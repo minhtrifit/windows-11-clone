@@ -1,14 +1,17 @@
-import {
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { useNavbarStore } from "@/lib/store";
+import { v4 as uuidv4 } from "uuid";
+import { APP_TYPE } from "@/lib/types";
+import { APP_NAME } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FaRegMoon, FaMicrosoft, FaSearch } from "react-icons/fa";
+import {
+  FaRegMoon,
+  FaMicrosoft,
+  FaSearch,
+  FaEdge,
+  FaFolder,
+} from "react-icons/fa";
 import { IoPower } from "react-icons/io5";
 import { VscDebugRestart, VscSignOut } from "react-icons/vsc";
 import { IoIosMore } from "react-icons/io";
@@ -23,19 +26,48 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import BrowserContent from "@/components/WindowContentCpn/BrowserContent/BrowserContent";
+import StartAppIcon from "../StartAppIcon/StartAppIcon";
 
-interface PropType {
-  isOpenStart: boolean;
-  setIsOpenStart: Dispatch<SetStateAction<boolean>>;
-}
+const PINNED_APP_LIST: APP_TYPE[] = [
+  {
+    iconUrl: "/Icons/applications/edge.ico",
+    iconName: "Microsoft Edge",
+    iconWidth: 40,
+    iconHeight: 40,
+    targetElement: <BrowserContent />,
+    targetElementname: APP_NAME.browser,
+    targetElementTabName: "New Tab",
+    targetElementTabIcon: <FaEdge size={15} />,
+    isTargetElementTab: true,
+  },
+  {
+    iconUrl: "/Icons/folders/explorer.ico",
+    iconName: "File Explorer",
+    iconWidth: 40,
+    iconHeight: 40,
+    targetElement: <div>Hello</div>,
+    targetElementname: APP_NAME.file_explorer,
+    targetElementTabName: "Folder",
+    targetElementTabIcon: <FaFolder size={15} />,
+    isTargetElementTab: true,
+  },
+];
 
-const StartIconDropdown = (props: PropType) => {
-  const { isOpenStart, setIsOpenStart } = props;
-
+const StartIconDropdown = () => {
   const [windowStatus, setWindowStatus] = useState<string>("turn on");
   const [search, setSearch] = useState<string>("");
 
   const startDropdownRef = useRef<any>(null);
+
+  const isOpenStart = useNavbarStore((state) => {
+    return state.isOpenStart;
+  });
+
+  const updateIsOpenStart = useNavbarStore((state) => {
+    return state.updateIsOpenStart;
+  });
 
   const handleClickElement = (event: any) => {
     if (
@@ -44,7 +76,7 @@ const StartIconDropdown = (props: PropType) => {
       !event.target.className.includes("start-icon")
     ) {
       console.log("Clicked outside start menu dropdown");
-      setIsOpenStart(false);
+      updateIsOpenStart(false);
     }
   };
 
@@ -76,7 +108,7 @@ const StartIconDropdown = (props: PropType) => {
       {isOpenStart && (
         <motion.div
           ref={startDropdownRef}
-          className="absolute z-[999] min-w-[600px] bottom-[60px]"
+          className="absolute z-[999] min-w-[600px] max-w-[600px] bottom-[60px]"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
@@ -98,6 +130,56 @@ const StartIconDropdown = (props: PropType) => {
                 }}
               />
             </form>
+            <Tabs defaultValue="pinned" className="w-full">
+              <TabsList className="w-full bg-[#efefef] dark:bg-[#252525] flex justify-between">
+                <h1 className="text-black dark:text-white text-md font-bold">
+                  Pinned
+                </h1>
+                <div>
+                  <TabsTrigger value="pinned">Pinned</TabsTrigger>
+                  <TabsTrigger value="all-apps">All apps</TabsTrigger>
+                </div>
+              </TabsList>
+              <TabsContent value="pinned">
+                <div className="flex items-center flex-wrap gap-3">
+                  {PINNED_APP_LIST?.map((app: APP_TYPE) => {
+                    return (
+                      <StartAppIcon
+                        key={uuidv4()}
+                        iconUrl={app?.iconUrl ? app?.iconUrl : ""}
+                        iconName={app?.iconName ? app?.iconName : ""}
+                        iconWidth={app?.iconWidth ? app?.iconWidth : 0}
+                        iconHeight={app?.iconHeight ? app?.iconHeight : 0}
+                        targetElement={
+                          app?.targetElement ? app?.targetElement : <></>
+                        }
+                        targetElementname={
+                          app?.targetElementname ? app?.targetElementname : ""
+                        }
+                        targetElementTabName={
+                          app?.targetElementTabName
+                            ? app?.targetElementTabName
+                            : ""
+                        }
+                        targetElementTabIcon={
+                          app?.targetElementTabIcon ? (
+                            app?.targetElementTabIcon
+                          ) : (
+                            <></>
+                          )
+                        }
+                        isTargetElementTab={
+                          app?.isTargetElementTab
+                            ? app?.isTargetElementTab
+                            : false
+                        }
+                      />
+                    );
+                  })}
+                </div>
+              </TabsContent>
+              <TabsContent value="all-apps">All apps</TabsContent>
+            </Tabs>
           </div>
           <div
             className="w-full bg-white px-12 py-3 dark:bg-[#161616]

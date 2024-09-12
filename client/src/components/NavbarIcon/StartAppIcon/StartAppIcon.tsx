@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useWindowStore } from "@/lib/store";
+import { useNavbarStore, useWindowStore } from "@/lib/store";
 
 interface PropType {
   iconUrl: string;
@@ -15,7 +15,7 @@ interface PropType {
   isTargetElementTab: boolean;
 }
 
-const DestopIcon = (props: PropType) => {
+const StartAppIcon = (props: PropType) => {
   const {
     iconUrl,
     iconName,
@@ -52,8 +52,13 @@ const DestopIcon = (props: PropType) => {
     return state.updateTargetWindowTabIcon;
   });
 
+  const updateIsOpenStart = useNavbarStore((state) => {
+    return state.updateIsOpenStart;
+  });
+
   const handleOpenApp = () => {
-    console.log("Open target element");
+    console.log("Open start target element");
+    updateIsOpenStart(false);
     updateIsCloseTargetWindow(false);
     updateTargetWindow(targetElement);
     updateTargetWindowName(targetElementname);
@@ -65,8 +70,8 @@ const DestopIcon = (props: PropType) => {
   return (
     <div
       className="w-[90px] h-[90px] p-[1px] rounded-lg flex gap-2 flex-col items-center justify-center
-                  hover:border hover:border-gray-400"
-      onDoubleClick={() => {
+                hover:border hover:border-zinc-300 dark:hover:border-zinc-600"
+      onClick={() => {
         handleOpenApp();
       }}
     >
@@ -77,7 +82,7 @@ const DestopIcon = (props: PropType) => {
         height={iconHeight}
       />
       <div className={`max-w-[100%]`}>
-        <p className="text-xs text-white select-none text-center line-clamp-2">
+        <p className="text-xs dark:text-white select-none text-center line-clamp-2">
           {iconName}
         </p>
       </div>
@@ -85,4 +90,4 @@ const DestopIcon = (props: PropType) => {
   );
 };
 
-export default DestopIcon;
+export default StartAppIcon;

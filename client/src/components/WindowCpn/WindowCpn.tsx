@@ -64,7 +64,7 @@ const WindowCpn = (props: PropType) => {
 
   const handleClose = () => {
     console.log("Close");
-    updateIsCloseTargetWindow(false);
+    updateIsCloseTargetWindow(true);
     setTimeout(() => {
       updateTargetWindow(null);
       updateTargetWindowName("");
@@ -73,7 +73,7 @@ const WindowCpn = (props: PropType) => {
 
   return (
     <AnimatePresence>
-      {isCloseTargetWindow && (
+      {!isCloseTargetWindow && (
         <motion.div
           ref={windowRef}
           className={`absolute inset-0 m-auto w-[60%] h-[70%] min-h-[600px]

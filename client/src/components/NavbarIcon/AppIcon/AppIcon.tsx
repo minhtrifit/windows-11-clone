@@ -54,7 +54,7 @@ const AppIcon = (props: PropType) => {
 
   const handleOpenApp = () => {
     console.log("Open target element");
-    updateIsCloseTargetWindow(true);
+    updateIsCloseTargetWindow(false);
     updateTargetWindow(targetElement);
     updateTargetWindowName(targetElementname);
     updateTargetWindowTabName(targetElementTabName);
