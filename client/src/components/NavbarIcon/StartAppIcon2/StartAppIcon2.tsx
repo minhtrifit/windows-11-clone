@@ -13,9 +13,10 @@ interface PropType {
   targetElementTabName: string;
   targetElementTabIcon: React.ReactElement;
   isTargetElementTab: boolean;
+  lastOpenedTime: string;
 }
 
-const StartAppIcon = (props: PropType) => {
+const StartAppIcon2 = (props: PropType) => {
   const {
     iconUrl,
     iconName,
@@ -26,6 +27,7 @@ const StartAppIcon = (props: PropType) => {
     targetElementTabName,
     targetElementTabIcon,
     isTargetElementTab,
+    lastOpenedTime,
   } = props;
 
   const updateIsCloseTargetWindow = useWindowStore((state) => {
@@ -69,7 +71,7 @@ const StartAppIcon = (props: PropType) => {
 
   return (
     <div
-      className="w-[90px] h-[90px] p-[1px] rounded-lg flex gap-2 flex-col items-center justify-center
+      className="w-[100%] h-[60px] px-4 py-2 rounded-lg flex gap-5 items-center
                 hover:bg-zinc-200 dark:hover:bg-zinc-700"
       onClick={() => {
         handleOpenApp();
@@ -81,13 +83,16 @@ const StartAppIcon = (props: PropType) => {
         width={iconWidth}
         height={iconHeight}
       />
-      <div className={`max-w-[100%]`}>
-        <p className="text-xs dark:text-white select-none text-center line-clamp-2">
+      <div className="flex flex-col items-start gap-1">
+        <p className="max-w-[150px] text-sm dark:text-white select-none text-center truncate">
           {iconName}
+        </p>
+        <p className="text-xs dark:text-zinc-400 font-bold select-none text-center">
+          {lastOpenedTime}
         </p>
       </div>
     </div>
   );
 };
 
-export default StartAppIcon;
+export default StartAppIcon2;

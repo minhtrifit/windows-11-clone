@@ -29,6 +29,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BrowserContent from "@/components/WindowContentCpn/BrowserContent/BrowserContent";
 import StartAppIcon from "../StartAppIcon/StartAppIcon";
+import StartAppIcon2 from "../StartAppIcon2/StartAppIcon2";
 
 const PINNED_APP_LIST: APP_TYPE[] = [
   {
@@ -52,6 +53,33 @@ const PINNED_APP_LIST: APP_TYPE[] = [
     targetElementTabName: "Folder",
     targetElementTabIcon: <FaFolder size={15} />,
     isTargetElementTab: true,
+  },
+];
+
+const RECOMMENDED_APP_LIST: APP_TYPE[] = [
+  {
+    iconUrl: "/Icons/applications/edge.ico",
+    iconName: "Microsoft Edge",
+    iconWidth: 30,
+    iconHeight: 30,
+    targetElement: <BrowserContent />,
+    targetElementname: APP_NAME.browser,
+    targetElementTabName: "New Tab",
+    targetElementTabIcon: <FaEdge size={15} />,
+    isTargetElementTab: true,
+    lastOpenedTime: "Recently opended",
+  },
+  {
+    iconUrl: "/Icons/folders/explorer.ico",
+    iconName: "File Explorer",
+    iconWidth: 30,
+    iconHeight: 30,
+    targetElement: <div>Hello</div>,
+    targetElementname: APP_NAME.file_explorer,
+    targetElementTabName: "Folder",
+    targetElementTabIcon: <FaFolder size={15} />,
+    isTargetElementTab: true,
+    lastOpenedTime: "30 minutes ago",
   },
 ];
 
@@ -141,7 +169,7 @@ const StartIconDropdown = () => {
                 </div>
               </TabsList>
               <TabsContent value="pinned">
-                <div className="flex items-center flex-wrap gap-3">
+                <div className="grid grid-cols-5 gap-3">
                   {PINNED_APP_LIST?.map((app: APP_TYPE) => {
                     return (
                       <StartAppIcon
@@ -179,6 +207,61 @@ const StartIconDropdown = () => {
                 </div>
               </TabsContent>
               <TabsContent value="all-apps">All apps</TabsContent>
+            </Tabs>
+            <Tabs defaultValue="recommended" className="w-full">
+              <TabsList className="w-full bg-[#efefef] dark:bg-[#252525] flex justify-between">
+                <h1 className="text-black dark:text-white text-md font-bold">
+                  Recommended
+                </h1>
+                <div>
+                  <TabsTrigger value="recommended">Recommended</TabsTrigger>
+                  <TabsTrigger value="all-recommendeds">More</TabsTrigger>
+                </div>
+              </TabsList>
+              <TabsContent value="recommended">
+                <div className="grid grid-cols-2 gap-3">
+                  {RECOMMENDED_APP_LIST?.map((app: APP_TYPE) => {
+                    return (
+                      <StartAppIcon2
+                        key={uuidv4()}
+                        iconUrl={app?.iconUrl ? app?.iconUrl : ""}
+                        iconName={app?.iconName ? app?.iconName : ""}
+                        iconWidth={app?.iconWidth ? app?.iconWidth : 0}
+                        iconHeight={app?.iconHeight ? app?.iconHeight : 0}
+                        targetElement={
+                          app?.targetElement ? app?.targetElement : <></>
+                        }
+                        targetElementname={
+                          app?.targetElementname ? app?.targetElementname : ""
+                        }
+                        targetElementTabName={
+                          app?.targetElementTabName
+                            ? app?.targetElementTabName
+                            : ""
+                        }
+                        targetElementTabIcon={
+                          app?.targetElementTabIcon ? (
+                            app?.targetElementTabIcon
+                          ) : (
+                            <></>
+                          )
+                        }
+                        isTargetElementTab={
+                          app?.isTargetElementTab
+                            ? app?.isTargetElementTab
+                            : false
+                        }
+                        lastOpenedTime={
+                          app?.lastOpenedTime ? app?.lastOpenedTime : ""
+                        }
+                      />
+                    );
+                  })}
+                </div>
+              </TabsContent>
+              <TabsContent value="all-recommendeds">
+                All recommendeds
+              </TabsContent>
             </Tabs>
           </div>
           <div

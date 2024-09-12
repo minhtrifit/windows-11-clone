@@ -8,4 +8,5 @@ export interface APP_TYPE {
   targetElementTabName?: string;
   targetElementTabIcon?: React.ReactElement;
   isTargetElementTab?: boolean;
+  lastOpenedTime?: string;
 }
