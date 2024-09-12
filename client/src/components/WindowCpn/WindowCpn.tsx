@@ -6,7 +6,9 @@ import { MdMinimize } from "react-icons/md";
 import { FaRegSquare } from "react-icons/fa6";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
-import { useWindowStore } from "@/lib/store";
+import { useNavbarStore, useWindowStore } from "@/lib/store";
+import { checkIsNavbarFixedApp, filterNavbarListByName } from "@/lib/utils";
+import { NAVBAR_APP_LIST } from "../DestopNavbar/DestopNavbar";
 
 interface PropType {
   constraints: any;
@@ -28,6 +30,10 @@ const WindowCpn = (props: PropType) => {
     return state.updateIsCloseTargetWindow;
   });
 
+  const targetWindowName = useWindowStore((state) => {
+    return state.targetWindowName;
+  });
+
   const targetWindowTabName = useWindowStore((state) => {
     return state.targetWindowTabName;
   });
@@ -42,6 +48,10 @@ const WindowCpn = (props: PropType) => {
 
   const updateTargetWindowName = useWindowStore((state) => {
     return state.updateTargetWindowName;
+  });
+
+  const updateAppList = useNavbarStore((state) => {
+    return state.updateAppList;
   });
 
   const parentControls = useDragControls();
@@ -68,6 +78,20 @@ const WindowCpn = (props: PropType) => {
     setTimeout(() => {
       updateTargetWindow(null);
       updateTargetWindowName("");
+
+      const isFixedNavbarApp = checkIsNavbarFixedApp(
+        NAVBAR_APP_LIST,
+        targetWindowName
+      );
+
+      if (!isFixedNavbarApp) {
+        const filterList = filterNavbarListByName(
+          NAVBAR_APP_LIST,
+          targetWindowName
+        );
+
+        updateAppList(filterList);
+      }
     }, 100);
   };
 
@@ -76,7 +100,7 @@ const WindowCpn = (props: PropType) => {
       {!isCloseTargetWindow && (
         <motion.div
           ref={windowRef}
-          className={`absolute inset-0 m-auto w-[60%] h-[70%] min-h-[600px]
+          className={`absolute inset-0 m-auto w-[80%] h-[70%] 2xl:w-[60%] min-h-[600px]
                   border-[1px] border-zinc-300 dark:border-zinc-800 rounded-[10px]`}
           drag
           dragConstraints={constraints}

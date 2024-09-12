@@ -1,3 +1,4 @@
+import { useNavbarStore } from "@/lib/store";
 import { v4 as uuidv4 } from "uuid";
 import { APP_NAME } from "@/lib/utils";
 import { APP_TYPE } from "@/lib/types";
@@ -5,13 +6,15 @@ import AppIcon from "../NavbarIcon/AppIcon/AppIcon";
 import StartIcon from "../NavbarIcon/StartIcon/StartIcon";
 import { FaEdge, FaFolder } from "react-icons/fa";
 import BrowserContent from "../WindowContentCpn/BrowserContent/BrowserContent";
+import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
+import { useEffect } from "react";
 
-const NAVBAR_APP_LIST: APP_TYPE[] = [
+export const NAVBAR_APP_LIST: APP_TYPE[] = [
   {
     iconUrl: "/Icons/folders/explorer.ico",
     iconWidth: 28,
     iconHeight: 28,
-    targetElement: <div>Hello</div>,
+    targetElement: <FolderContent />,
     targetElementname: APP_NAME.file_explorer,
     targetElementTabName: "Folder",
     targetElementTabIcon: <FaFolder size={15} />,
@@ -30,13 +33,26 @@ const NAVBAR_APP_LIST: APP_TYPE[] = [
 ];
 
 const DestopNavbar = () => {
+  const appList = useNavbarStore((state) => {
+    return state.appList;
+  });
+
+  const updateAppList = useNavbarStore((state) => {
+    return state.updateAppList;
+  });
+
+  useEffect(() => {
+    updateAppList(NAVBAR_APP_LIST);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div
       className="fixed bottom-0 w-full h-[50px] py-1 bg-[#efefef] dark:bg-[#161616]
                     flex items-center justify-center gap-3"
     >
       <StartIcon iconUrl={"/Icons/applications/start.ico"} />
-      {NAVBAR_APP_LIST?.map((app: APP_TYPE) => {
+      {appList?.map((app: APP_TYPE) => {
         return (
           <AppIcon
             key={uuidv4()}

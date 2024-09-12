@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { SETTING_NAME } from "./utils";
+import { APP_TYPE } from "./types";
 
 interface WindowState {
   isCloseTargetWindow: boolean;
@@ -35,13 +37,32 @@ export const useWindowStore = create<WindowState>()(
 );
 
 interface NavbarState {
+  appList: APP_TYPE[];
   isOpenStart: boolean;
   updateIsOpenStart: (value: boolean) => void;
+  updateAppList: (list: APP_TYPE[]) => void;
+  addAppList: (app: APP_TYPE) => void;
 }
 
 export const useNavbarStore = create<NavbarState>()(
   devtools((set) => ({
+    appList: [],
     isOpenStart: false,
     updateIsOpenStart: (value) => set({ isOpenStart: value }),
+    updateAppList: (list) => set({ appList: list }),
+    addAppList: (app: APP_TYPE) =>
+      set((state) => ({ appList: [...state.appList, app] })),
+  }))
+);
+
+interface SettingState {
+  settingTab: string;
+  updateSettingTab: (value: string) => void;
+}
+
+export const useSettingStore = create<SettingState>()(
+  devtools((set) => ({
+    settingTab: SETTING_NAME.home,
+    updateSettingTab: (name) => set({ settingTab: name }),
   }))
 );

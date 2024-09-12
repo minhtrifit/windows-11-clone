@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useNavbarStore, useSettingStore, useWindowStore } from "@/lib/store";
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -30,11 +31,13 @@ import { FaDisplay, FaPaintbrush } from "react-icons/fa6";
 import { AiOutlineFileImage } from "react-icons/ai";
 import { SiMicrosoftword, SiMicrosoftexcel } from "react-icons/si";
 import { PiMicrosoftPowerpointLogoFill, PiTerminalFill } from "react-icons/pi";
-import { IoLibrary } from "react-icons/io5";
+import { IoLibrary, IoSettingsSharp } from "react-icons/io5";
 import { GrDocumentText } from "react-icons/gr";
 import { CiAlignLeft } from "react-icons/ci";
 import { RiSlideshowFill } from "react-icons/ri";
 import { CgMoreO } from "react-icons/cg";
+import { APP_NAME, SETTING_NAME } from "@/lib/utils";
+import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
 
 interface PropType {
   children?: React.ReactNode;
@@ -48,11 +51,78 @@ const ContextMenuCpn = (props: PropType) => {
   const [isAlignIconGrid, setIsAlignIconGrid] = useState<boolean>(true);
   const [isShowDestopIcons, setIsShowDestopIcons] = useState<boolean>(true);
 
+  const updateIsCloseTargetWindow = useWindowStore((state) => {
+    return state.updateIsCloseTargetWindow;
+  });
+
+  const updateIsTargetWindowTab = useWindowStore((state) => {
+    return state.updateIsTargetWindowTab;
+  });
+
+  const updateTargetWindow = useWindowStore((state) => {
+    return state.updateTargetWindow;
+  });
+
+  const updateTargetWindowName = useWindowStore((state) => {
+    return state.updateTargetWindowName;
+  });
+
+  const updateTargetWindowTabName = useWindowStore((state) => {
+    return state.updateTargetWindowTabName;
+  });
+
+  const updateTargetWindowTabIcon = useWindowStore((state) => {
+    return state.updateTargetWindowTabIcon;
+  });
+
+  const updateSettingTab = useSettingStore((state) => {
+    return state.updateSettingTab;
+  });
+
+  const addAppList = useNavbarStore((state) => {
+    return state.addAppList;
+  });
+
   useEffect(() => {
     if (iconSizeValue !== "") {
       console.log("Icon size changed:", iconSizeValue);
     }
   }, [iconSizeValue]);
+
+  const handleOpenSettingOption = (name: string) => {
+    console.log("Open setting:", name);
+
+    if (Object.values(SETTING_NAME).includes(name)) {
+      updateIsCloseTargetWindow(false);
+      updateTargetWindow(<SettingContent />);
+      updateTargetWindowName(APP_NAME.settings);
+      updateTargetWindowTabName("Settings");
+      updateTargetWindowTabIcon(<IoSettingsSharp size={15} />);
+      updateIsTargetWindowTab(false);
+
+      // Navbar item update
+      const settingApp = {
+        iconUrl: "/Icons/applications/settings.ico",
+        iconWidth: 28,
+        iconHeight: 28,
+        targetElement: <SettingContent />,
+        targetElementname: APP_NAME.settings,
+        targetElementTabName: "Settings",
+        targetElementTabIcon: <IoSettingsSharp size={15} />,
+        isTargetElementTab: true,
+      };
+
+      addAppList(settingApp);
+    }
+
+    if (name === SETTING_NAME.system) {
+      updateSettingTab(SETTING_NAME.system);
+    }
+
+    if (name === SETTING_NAME.personalize) {
+      updateSettingTab(SETTING_NAME.personalize);
+    }
+  };
 
   return (
     <ContextMenu>
@@ -249,7 +319,12 @@ const ContextMenuCpn = (props: PropType) => {
           </ContextMenuSubContent>
         </ContextMenuSub>
         <ContextMenuSeparator />
-        <ContextMenuItem inset>
+        <ContextMenuItem
+          inset
+          onClick={() => {
+            handleOpenSettingOption(SETTING_NAME.system);
+          }}
+        >
           <div>
             <ContextMenuShortcut>
               <FaDisplay className="mr-3" size={20} />
@@ -257,7 +332,12 @@ const ContextMenuCpn = (props: PropType) => {
           </div>
           <span>Display settings</span>
         </ContextMenuItem>
-        <ContextMenuItem inset>
+        <ContextMenuItem
+          inset
+          onClick={() => {
+            handleOpenSettingOption(SETTING_NAME.personalize);
+          }}
+        >
           <div>
             <ContextMenuShortcut>
               <FaPaintbrush className="mr-3" size={20} />

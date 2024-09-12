@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BrowserContent from "@/components/WindowContentCpn/BrowserContent/BrowserContent";
+import FolderContent from "@/components/WindowContentCpn/FolderContent/FolderContent";
 import StartAppIcon from "../StartAppIcon/StartAppIcon";
 import StartAppIcon2 from "../StartAppIcon2/StartAppIcon2";
 
@@ -48,7 +49,7 @@ const PINNED_APP_LIST: APP_TYPE[] = [
     iconName: "File Explorer",
     iconWidth: 40,
     iconHeight: 40,
-    targetElement: <div>Hello</div>,
+    targetElement: <FolderContent />,
     targetElementname: APP_NAME.file_explorer,
     targetElementTabName: "Folder",
     targetElementTabIcon: <FaFolder size={15} />,

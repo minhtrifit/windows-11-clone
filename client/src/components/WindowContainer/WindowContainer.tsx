@@ -7,6 +7,7 @@ import { APP_NAME } from "@/lib/utils";
 import { APP_TYPE } from "@/lib/types";
 import WindowCpn from "@/components/WindowCpn/WindowCpn";
 import BrowserContent from "@/components/WindowContentCpn/BrowserContent/BrowserContent";
+import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import DestopIcon from "../DestopIcon/DestopIcon";
 import { FaEdge, FaFolder } from "react-icons/fa";
 import DestopNavbar from "../DestopNavbar/DestopNavbar";
@@ -28,7 +29,7 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     iconName: "File Explorer",
     iconWidth: 45,
     iconHeight: 45,
-    targetElement: <div>Hello</div>,
+    targetElement: <FolderContent />,
     targetElementname: APP_NAME.file_explorer,
     targetElementTabName: "Folder",
     targetElementTabIcon: <FaFolder size={15} />,
