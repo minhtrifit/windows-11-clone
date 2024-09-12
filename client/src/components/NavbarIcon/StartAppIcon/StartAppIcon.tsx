@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useNavbarStore, useWindowStore } from "@/lib/store";
+import { checkIsExistNavbarAppList, getAppByName } from "@/lib/utils";
+import { OPTION_NAVBAR_APP_LIST } from "@/components/DestopNavbar/DestopNavbar";
 
 interface PropType {
   iconUrl: string;
@@ -56,6 +58,10 @@ const StartAppIcon = (props: PropType) => {
     return state.updateIsOpenStart;
   });
 
+  const addAppList = useNavbarStore((state) => {
+    return state.addAppList;
+  });
+
   const handleOpenApp = () => {
     console.log("Open start target element");
     updateIsOpenStart(false);
@@ -65,6 +71,17 @@ const StartAppIcon = (props: PropType) => {
     updateTargetWindowTabName(targetElementTabName);
     updateTargetWindowTabIcon(targetElementTabIcon);
     updateIsTargetWindowTab(isTargetElementTab);
+
+    // Navbar item update
+    const isOptionNavbarApp = checkIsExistNavbarAppList(
+      OPTION_NAVBAR_APP_LIST,
+      targetElementname
+    );
+
+    if (isOptionNavbarApp) {
+      const newApp = getAppByName(OPTION_NAVBAR_APP_LIST, targetElementname);
+      if (newApp !== null) addAppList(newApp);
+    }
   };
 
   return (

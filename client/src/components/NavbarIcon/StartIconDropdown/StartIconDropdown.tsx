@@ -12,7 +12,8 @@ import {
   FaEdge,
   FaFolder,
 } from "react-icons/fa";
-import { IoPower } from "react-icons/io5";
+import { IoPower, IoSettingsSharp } from "react-icons/io5";
+
 import { VscDebugRestart, VscSignOut } from "react-icons/vsc";
 import { IoIosMore } from "react-icons/io";
 import {
@@ -31,6 +32,7 @@ import BrowserContent from "@/components/WindowContentCpn/BrowserContent/Browser
 import FolderContent from "@/components/WindowContentCpn/FolderContent/FolderContent";
 import StartAppIcon from "../StartAppIcon/StartAppIcon";
 import StartAppIcon2 from "../StartAppIcon2/StartAppIcon2";
+import SettingContent from "@/components/WindowContentCpn/SettingContent/SettingContent";
 
 const PINNED_APP_LIST: APP_TYPE[] = [
   {
@@ -54,6 +56,17 @@ const PINNED_APP_LIST: APP_TYPE[] = [
     targetElementTabName: "Folder",
     targetElementTabIcon: <FaFolder size={15} />,
     isTargetElementTab: true,
+  },
+  {
+    iconUrl: "/Icons/applications/settings.ico",
+    iconName: "Settings",
+    iconWidth: 40,
+    iconHeight: 40,
+    targetElement: <SettingContent />,
+    targetElementname: APP_NAME.settings,
+    targetElementTabName: "Folder",
+    targetElementTabIcon: <IoSettingsSharp size={15} />,
+    isTargetElementTab: false,
   },
 ];
 
