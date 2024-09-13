@@ -16,7 +16,15 @@ export const SETTING_NAME = {
   home: "Home",
   system: "System",
   ["bluetooth_and_devices"]: "Bluetooth & devices",
+  ["network_and_internet"]: "Network & internet",
   ["personalize"]: "Personalize",
+  ["apps"]: "Apps",
+  ["accounts"]: "Accounts",
+  ["time_and_language"]: "Time & language",
+  ["gaming"]: "Gaming",
+  ["accessibility"]: "Accessibility",
+  ["privacy_and_security"]: "Privacy & security",
+  ["windows_update"]: "Windows Update",
 };
 
 export const checkIsExistNavbarAppList = (
