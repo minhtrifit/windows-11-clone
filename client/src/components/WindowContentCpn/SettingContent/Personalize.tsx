@@ -141,7 +141,7 @@ const Personalize = () => {
         </div>
         <div className="w-[60%] px-10">
           <h1 className="text-sm font-bold mb-3">Select theme to apply</h1>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 grid-flow-row gap-3">
             {THEME_LIST?.map(
               (t: { name: string; content: React.ReactElement }) => {
                 return (
