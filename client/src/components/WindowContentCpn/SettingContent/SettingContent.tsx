@@ -126,7 +126,7 @@ const SettingContent = () => {
           })}
         </div>
       </div>
-      <div className="w-[75%]">
+      <div className="w-[75%] overflow-y-auto">
         {activeTab === SETTING_NAME.home && <Home />}
         {activeTab === SETTING_NAME.personalize && <Personalize />}
       </div>

@@ -6,8 +6,13 @@ import { MdMinimize } from "react-icons/md";
 import { FaRegSquare } from "react-icons/fa6";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
-import { useNavbarStore, useWindowStore } from "@/lib/store";
-import { checkIsExistNavbarAppList, filterNavbarListByName } from "@/lib/utils";
+import { useNavbarStore, useSettingStore, useWindowStore } from "@/lib/store";
+import {
+  APP_NAME,
+  checkIsExistNavbarAppList,
+  filterNavbarListByName,
+  SETTING_NAME,
+} from "@/lib/utils";
 import { NAVBAR_APP_LIST } from "../DestopNavbar/DestopNavbar";
 
 interface PropType {
@@ -54,6 +59,10 @@ const WindowCpn = (props: PropType) => {
     return state.updateAppList;
   });
 
+  const updateSettingTab = useSettingStore((state) => {
+    return state.updateSettingTab;
+  });
+
   const parentControls = useDragControls();
 
   const windowRef = useRef<HTMLDivElement>(null);
@@ -92,6 +101,9 @@ const WindowCpn = (props: PropType) => {
 
         updateAppList(filterList);
       }
+
+      if (targetWindowName === APP_NAME.settings)
+        updateSettingTab(SETTING_NAME.home);
     }, 100);
   };
 

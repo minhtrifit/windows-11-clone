@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { SETTING_NAME } from "./utils";
+import { BACKGROUND_URLS, SETTING_NAME } from "./utils";
 import { APP_TYPE } from "./types";
 
 interface WindowState {
@@ -64,5 +64,17 @@ export const useSettingStore = create<SettingState>()(
   devtools((set) => ({
     settingTab: SETTING_NAME.home,
     updateSettingTab: (name) => set({ settingTab: name }),
+  }))
+);
+
+interface PersonalizeSettingState {
+  backgroundUrl: string;
+  updateBackgroundUrl: (url: string) => void;
+}
+
+export const usePersonalizeSettingStore = create<PersonalizeSettingState>()(
+  devtools((set) => ({
+    backgroundUrl: BACKGROUND_URLS[0],
+    updateBackgroundUrl: (url) => set({ backgroundUrl: url }),
   }))
 );

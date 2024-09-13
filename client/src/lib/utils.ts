@@ -27,6 +27,13 @@ export const SETTING_NAME = {
   ["windows_update"]: "Windows Update",
 };
 
+export const BACKGROUND_URLS: string[] = [
+  "/Images/1.jpg",
+  "/Images/2.jpg",
+  "/Images/3.jpg",
+  "/Images/4.jpg",
+];
+
 export const checkIsExistNavbarAppList = (
   list: APP_TYPE[],
   appName: string
