@@ -34,6 +34,8 @@ export const BACKGROUND_URLS: string[] = [
   "/Images/4.jpg",
 ];
 
+export const LOCK_SCREEN_BACKGROUND_URLS: string[] = ["/Images/lock1.jpg"];
+
 export const checkIsExistNavbarAppList = (
   list: APP_TYPE[],
   appName: string

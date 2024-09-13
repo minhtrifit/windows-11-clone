@@ -129,7 +129,7 @@ const Personalize = () => {
     <div className="flex flex-col p-4 gap-5">
       <h1 className="text-2xl font-bold">Personalize</h1>
       <div className="flex">
-        <div className="w-[40%] h-[200px] rounded-md flex border-[5px] border-[#efefef] dark:border-[#4f4f4f]">
+        <div className="w-[40%] min-w-[300px] h-[200px] rounded-md flex border-[5px] border-[#efefef] dark:border-[#4f4f4f]">
           <Image
             src={backgroundUrl}
             alt="background"
@@ -141,13 +141,13 @@ const Personalize = () => {
         </div>
         <div className="w-[60%] px-10">
           <h1 className="text-sm font-bold mb-3">Select theme to apply</h1>
-          <div className="grid grid-cols-3 grid-flow-row gap-3">
+          <div className="flex items-center flex-wrap gap-3">
             {THEME_LIST?.map(
               (t: { name: string; content: React.ReactElement }) => {
                 return (
                   <div
                     key={uuidv4()}
-                    className={`relative w-[140px] h-[100px] flex rounded-md border-[4px] ${
+                    className={`relative w-[140px] min-w-[140px] h-[100px] flex rounded-md border-[4px] ${
                       theme === t?.name && "border-sky-600"
                     }`}
                     onClick={() => {

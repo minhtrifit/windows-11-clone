@@ -33,6 +33,10 @@ const DestopIcon = (props: PropType) => {
     isTargetElementTab,
   } = props;
 
+  const appList = useNavbarStore((state) => {
+    return state.appList;
+  });
+
   const updateIsCloseTargetWindow = useWindowStore((state) => {
     return state.updateIsCloseTargetWindow;
   });
@@ -82,7 +86,11 @@ const DestopIcon = (props: PropType) => {
 
     if (isOptionNavbarApp) {
       const newApp = getAppByName(OPTION_NAVBAR_APP_LIST, targetElementname);
-      if (newApp !== null) addAppList(newApp);
+      const isExistNavbarList = checkIsExistNavbarAppList(
+        appList,
+        targetElementname
+      );
+      if (newApp !== null && !isExistNavbarList) addAppList(newApp);
     } else {
       updateAppList(NAVBAR_APP_LIST);
     }

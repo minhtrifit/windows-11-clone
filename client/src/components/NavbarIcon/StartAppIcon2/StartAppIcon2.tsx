@@ -35,6 +35,10 @@ const StartAppIcon2 = (props: PropType) => {
     lastOpenedTime,
   } = props;
 
+  const appList = useNavbarStore((state) => {
+    return state.appList;
+  });
+
   const updateIsCloseTargetWindow = useWindowStore((state) => {
     return state.updateIsCloseTargetWindow;
   });
@@ -89,7 +93,11 @@ const StartAppIcon2 = (props: PropType) => {
 
     if (isOptionNavbarApp) {
       const newApp = getAppByName(OPTION_NAVBAR_APP_LIST, targetElementname);
-      if (newApp !== null) addAppList(newApp);
+      const isExistNavbarList = checkIsExistNavbarAppList(
+        appList,
+        targetElementname
+      );
+      if (newApp !== null && !isExistNavbarList) addAppList(newApp);
     } else {
       updateAppList(NAVBAR_APP_LIST);
     }

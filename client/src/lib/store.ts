@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { BACKGROUND_URLS, SETTING_NAME } from "./utils";
+import {
+  BACKGROUND_URLS,
+  LOCK_SCREEN_BACKGROUND_URLS,
+  SETTING_NAME,
+} from "./utils";
 import { APP_TYPE } from "./types";
 
 interface WindowState {
@@ -69,12 +73,24 @@ export const useSettingStore = create<SettingState>()(
 
 interface PersonalizeSettingState {
   backgroundUrl: string;
+  lockScreenBackgroundUrl: string;
+  backgroundUrlList: string[];
   updateBackgroundUrl: (url: string) => void;
+  updateLockScreenBackgroundUrl: (url: string) => void;
+  addBackgroundUrlList: (url: string) => void;
 }
 
 export const usePersonalizeSettingStore = create<PersonalizeSettingState>()(
   devtools((set) => ({
     backgroundUrl: BACKGROUND_URLS[0],
+    lockScreenBackgroundUrl: LOCK_SCREEN_BACKGROUND_URLS[0],
+    backgroundUrlList: BACKGROUND_URLS,
     updateBackgroundUrl: (url) => set({ backgroundUrl: url }),
+    updateLockScreenBackgroundUrl: (url) =>
+      set({ lockScreenBackgroundUrl: url }),
+    addBackgroundUrlList: (url: string) =>
+      set((state) => ({
+        backgroundUrlList: [...state.backgroundUrlList, url],
+      })),
   }))
 );

@@ -33,6 +33,10 @@ const AppIcon = (props: PropType) => {
     return state.targetWindowName;
   });
 
+  const appList = useNavbarStore((state) => {
+    return state.appList;
+  });
+
   const updateIsCloseTargetWindow = useWindowStore((state) => {
     return state.updateIsCloseTargetWindow;
   });
@@ -82,7 +86,11 @@ const AppIcon = (props: PropType) => {
 
     if (isOptionNavbarApp) {
       const newApp = getAppByName(OPTION_NAVBAR_APP_LIST, targetElementname);
-      if (newApp !== null) addAppList(newApp);
+      const isExistNavbarList = checkIsExistNavbarAppList(
+        appList,
+        targetElementname
+      );
+      if (newApp !== null && !isExistNavbarList) addAppList(newApp);
     } else {
       updateAppList(NAVBAR_APP_LIST);
     }
@@ -91,7 +99,7 @@ const AppIcon = (props: PropType) => {
   return (
     <div
       className={`${
-        targetElementname === targetWindowName && "bg-zinc-200 dark:bg-zinc-800"
+        targetElementname === targetWindowName && "bg-zinc-300 dark:bg-zinc-800"
       } start-icon relative h-full flex items-center justify-center gap-2 p-2 rounded-md
                   hover:bg-zinc-200 dark:hover:bg-zinc-800`}
       onClick={() => {
