@@ -32,6 +32,7 @@ export const BACKGROUND_URLS: string[] = [
   "/Images/2.jpg",
   "/Images/3.jpg",
   "/Images/4.jpg",
+  "/Images/5.jpg",
 ];
 
 export const LOCK_SCREEN_BACKGROUND_URLS: string[] = ["/Images/lock1.jpg"];

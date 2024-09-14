@@ -20,7 +20,7 @@ import { TbLayoutNavbar, TbDeviceDesktopCheck } from "react-icons/tb";
 import { RiFontSize } from "react-icons/ri";
 import BackgroundContent from "./PersonalizeContent/BackgroundContent";
 
-const THEME_LIST = [
+export const THEME_LIST = [
   {
     name: "light",
     content: (
@@ -128,18 +128,20 @@ const Personalize = () => {
   return (
     <div className="flex flex-col p-4 gap-5">
       <h1 className="text-2xl font-bold">Personalize</h1>
-      <div className="flex">
-        <div className="w-[40%] min-w-[300px] h-[200px] rounded-md flex border-[5px] border-[#efefef] dark:border-[#4f4f4f]">
+      <div className="flex gap-10 flex-wrap lg:flex-nowrap">
+        <div className="relative w-[40%] min-w-[350px] h-[200px] rounded-md flex border-[5px] border-[#efefef] dark:border-[#4f4f4f]">
           <Image
             src={backgroundUrl}
             alt="background"
-            width={0}
-            height={0}
-            sizes="100vw"
-            style={{ width: "100%", height: "100%" }}
+            layout="fill"
+            objectFit="cover"
+            // width={0}
+            // height={0}
+            // sizes="100vw"
+            // style={{ width: "100%", height: "100%" }}
           />
         </div>
-        <div className="w-[60%] px-10">
+        <div className="w-[60%]">
           <h1 className="text-sm font-bold mb-3">Select theme to apply</h1>
           <div className="flex items-center flex-wrap gap-3">
             {THEME_LIST?.map(
@@ -157,10 +159,13 @@ const Personalize = () => {
                     <Image
                       src={backgroundUrl}
                       alt="background"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: "100%", height: "100%" }}
+                      layout="fill"
+                      objectFit="cover"
+                      style={{ borderRadius: "6px" }}
+                      // width={0}
+                      // height={0}
+                      // sizes="100vw"
+                      // style={{ width: "100%", height: "100%" }}
                     />
                     {t?.content}
                   </div>
@@ -181,12 +186,15 @@ const Personalize = () => {
           }) => {
             return (
               <AccordionItem key={uuidv4()} value={item?.value}>
-                <AccordionTrigger className="hover:no-underline">
+                <AccordionTrigger
+                  className="rounded-md px-4 my-1 bg-zinc-300 dark:bg-zinc-700
+                                  hover:bg-zinc-200 dark:hover:bg-zinc-600 hover:no-underline"
+                >
                   <div className="flex items-center gap-5">
                     {item?.icon}
                     <div className="flex gap-1 flex-col items-start">
                       <span>{item?.name}</span>
-                      <span className="text-xs text-zinc-400">
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
                         {item?.description}
                       </span>
                     </div>

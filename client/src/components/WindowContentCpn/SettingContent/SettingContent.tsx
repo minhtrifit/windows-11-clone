@@ -89,7 +89,7 @@ const SettingContent = () => {
   }, [settingTab]);
 
   return (
-    <div className="w-full h-full flex">
+    <div className="w-full h-full flex text-black dark:text-white bg-[#efefef] dark:bg-[#252525]">
       <div className="w-[25%] h-full space-y-4 px-2 py-4">
         <div
           className="h-[10%] px-4 py-2 rounded-md flex gap-5 items-center
@@ -112,13 +112,20 @@ const SettingContent = () => {
             return (
               <Button
                 key={uuidv4()}
-                variant={activeTab === item.name ? "secondary" : "ghost"}
                 size="sm"
-                className="w-full justify-start py-6"
+                variant={"ghost"}
+                className={`relative w-full justify-start py-6
+                            hover:bg-zinc-200 dark:hover:text-white dark:hover:bg-zinc-600 ${
+                              activeTab === item.name &&
+                              "bg-zinc-300 dark:text-white dark:bg-zinc-700"
+                            }`}
                 onClick={() => {
                   handleUpdateSettingTab(item.name);
                 }}
               >
+                {activeTab === item.name && (
+                  <div className="absolute left-0 w-[5px] h-[50%] rounded-md bg-sky-400"></div>
+                )}
                 {item.icon}
                 <span className="text-[0.95rem]">{item.name}</span>
               </Button>

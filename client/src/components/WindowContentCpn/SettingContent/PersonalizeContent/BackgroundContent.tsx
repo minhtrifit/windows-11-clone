@@ -33,7 +33,7 @@ const BackgroundContent = () => {
   };
 
   return (
-    <div className="px-12 flex flex-col gap-5">
+    <div className="px-12 py-2 flex flex-col gap-5">
       <h1>Recent images</h1>
       <div className="flex items-center flex-wrap gap-2">
         {backgroundUrlList?.map((url: string) => {
@@ -50,22 +50,25 @@ const BackgroundContent = () => {
               <Image
                 src={url}
                 alt="background"
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{ width: "100%", height: "100%" }}
+                layout="fill"
+                objectFit="cover"
+                style={{ borderRadius: "6px" }}
+                // width={0}
+                // height={0}
+                // sizes="100vw"
+                // style={{ width: "100%", height: "100%" }}
               />
             </div>
           );
         })}
       </div>
-      <div className="flex items-center justify-between">
+      <div className="p-2 rounded-md bg-zinc-300 dark:bg-zinc-700 flex items-center justify-between">
         <h1>Choose a photo</h1>
         <Button variant={theme === "light" ? "secondary" : "outline"}>
           Browse photos
         </Button>
       </div>
-      <div className="flex items-center justify-between">
+      <div className="p-2 rounded-md bg-zinc-300 dark:bg-zinc-700 flex items-center justify-between">
         <h1>Choose a fit for your destop image</h1>
         <Select>
           <SelectTrigger className="w-[180px]">
