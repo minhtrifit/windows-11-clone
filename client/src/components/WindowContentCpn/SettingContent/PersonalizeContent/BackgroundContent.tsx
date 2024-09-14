@@ -62,13 +62,13 @@ const BackgroundContent = () => {
           );
         })}
       </div>
-      <div className="p-2 rounded-md bg-zinc-300 dark:bg-zinc-700 flex items-center justify-between">
+      <div className="px-4 py-2 rounded-md bg-zinc-300 dark:bg-zinc-700 flex items-center justify-between">
         <h1>Choose a photo</h1>
         <Button variant={theme === "light" ? "secondary" : "outline"}>
           Browse photos
         </Button>
       </div>
-      <div className="p-2 rounded-md bg-zinc-300 dark:bg-zinc-700 flex items-center justify-between">
+      <div className="px-4 py-2 rounded-md bg-zinc-300 dark:bg-zinc-700 flex items-center justify-between">
         <h1>Choose a fit for your destop image</h1>
         <Select>
           <SelectTrigger className="w-[180px]">

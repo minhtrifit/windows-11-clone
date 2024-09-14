@@ -93,7 +93,7 @@ const SettingContent = () => {
       <div className="w-[25%] h-full space-y-4 px-2 py-4">
         <div
           className="h-[10%] px-4 py-2 rounded-md flex gap-5 items-center
-                        hover:bg-[#efefef] dark:hover:bg-[#4f4f4f] hover:cursor-default"
+                        hover:bg-zinc-200 dark:hover:bg-[#4f4f4f] hover:cursor-default"
           onClick={() => {
             handleUpdateSettingTab(SETTING_NAME.accounts);
           }}
