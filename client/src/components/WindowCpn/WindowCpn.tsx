@@ -1,12 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { JSXElementConstructor, ReactElement, useRef } from "react";
+import { APP_TYPE } from "@/lib/types";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { MdMinimize } from "react-icons/md";
 import { FaRegSquare } from "react-icons/fa6";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
-import { useNavbarStore, useSettingStore, useWindowStore } from "@/lib/store";
 import {
   APP_NAME,
   checkIsExistNavbarAppList,
@@ -18,50 +18,36 @@ import { NAVBAR_APP_LIST } from "../DestopNavbar/DestopNavbar";
 interface PropType {
   constraints: any;
   contentCpn: React.ReactElement;
+  isCloseTargetWindow: boolean;
+  isTargetWindowTab: boolean;
+  targetWindowName: string;
+  targetWindowTabName: string;
+  targetWindowTabIcon: ReactElement<
+    any,
+    string | JSXElementConstructor<any>
+  > | null;
+  updateIsCloseTargetWindow: (value: boolean) => void;
+  updateTargetWindow: (element: React.ReactElement | null) => void;
+  updateTargetWindowName: (element: string) => void;
+  updateAppList: (list: APP_TYPE[]) => void;
+  updateSettingTab: (value: string) => void;
 }
 
 const WindowCpn = (props: PropType) => {
-  const { constraints, contentCpn } = props;
-
-  const isCloseTargetWindow = useWindowStore((state) => {
-    return state.isCloseTargetWindow;
-  });
-
-  const isTargetWindowTab = useWindowStore((state) => {
-    return state.isTargetWindowTab;
-  });
-
-  const updateIsCloseTargetWindow = useWindowStore((state) => {
-    return state.updateIsCloseTargetWindow;
-  });
-
-  const targetWindowName = useWindowStore((state) => {
-    return state.targetWindowName;
-  });
-
-  const targetWindowTabName = useWindowStore((state) => {
-    return state.targetWindowTabName;
-  });
-
-  const targetWindowTabIcon = useWindowStore((state) => {
-    return state.targetWindowTabIcon;
-  });
-
-  const updateTargetWindow = useWindowStore((state) => {
-    return state.updateTargetWindow;
-  });
-
-  const updateTargetWindowName = useWindowStore((state) => {
-    return state.updateTargetWindowName;
-  });
-
-  const updateAppList = useNavbarStore((state) => {
-    return state.updateAppList;
-  });
-
-  const updateSettingTab = useSettingStore((state) => {
-    return state.updateSettingTab;
-  });
+  const {
+    constraints,
+    contentCpn,
+    isCloseTargetWindow,
+    isTargetWindowTab,
+    targetWindowName,
+    targetWindowTabName,
+    targetWindowTabIcon,
+    updateIsCloseTargetWindow,
+    updateTargetWindow,
+    updateTargetWindowName,
+    updateAppList,
+    updateSettingTab,
+  } = props;
 
   const parentControls = useDragControls();
 

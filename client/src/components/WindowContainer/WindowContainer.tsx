@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useWindowStore } from "@/lib/store";
+import { useNavbarStore, useSettingStore, useWindowStore } from "@/lib/store";
 import { APP_NAME } from "@/lib/utils";
 import { APP_TYPE } from "@/lib/types";
 import WindowCpn from "@/components/WindowCpn/WindowCpn";
@@ -55,8 +55,48 @@ const WindowContainer = () => {
 
   const parentRef = useRef<HTMLDivElement>(null);
 
+  const isCloseTargetWindow = useWindowStore((state) => {
+    return state.isCloseTargetWindow;
+  });
+
+  const isTargetWindowTab = useWindowStore((state) => {
+    return state.isTargetWindowTab;
+  });
+
   const targetWindow = useWindowStore((state) => {
     return state.targetWindow;
+  });
+
+  const targetWindowName = useWindowStore((state) => {
+    return state.targetWindowName;
+  });
+
+  const targetWindowTabName = useWindowStore((state) => {
+    return state.targetWindowTabName;
+  });
+
+  const targetWindowTabIcon = useWindowStore((state) => {
+    return state.targetWindowTabIcon;
+  });
+
+  const updateIsCloseTargetWindow = useWindowStore((state) => {
+    return state.updateIsCloseTargetWindow;
+  });
+
+  const updateTargetWindow = useWindowStore((state) => {
+    return state.updateTargetWindow;
+  });
+
+  const updateTargetWindowName = useWindowStore((state) => {
+    return state.updateTargetWindowName;
+  });
+
+  const updateAppList = useNavbarStore((state) => {
+    return state.updateAppList;
+  });
+
+  const updateSettingTab = useSettingStore((state) => {
+    return state.updateSettingTab;
   });
 
   useEffect(() => {
@@ -101,7 +141,20 @@ const WindowContainer = () => {
         })}
       </div>
       {targetWindow !== null && (
-        <WindowCpn constraints={constraints} contentCpn={targetWindow} />
+        <WindowCpn
+          constraints={constraints}
+          contentCpn={targetWindow}
+          isCloseTargetWindow={isCloseTargetWindow}
+          isTargetWindowTab={isTargetWindowTab}
+          targetWindowName={targetWindowName}
+          targetWindowTabName={targetWindowTabName}
+          targetWindowTabIcon={targetWindowTabIcon}
+          updateIsCloseTargetWindow={updateIsCloseTargetWindow}
+          updateTargetWindow={updateTargetWindow}
+          updateTargetWindowName={updateTargetWindowName}
+          updateAppList={updateAppList}
+          updateSettingTab={updateSettingTab}
+        />
       )}
       <DestopNavbar />
     </div>
