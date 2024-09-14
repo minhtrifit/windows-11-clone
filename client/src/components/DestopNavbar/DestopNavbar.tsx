@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavbarStore } from "@/lib/store";
 import { v4 as uuidv4 } from "uuid";
-import { APP_NAME } from "@/lib/utils";
+import { APP_NAME, FILE_EXPLORER_APP_NAME } from "@/lib/utils";
 import { APP_TYPE } from "@/lib/types";
 import AppIcon from "../NavbarIcon/AppIcon/AppIcon";
 import StartIcon from "../NavbarIcon/StartIcon/StartIcon";
@@ -34,6 +34,7 @@ export const NAVBAR_APP_LIST: APP_TYPE[] = [
   },
 ];
 
+// File explorer app just need: iconUrl, iconWidth, iconHeight,targetElementname
 export const OPTION_NAVBAR_APP_LIST: APP_TYPE[] = [
   {
     iconUrl: "/Icons/applications/settings.ico",
@@ -44,6 +45,12 @@ export const OPTION_NAVBAR_APP_LIST: APP_TYPE[] = [
     targetElementTabName: "Settings",
     targetElementTabIcon: <IoSettingsSharp size={15} />,
     isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/notepad.ico",
+    iconWidth: 28,
+    iconHeight: 28,
+    targetElementname: FILE_EXPLORER_APP_NAME.notepad,
   },
 ];
 

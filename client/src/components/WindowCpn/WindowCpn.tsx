@@ -14,6 +14,7 @@ import {
   SETTING_NAME,
 } from "@/lib/utils";
 import { NAVBAR_APP_LIST } from "../DestopNavbar/DestopNavbar";
+import { useFileExplorerWindowStore } from "@/lib/store";
 
 interface PropType {
   constraints: any;
@@ -30,7 +31,7 @@ interface PropType {
   updateTargetWindow: (element: React.ReactElement | null) => void;
   updateTargetWindowName: (element: string) => void;
   updateAppList: (list: APP_TYPE[]) => void;
-  updateSettingTab: (value: string) => void;
+  updateSettingTab?: (value: string) => void;
 }
 
 const WindowCpn = (props: PropType) => {
@@ -55,8 +56,20 @@ const WindowCpn = (props: PropType) => {
   const windowHeaderRef = useRef<HTMLHeadingElement>(null);
   const windowBodyRef = useRef<HTMLHeadingElement>(null);
 
+  const targetSubWindowName = useFileExplorerWindowStore((state) => {
+    return state.targetSubWindowName;
+  });
+
+  const updateTargetSubWindowName = useFileExplorerWindowStore((state) => {
+    return state.updateTargetSubWindowName;
+  });
+
+  const updateIsCloseTargetSubWindow = useFileExplorerWindowStore((state) => {
+    return state.updateIsCloseTargetSubWindow;
+  });
+
   const handleFocusWindow = () => {
-    console.log("Focus window");
+    console.log("Focus window", targetWindowName);
   };
 
   const handleMinimizeScreen = () => {
@@ -70,6 +83,8 @@ const WindowCpn = (props: PropType) => {
   const handleClose = () => {
     console.log("Close");
     updateIsCloseTargetWindow(true);
+    updateIsCloseTargetSubWindow(true);
+
     setTimeout(() => {
       updateTargetWindow(null);
       updateTargetWindowName("");
@@ -88,7 +103,27 @@ const WindowCpn = (props: PropType) => {
         updateAppList(filterList);
       }
 
-      if (targetWindowName === APP_NAME.settings)
+      // Update navbar icon for FILE EXPLORER app
+      if (targetSubWindowName) {
+        const isFixedNavbarApp2 = checkIsExistNavbarAppList(
+          NAVBAR_APP_LIST,
+          targetSubWindowName
+        );
+
+        if (!isFixedNavbarApp2) {
+          const filterList = filterNavbarListByName(
+            NAVBAR_APP_LIST,
+            targetSubWindowName
+          );
+
+          updateAppList(filterList);
+        }
+
+        updateTargetSubWindowName("");
+      }
+
+      // Update SETTING tab
+      if (targetWindowName === APP_NAME.settings && updateSettingTab)
         updateSettingTab(SETTING_NAME.home);
     }, 100);
   };
@@ -114,8 +149,8 @@ const WindowCpn = (props: PropType) => {
         >
           <header
             ref={windowHeaderRef}
-            className={`w-full h-[7%] min-h-[40px] bg-white dark:bg-black rounded-t-[10px]
-                      dark:text-white flex justify-between items-center`}
+            className={`w-full h-[7%] min-h-[40px] text-black dark:text-white bg-white dark:bg-black rounded-t-[10px]
+                      flex justify-between items-center`}
             onPointerDown={(e) => {
               parentControls.start(e);
             }}
@@ -123,15 +158,15 @@ const WindowCpn = (props: PropType) => {
             {isTargetWindowTab ? (
               <div className="h-full flex items-end px-4">
                 <div
-                  className="h-[80%] px-4 text-sm text-white flex items-center justify-start
-                                gap-20 bg-[#3c3c3c] rounded-t-[6px]"
+                  className="h-[80%] px-4 text-sm text-black dark:text-white flex items-center justify-start
+                                gap-20 bg-zinc-300 dark:bg-[#3c3c3c] rounded-t-[6px]"
                 >
                   <div className="flex items-center justify-center gap-3">
                     {targetWindowTabIcon}
                     <p>{targetWindowTabName}</p>
                   </div>
                   <button
-                    className="p-1 rounded-full hover:bg-[#4f4f4f]"
+                    className="p-1 rounded-full hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]"
                     onClick={() => {
                       handleClose();
                     }}

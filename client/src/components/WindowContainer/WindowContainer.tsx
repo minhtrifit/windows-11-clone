@@ -79,6 +79,10 @@ const WindowContainer = () => {
     return state.targetWindowTabIcon;
   });
 
+  const updateParentChildRef = useWindowStore((state) => {
+    return state.updateParentChildRef;
+  });
+
   const updateIsCloseTargetWindow = useWindowStore((state) => {
     return state.updateIsCloseTargetWindow;
   });
@@ -100,8 +104,9 @@ const WindowContainer = () => {
   });
 
   useEffect(() => {
-    if (parentRef.current) {
-      const { clientWidth, clientHeight } = parentRef.current;
+    if (parentRef?.current) {
+      const { clientWidth, clientHeight } = parentRef?.current;
+      updateParentChildRef(parentRef);
 
       setConstraints({
         left: -clientWidth / 2,
@@ -110,6 +115,7 @@ const WindowContainer = () => {
         bottom: clientHeight / 2,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parentRef]);
 
   return (
@@ -140,7 +146,7 @@ const WindowContainer = () => {
           );
         })}
       </div>
-      {targetWindow !== null && (
+      {targetWindow !== null && !isCloseTargetWindow && (
         <WindowCpn
           constraints={constraints}
           contentCpn={targetWindow}

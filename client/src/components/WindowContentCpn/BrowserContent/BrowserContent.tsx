@@ -25,22 +25,22 @@ const BrowserContent = () => {
 
   return (
     <div className="w-full h-full">
-      <header className="h-[8%] min-h-[40px] bg-[#3c3c3c]">
+      <header className="h-[8%] min-h-[40px] text-black dark:text-white bg-zinc-300 dark:bg-[#3c3c3c]">
         <div className="w-full h-full flex">
           <div className="w-[12%] min-w-[130px] h-full p-2 flex items-center justify-center gap-3">
             <button
-              className="p-1 rounded-full hover:bg-[#4f4f4f]"
+              className="p-1 rounded-full hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]"
               onClick={() => {
                 iframeRef.current.src = url;
               }}
             >
               <GrFormPreviousLink size={25} />
             </button>
-            <button className="p-1 rounded-full hover:bg-[#4f4f4f]">
+            <button className="p-1 rounded-full hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]">
               <GrFormNextLink size={25} />
             </button>
             <button
-              className="p-1 rounded-full mt-[2px] hover:bg-[#4f4f4f]"
+              className="p-1 rounded-full mt-[2px] hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]"
               onClick={() => {
                 handleReload();
               }}
@@ -55,7 +55,7 @@ const BrowserContent = () => {
             }}
           >
             <input
-              className="w-full h-full bg-[#282828] rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full h-full bg-zinc-400 dark:bg-[#282828] rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -63,7 +63,7 @@ const BrowserContent = () => {
             />
           </form>
           <div className="w-[10%] h-full flex gap-3 items-center justify-center">
-            <button className="p-1 rounded-full hover:bg-[#4f4f4f]">
+            <button className="p-1 rounded-full hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]">
               <Avatar className="w-7 h-7">
                 <AvatarImage
                   src="https://github.com/shadcn.png"
@@ -72,7 +72,7 @@ const BrowserContent = () => {
                 <AvatarFallback>T</AvatarFallback>
               </Avatar>
             </button>
-            <button className="p-1 rounded-full hover:bg-[#4f4f4f]">
+            <button className="p-1 rounded-full hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]">
               <MdOutlineMoreVert size={25} />
             </button>
           </div>

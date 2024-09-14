@@ -12,6 +12,10 @@ export const APP_NAME = {
   ["settings"]: "settings",
 };
 
+export const FILE_EXPLORER_APP_NAME = {
+  ["notepad"]: "notepad",
+};
+
 export const SETTING_NAME = {
   home: "Home",
   system: "System",

@@ -6,14 +6,17 @@ import {
   SETTING_NAME,
 } from "./utils";
 import { APP_TYPE } from "./types";
+import { RefObject } from "react";
 
 interface WindowState {
+  parentChildRef: RefObject<HTMLDivElement> | null;
   isCloseTargetWindow: boolean;
   isTargetWindowTab: boolean;
   targetWindow: React.ReactElement | null;
   targetWindowName: string;
   targetWindowTabName: string;
   targetWindowTabIcon: React.ReactElement | null;
+  updateParentChildRef: (value: RefObject<HTMLDivElement>) => void;
   updateIsCloseTargetWindow: (value: boolean) => void;
   updateIsTargetWindowTab: (value: boolean) => void;
   updateTargetWindow: (element: React.ReactElement | null) => void;
@@ -24,12 +27,14 @@ interface WindowState {
 
 export const useWindowStore = create<WindowState>()(
   devtools((set) => ({
-    isCloseTargetWindow: false,
+    parentChildRef: null,
+    isCloseTargetWindow: true,
     isTargetWindowTab: false,
     targetWindow: null,
     targetWindowName: "",
     targetWindowTabName: "",
     targetWindowTabIcon: null,
+    updateParentChildRef: (value) => set({ parentChildRef: value }),
     updateIsCloseTargetWindow: (value) => set({ isCloseTargetWindow: value }),
     updateIsTargetWindowTab: (value) => set({ isTargetWindowTab: value }),
     updateTargetWindow: (element) => set({ targetWindow: element }),
@@ -92,5 +97,47 @@ export const usePersonalizeSettingStore = create<PersonalizeSettingState>()(
       set((state) => ({
         backgroundUrlList: [...state.backgroundUrlList, url],
       })),
+  }))
+);
+
+interface FileExplorerWindowState {
+  isCloseTargetWindow: boolean;
+  isTargetWindowTab: boolean;
+  targetWindow: React.ReactElement | null;
+  targetWindowName: string;
+  targetWindowTabName: string;
+  targetWindowTabIcon: React.ReactElement | null;
+  targetSubWindowName: string;
+  isCloseTargetSubWindow: boolean;
+  updateIsCloseTargetWindow: (value: boolean) => void;
+  updateIsTargetWindowTab: (value: boolean) => void;
+  updateTargetWindow: (element: React.ReactElement | null) => void;
+  updateTargetWindowName: (element: string) => void;
+  updateTargetWindowTabName: (name: string) => void;
+  updateTargetWindowTabIcon: (element: React.ReactElement) => void;
+  updateTargetSubWindowName: (element: string) => void;
+  updateIsCloseTargetSubWindow: (value: boolean) => void;
+}
+
+export const useFileExplorerWindowStore = create<FileExplorerWindowState>()(
+  devtools((set) => ({
+    isCloseTargetWindow: false,
+    isTargetWindowTab: true,
+    targetWindow: null,
+    targetWindowName: "",
+    targetWindowTabName: "",
+    targetWindowTabIcon: null,
+    targetSubWindowName: "",
+    isCloseTargetSubWindow: true,
+    updateIsCloseTargetWindow: (value) => set({ isCloseTargetWindow: value }),
+    updateIsTargetWindowTab: (value) => set({ isTargetWindowTab: value }),
+    updateTargetWindow: (element) => set({ targetWindow: element }),
+    updateTargetWindowName: (name) => set({ targetWindowName: name }),
+    updateTargetWindowTabName: (name) => set({ targetWindowTabName: name }),
+    updateTargetWindowTabIcon: (element) =>
+      set({ targetWindowTabIcon: element }),
+    updateTargetSubWindowName: (name) => set({ targetSubWindowName: name }),
+    updateIsCloseTargetSubWindow: (value) =>
+      set({ isCloseTargetSubWindow: value }),
   }))
 );

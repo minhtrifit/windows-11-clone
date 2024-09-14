@@ -1,5 +1,9 @@
 import Image from "next/image";
-import { useNavbarStore, useWindowStore } from "@/lib/store";
+import {
+  useFileExplorerWindowStore,
+  useNavbarStore,
+  useWindowStore,
+} from "@/lib/store";
 import { checkIsExistNavbarAppList, getAppByName } from "@/lib/utils";
 import {
   NAVBAR_APP_LIST,
@@ -69,6 +73,12 @@ const AppIcon = (props: PropType) => {
     return state.updateAppList;
   });
 
+  const fileExplorerTargetSubWindowName = useFileExplorerWindowStore(
+    (state) => {
+      return state.targetSubWindowName;
+    }
+  );
+
   const handleOpenApp = () => {
     console.log("Open target element");
     updateIsCloseTargetWindow(false);
@@ -100,6 +110,9 @@ const AppIcon = (props: PropType) => {
     <div
       className={`${
         targetElementname === targetWindowName && "bg-zinc-300 dark:bg-zinc-800"
+      } ${
+        targetElementname === fileExplorerTargetSubWindowName &&
+        "bg-zinc-300 dark:bg-zinc-800"
       } start-icon relative h-full flex items-center justify-center gap-2 p-2 rounded-md
                   hover:bg-zinc-200 dark:hover:bg-zinc-800`}
       onClick={() => {
@@ -112,9 +125,18 @@ const AppIcon = (props: PropType) => {
         width={iconWidth}
         height={iconHeight}
       />
-      {targetElementname === targetWindowName && (
-        <div className="absolute bottom-0 w-[40%] h-[3px] bg-sky-400 rounded-md"></div>
-      )}
+      {targetElementname === targetWindowName &&
+        fileExplorerTargetSubWindowName === "" && (
+          <div className="absolute bottom-0 w-[40%] h-[3px] bg-sky-400 rounded-md"></div>
+        )}
+      {targetElementname === targetWindowName &&
+        fileExplorerTargetSubWindowName !== "" && (
+          <div className="absolute bottom-0 w-[20%] h-[3px] bg-zinc-400 rounded-md"></div>
+        )}
+      {targetElementname === fileExplorerTargetSubWindowName &&
+        fileExplorerTargetSubWindowName !== "" && (
+          <div className="absolute bottom-0 w-[40%] h-[3px] bg-sky-400 rounded-md"></div>
+        )}
     </div>
   );
 };
