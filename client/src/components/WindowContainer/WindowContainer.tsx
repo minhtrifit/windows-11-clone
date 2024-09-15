@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useNavbarStore, useSettingStore, useWindowStore } from "@/lib/store";
-import { APP_NAME } from "@/lib/utils";
+import { APP_NAME, FILE_EXPLORER_APP_NAME } from "@/lib/utils";
 import { APP_TYPE } from "@/lib/types";
 import WindowCpn from "@/components/WindowCpn/WindowCpn";
 import BrowserContent from "@/components/WindowContentCpn/BrowserContent/BrowserContent";
@@ -11,8 +11,10 @@ import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import DestopIcon from "../DestopIcon/DestopIcon";
 import { FaEdge, FaFolder } from "react-icons/fa";
 import { IoSettingsSharp } from "react-icons/io5";
+import { PiNotepadFill } from "react-icons/pi";
 import DestopNavbar from "../DestopNavbar/DestopNavbar";
 import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
+import NotepadContent from "../WindowContentCpn/FolderContent/NotepadContent/NotepadContent";
 
 const DESTOP_APP_LIST: APP_TYPE[] = [
   {
@@ -46,6 +48,17 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElementname: APP_NAME.settings,
     targetElementTabName: "Settings",
     targetElementTabIcon: <IoSettingsSharp size={15} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/notepad.ico",
+    iconName: "Notepad",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: <NotepadContent />,
+    targetElementname: FILE_EXPLORER_APP_NAME.notepad,
+    targetElementTabName: "Untitled",
+    targetElementTabIcon: <PiNotepadFill size={20} />,
     isTargetElementTab: false,
   },
 ];
