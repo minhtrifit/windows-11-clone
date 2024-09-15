@@ -8,7 +8,7 @@ import {
 } from "@/lib/store";
 import { APP_TYPE } from "@/lib/types";
 import WindowCpn from "@/components/WindowCpn/WindowCpn";
-import { FILE_EXPLORER_APP_NAME } from "@/lib/utils";
+import { FILE_EXPLORER_APP_NAME, getAppByName } from "@/lib/utils";
 import {} from "@/components/DestopNavbar/DestopNavbar";
 import { PiNotepadFill } from "react-icons/pi";
 import {
@@ -36,6 +36,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { createNewTextDocument, getFileExplorerList } from "@/lib/firebase.api";
 
 export const FILE_EXPLORER_APP_LIST: APP_TYPE[] = [
   {
@@ -103,6 +104,10 @@ const FolderContent = () => {
     return state.updateTargetWindowName;
   });
 
+  const updateItemList = useFileExplorerWindowStore((state) => {
+    return state.updateItemList;
+  });
+
   const updateAppList = useNavbarStore((state) => {
     return state.updateAppList;
   });
@@ -110,6 +115,22 @@ const FolderContent = () => {
   const updateSettingTab = useSettingStore((state) => {
     return state.updateSettingTab;
   });
+
+  const handleGetFileExplorerList = async () => {
+    const data = await getFileExplorerList("asc");
+    console.log("FILE EXPLORER LIST:", data);
+    updateItemList(data);
+  };
+
+  const handleCreateNewTextDocument = async () => {
+    await createNewTextDocument(
+      FILE_EXPLORER_APP_NAME.text_document,
+      "AAAAA",
+      "Untitled"
+    );
+
+    handleGetFileExplorerList();
+  };
 
   useEffect(() => {
     if (parentChildRef?.current) {
@@ -123,6 +144,11 @@ const FolderContent = () => {
       });
     }
   }, [parentChildRef]);
+
+  useEffect(() => {
+    handleGetFileExplorerList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSearchClient = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -237,7 +263,11 @@ const FolderContent = () => {
                   <span>WinRAR archive</span>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  handleCreateNewTextDocument();
+                }}
+              >
                 <div className="flex items-center gap-1">
                   <PiNotepadFill className="mr-3" size={15} />
                   <span>Text Document</span>
@@ -261,31 +291,40 @@ const FolderContent = () => {
         </div>
         <div className="p-4 flex items-center flex-wrap">
           {itemList?.map((item: APP_TYPE) => {
+            const itemData = getAppByName(
+              FILE_EXPLORER_APP_LIST,
+              item?.type ? item?.type : ""
+            );
+
             return (
               <FileExplorerIcon
                 key={uuidv4()}
-                iconUrl={item?.iconUrl ? item?.iconUrl : ""}
-                iconName={item?.iconName ? item?.iconName : ""}
-                iconWidth={item?.iconWidth ? item?.iconWidth : 0}
-                iconHeight={item?.iconHeight ? item?.iconHeight : 0}
+                iconUrl={itemData?.iconUrl ? itemData?.iconUrl : ""}
+                iconName={
+                  item?.targetElementTabName ? item?.targetElementTabName : ""
+                }
+                iconWidth={itemData?.iconWidth ? itemData?.iconWidth : 0}
+                iconHeight={itemData?.iconHeight ? itemData?.iconHeight : 0}
                 targetElement={
-                  item?.targetElement ? item?.targetElement : <></>
+                  itemData?.targetElement ? itemData?.targetElement : <></>
                 }
                 targetElementname={
-                  item?.targetElementname ? item?.targetElementname : ""
+                  itemData?.targetElementname ? itemData?.targetElementname : ""
                 }
                 targetElementTabName={
                   item?.targetElementTabName ? item?.targetElementTabName : ""
                 }
                 targetElementTabIcon={
-                  item?.targetElementTabIcon ? (
-                    item?.targetElementTabIcon
+                  itemData?.targetElementTabIcon ? (
+                    itemData?.targetElementTabIcon
                   ) : (
                     <></>
                   )
                 }
                 isTargetElementTab={
-                  item?.isTargetElementTab ? item?.isTargetElementTab : false
+                  itemData?.isTargetElementTab
+                    ? itemData?.isTargetElementTab
+                    : false
                 }
                 itemData={item ? item : null}
               />

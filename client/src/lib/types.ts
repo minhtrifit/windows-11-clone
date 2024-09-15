@@ -1,4 +1,5 @@
 export interface APP_TYPE {
+  id?: string;
   iconUrl?: string;
   iconName?: string;
   iconWidth?: number;
@@ -9,6 +10,7 @@ export interface APP_TYPE {
   targetElementTabIcon?: React.ReactElement;
   isTargetElementTab?: boolean;
   lastOpenedTime?: string;
-  textDocumentContent?: string;
-  itemSavedId?: string;
+  content?: string;
+  type?: string;
+  createdAt?: any;
 }

@@ -89,7 +89,7 @@ const WindowCpn = (props: PropType) => {
         );
 
         if (newItem !== null) {
-          newItem.itemSavedId = uuidv4();
+          newItem.id = uuidv4();
           console.log("New text document item data:", newItem);
           updateItemData(newItem);
         }

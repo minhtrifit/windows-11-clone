@@ -16,14 +16,16 @@ const NotepadContent = () => {
       className="w-full h-full text-black dark:text-white bg-[#efefef] dark:bg-[#252525]
                     flex flex-col items-start"
     >
-      <button
-        onClick={() => {
-          handleSaveFile();
-        }}
-      >
-        Save
-      </button>
-      Text document id: {itemData?.itemSavedId}
+      <div className="flex items-center">
+        <button
+          onClick={() => {
+            handleSaveFile();
+          }}
+        >
+          Save
+        </button>
+      </div>
+      <p>{itemData?.content}</p>
     </div>
   );
 };
