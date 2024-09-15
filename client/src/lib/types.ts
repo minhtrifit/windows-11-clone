@@ -9,4 +9,6 @@ export interface APP_TYPE {
   targetElementTabIcon?: React.ReactElement;
   isTargetElementTab?: boolean;
   lastOpenedTime?: string;
+  textDocumentContent?: string;
+  itemSavedId?: string;
 }

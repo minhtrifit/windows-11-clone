@@ -1,6 +1,7 @@
 "use client";
 
-import { JSXElementConstructor, ReactElement, useRef } from "react";
+import { JSXElementConstructor, ReactElement, useEffect, useRef } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { APP_TYPE } from "@/lib/types";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { MdMinimize } from "react-icons/md";
@@ -10,11 +11,14 @@ import { IoMdAdd } from "react-icons/io";
 import {
   APP_NAME,
   checkIsExistNavbarAppList,
+  FILE_EXPLORER_APP_NAME,
   filterNavbarListByName,
+  getAppByName,
   SETTING_NAME,
 } from "@/lib/utils";
 import { NAVBAR_APP_LIST } from "../DestopNavbar/DestopNavbar";
-import { useFileExplorerWindowStore } from "@/lib/store";
+import { useFileExplorerWindowStore, useTextDocumentStore } from "@/lib/store";
+import { FILE_EXPLORER_APP_LIST } from "../WindowContentCpn/FolderContent/FolderContent";
 
 interface PropType {
   constraints: any;
@@ -60,6 +64,10 @@ const WindowCpn = (props: PropType) => {
     return state.targetSubWindowName;
   });
 
+  const itemData = useTextDocumentStore((state) => {
+    return state.itemData;
+  });
+
   const updateTargetSubWindowName = useFileExplorerWindowStore((state) => {
     return state.updateTargetSubWindowName;
   });
@@ -67,6 +75,32 @@ const WindowCpn = (props: PropType) => {
   const updateIsCloseTargetSubWindow = useFileExplorerWindowStore((state) => {
     return state.updateIsCloseTargetSubWindow;
   });
+
+  const updateItemData = useTextDocumentStore((state) => {
+    return state.updateItemData;
+  });
+
+  const handleCreateNewTextDocumentItem = () => {
+    if (targetWindowName === FILE_EXPLORER_APP_NAME.notepad) {
+      if (itemData === null) {
+        const newItem = getAppByName(
+          FILE_EXPLORER_APP_LIST,
+          FILE_EXPLORER_APP_NAME.text_document
+        );
+
+        if (newItem !== null) {
+          newItem.itemSavedId = uuidv4();
+          console.log("New text document item data:", newItem);
+          updateItemData(newItem);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleCreateNewTextDocumentItem();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFocusWindow = () => {
     console.log("Focus window", targetWindowName);
@@ -88,6 +122,7 @@ const WindowCpn = (props: PropType) => {
     setTimeout(() => {
       updateTargetWindow(null);
       updateTargetWindowName("");
+      updateItemData(null);
 
       const isFixedNavbarApp = checkIsExistNavbarAppList(
         NAVBAR_APP_LIST,
@@ -133,7 +168,7 @@ const WindowCpn = (props: PropType) => {
       {!isCloseTargetWindow && (
         <motion.div
           ref={windowRef}
-          className={`absolute inset-0 m-auto w-[80%] h-[70%] 2xl:w-[60%] min-h-[600px]
+          className={`absolute z-10 inset-0 m-auto w-[80%] h-[70%] 2xl:w-[60%] min-h-[600px]
                   border-[1px] border-zinc-300 dark:border-zinc-800 rounded-[10px]`}
           drag
           dragConstraints={constraints}
@@ -143,9 +178,9 @@ const WindowCpn = (props: PropType) => {
           initial={{ opacity: 0, scale: 0.75 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0 }}
-          onClick={() => {
-            handleFocusWindow();
-          }}
+          // onClick={() => {
+          //   handleFocusWindow();
+          // }}
         >
           <header
             ref={windowHeaderRef}
@@ -153,6 +188,9 @@ const WindowCpn = (props: PropType) => {
                       flex justify-between items-center`}
             onPointerDown={(e) => {
               parentControls.start(e);
+            }}
+            onClick={() => {
+              handleFocusWindow();
             }}
           >
             {isTargetWindowTab ? (

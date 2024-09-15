@@ -14,6 +14,7 @@ export const APP_NAME = {
 
 export const FILE_EXPLORER_APP_NAME = {
   ["notepad"]: "notepad",
+  ["text_document"]: "text_document",
 };
 
 export const SETTING_NAME = {

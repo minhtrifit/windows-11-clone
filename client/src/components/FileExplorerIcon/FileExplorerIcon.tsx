@@ -1,12 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useFileExplorerWindowStore, useNavbarStore } from "@/lib/store";
+import {
+  useFileExplorerWindowStore,
+  useNavbarStore,
+  useTextDocumentStore,
+} from "@/lib/store";
 import { checkIsExistNavbarAppList, getAppByName } from "@/lib/utils";
 import {
   NAVBAR_APP_LIST,
   OPTION_NAVBAR_APP_LIST,
 } from "../DestopNavbar/DestopNavbar";
+import { APP_TYPE } from "@/lib/types";
 
 interface PropType {
   iconUrl: string;
@@ -18,6 +23,7 @@ interface PropType {
   targetElementTabName: string;
   targetElementTabIcon: React.ReactElement;
   isTargetElementTab: boolean;
+  itemData?: APP_TYPE | null;
 }
 
 const FileExplorerIcon = (props: PropType) => {
@@ -31,6 +37,7 @@ const FileExplorerIcon = (props: PropType) => {
     targetElementTabName,
     targetElementTabIcon,
     isTargetElementTab,
+    itemData,
   } = props;
 
   const appList = useNavbarStore((state) => {
@@ -77,8 +84,16 @@ const FileExplorerIcon = (props: PropType) => {
     return state.updateAppList;
   });
 
+  const updateItemData = useTextDocumentStore((state) => {
+    return state.updateItemData;
+  });
+
   const handleOpenApp = () => {
-    console.log("Open file explorer target element:", targetElementname);
+    console.log(
+      "Open file explorer target element:",
+      targetElementname,
+      itemData
+    );
     updateIsCloseTargetWindow(false);
     updateTargetWindow(targetElement);
     updateTargetWindowName(targetElementname);
@@ -87,6 +102,7 @@ const FileExplorerIcon = (props: PropType) => {
     updateIsTargetWindowTab(isTargetElementTab);
     updateTargetSubWindowName(targetElementname);
     updateIsCloseTargetSubWindow(false);
+    if (itemData) updateItemData(itemData);
 
     // Navbar item update
     const isOptionNavbarApp = checkIsExistNavbarAppList(

@@ -109,6 +109,8 @@ interface FileExplorerWindowState {
   targetWindowTabIcon: React.ReactElement | null;
   targetSubWindowName: string;
   isCloseTargetSubWindow: boolean;
+  itemList: APP_TYPE[];
+  isNewItem: boolean;
   updateIsCloseTargetWindow: (value: boolean) => void;
   updateIsTargetWindowTab: (value: boolean) => void;
   updateTargetWindow: (element: React.ReactElement | null) => void;
@@ -117,6 +119,9 @@ interface FileExplorerWindowState {
   updateTargetWindowTabIcon: (element: React.ReactElement) => void;
   updateTargetSubWindowName: (element: string) => void;
   updateIsCloseTargetSubWindow: (value: boolean) => void;
+  updateItemList: (newList: APP_TYPE[]) => void;
+  addItemList: (app: APP_TYPE) => void;
+  updateIsNewItem: (value: boolean) => void;
 }
 
 export const useFileExplorerWindowStore = create<FileExplorerWindowState>()(
@@ -129,6 +134,8 @@ export const useFileExplorerWindowStore = create<FileExplorerWindowState>()(
     targetWindowTabIcon: null,
     targetSubWindowName: "",
     isCloseTargetSubWindow: true,
+    itemList: [],
+    isNewItem: false,
     updateIsCloseTargetWindow: (value) => set({ isCloseTargetWindow: value }),
     updateIsTargetWindowTab: (value) => set({ isTargetWindowTab: value }),
     updateTargetWindow: (element) => set({ targetWindow: element }),
@@ -139,5 +146,26 @@ export const useFileExplorerWindowStore = create<FileExplorerWindowState>()(
     updateTargetSubWindowName: (name) => set({ targetSubWindowName: name }),
     updateIsCloseTargetSubWindow: (value) =>
       set({ isCloseTargetSubWindow: value }),
+    updateItemList: (newList: APP_TYPE[]) =>
+      set(() => ({
+        itemList: newList,
+      })),
+    addItemList: (app: APP_TYPE) =>
+      set((state) => ({
+        itemList: [...state.itemList, app],
+      })),
+    updateIsNewItem: (value) => set({ isNewItem: value }),
+  }))
+);
+
+interface TextDocumentState {
+  itemData: APP_TYPE | null;
+  updateItemData: (data: APP_TYPE | null) => void;
+}
+
+export const useTextDocumentStore = create<TextDocumentState>()(
+  devtools((set) => ({
+    itemData: null,
+    updateItemData: (data) => set({ itemData: data }),
   }))
 );
