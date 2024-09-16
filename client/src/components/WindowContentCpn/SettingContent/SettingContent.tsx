@@ -89,7 +89,7 @@ const SettingContent = () => {
   }, [settingTab]);
 
   return (
-    <div className="w-full h-full flex text-black dark:text-white bg-[#efefef] dark:bg-[#252525]">
+    <div className="w-full h-full rounded-b-md flex text-black dark:text-white bg-[#efefef] dark:bg-[#252525]">
       <div className="w-[25%] h-full space-y-4 px-2 py-4">
         <div
           className="h-[10%] px-4 py-2 rounded-md flex gap-5 items-center

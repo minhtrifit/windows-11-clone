@@ -27,7 +27,7 @@ const BrowserContent = () => {
     <div className="w-full h-full">
       <header className="h-[8%] min-h-[40px] text-black dark:text-white bg-zinc-300 dark:bg-[#3c3c3c]">
         <div className="w-full h-full flex">
-          <div className="w-[12%] min-w-[130px] h-full p-2 flex items-center justify-center gap-3">
+          <div className="min-w-[160px] max-w-[160px] h-full p-2 flex items-center justify-center gap-3">
             <button
               className="p-1 rounded-full hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]"
               onClick={() => {

@@ -100,8 +100,9 @@ const FileExplorerIcon = (props: PropType) => {
     itemData?.targetElementTabName ? itemData?.targetElementTabName : ""
   );
 
-  const renameInputRef = useRef<any>(null);
-  const deleteConfirmDialogRef = useRef<HTMLDivElement>(null);
+  const renameFormRef = useRef<HTMLFormElement | null>(null);
+  const renameInputRef = useRef<HTMLInputElement | null>(null);
+  const deleteConfirmDialogRef = useRef<HTMLDivElement | null>(null);
 
   const appList = useNavbarStore((state) => {
     return state.appList;
@@ -232,8 +233,8 @@ const FileExplorerIcon = (props: PropType) => {
 
   const handleClickElement = (event: any) => {
     if (
-      renameInputRef.current &&
-      !renameInputRef.current.contains(event.target) &&
+      renameFormRef.current &&
+      !renameFormRef.current.contains(event.target) &&
       !event.target.className.includes("rename-input")
     ) {
       console.log("Clicked outside rename input");
@@ -298,13 +299,14 @@ const FileExplorerIcon = (props: PropType) => {
             <div className={`max-w-[100%] flex justify-center`}>
               {isRename ? (
                 <form
-                  ref={renameInputRef}
+                  ref={renameFormRef}
                   className="rename-input w-[90%]"
                   onSubmit={(e) => {
                     handleRenameItem(e);
                   }}
                 >
                   <input
+                    ref={renameInputRef}
                     className="rename-input w-full px-2 text-sm"
                     value={renameValue}
                     onChange={(e) => {

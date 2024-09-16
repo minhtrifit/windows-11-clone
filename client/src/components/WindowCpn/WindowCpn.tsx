@@ -1,7 +1,6 @@
 "use client";
 
 import { JSXElementConstructor, ReactElement, useEffect, useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { APP_TYPE } from "@/lib/types";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { MdMinimize } from "react-icons/md";
@@ -89,7 +88,6 @@ const WindowCpn = (props: PropType) => {
         );
 
         if (newItem !== null) {
-          newItem.id = uuidv4();
           console.log("New text document item data:", newItem);
           updateItemData(newItem);
         }
@@ -169,7 +167,7 @@ const WindowCpn = (props: PropType) => {
         <motion.div
           ref={windowRef}
           className={`absolute z-10 inset-0 m-auto w-[80%] h-[70%] 2xl:w-[60%] min-h-[600px]
-                  border-[1px] border-zinc-300 dark:border-zinc-800 rounded-[10px]`}
+                  border-[1px] border-zinc-300 dark:border-zinc-600 rounded-[10px]`}
           drag
           dragConstraints={constraints}
           dragControls={parentControls}

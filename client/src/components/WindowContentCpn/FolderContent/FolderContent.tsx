@@ -125,7 +125,7 @@ const FolderContent = () => {
   const handleCreateNewTextDocument = async () => {
     const res: any = await createNewTextDocument(
       FILE_EXPLORER_APP_NAME.text_document,
-      "AAAAA",
+      "",
       "Untitled"
     );
 
@@ -174,10 +174,13 @@ const FolderContent = () => {
           updateSettingTab={updateSettingTab}
         />
       )}
-      <div className="w-full h-full text-black dark:text-white bg-[#efefef] dark:bg-[#252525]">
+      <div
+        className="w-full h-full rounded-b-md text-black dark:text-white bg-[#efefef] dark:bg-[#252525]
+                    border-x border-b border-zinc-200 dark:border-zinc-600"
+      >
         <header className="h-[8%] min-h-[40px] pr-4 text-black dark:text-white bg-zinc-300 dark:bg-[#3c3c3c]">
           <div className="w-full h-full flex items-center justify-between gap-3">
-            <div className="w-[20%] h-full flex items-center justify-center gap-3">
+            <div className="min-w-[230px] max-w-[230px] h-full flex items-center justify-center gap-3">
               <button className="p-3 rounded-md hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]">
                 <FaArrowLeft size={15} />
               </button>
