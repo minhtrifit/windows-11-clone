@@ -117,18 +117,19 @@ const FolderContent = () => {
   });
 
   const handleGetFileExplorerList = async () => {
-    const data = await getFileExplorerList("asc");
-    console.log("FILE EXPLORER LIST:", data);
-    updateItemList(data);
+    const res: any = await getFileExplorerList("asc");
+    console.log(res);
+    if (res?.documents) updateItemList(res?.documents);
   };
 
   const handleCreateNewTextDocument = async () => {
-    await createNewTextDocument(
+    const res: any = await createNewTextDocument(
       FILE_EXPLORER_APP_NAME.text_document,
       "AAAAA",
       "Untitled"
     );
 
+    console.log(res);
     handleGetFileExplorerList();
   };
 
@@ -178,16 +179,16 @@ const FolderContent = () => {
           <div className="w-full h-full flex items-center justify-between gap-3">
             <div className="w-[20%] h-full flex items-center justify-center gap-3">
               <button className="p-3 rounded-md hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]">
-                <FaArrowLeft size={16} />
+                <FaArrowLeft size={15} />
               </button>
               <button className="p-3 rounded-md hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]">
-                <FaArrowRight size={16} />
+                <FaArrowRight size={15} />
               </button>
               <button className="p-3 rounded-md hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]">
-                <FaArrowUp size={16} />
+                <FaArrowUp size={15} />
               </button>
               <button className="p-3 rounded-md hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]">
-                <TbReload size={20} />
+                <TbReload size={18} />
               </button>
             </div>
             <div className="w-[58%] px-4 py-2 bg-[#efefef] dark:bg-[#282828] rounded-md flex items-center gap-4">

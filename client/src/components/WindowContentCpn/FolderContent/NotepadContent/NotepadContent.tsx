@@ -1,13 +1,33 @@
-import { useTextDocumentStore } from "@/lib/store";
+import {
+  getFileExplorerList,
+  updateTextDocumentById,
+} from "@/lib/firebase.api";
+import { useFileExplorerWindowStore, useTextDocumentStore } from "@/lib/store";
 
 const NotepadContent = () => {
+  const updateItemList = useFileExplorerWindowStore((state) => {
+    return state.updateItemList;
+  });
+
   const itemData = useTextDocumentStore((state) => {
     return state.itemData;
   });
 
-  const handleSaveFile = () => {
-    if (itemData !== null) {
-      console.log("Save:", itemData);
+  const handleGetFileExplorerList = async () => {
+    const res: any = await getFileExplorerList("asc");
+    console.log(res);
+    if (res?.documents) updateItemList(res?.documents);
+  };
+
+  const handleSaveFile = async () => {
+    if (itemData !== null && itemData?.id) {
+      const res: any = await updateTextDocumentById({
+        id: itemData?.id,
+        data: { targetElementTabName: "UPDATE TEXT", content: "AHIHI" },
+      });
+
+      console.log("Save:", itemData, res);
+      handleGetFileExplorerList();
     }
   };
 
