@@ -8,7 +8,11 @@ import {
 } from "@/lib/store";
 import { APP_TYPE } from "@/lib/types";
 import WindowCpn from "@/components/WindowCpn/WindowCpn";
-import { FILE_EXPLORER_APP_NAME, getAppByName } from "@/lib/utils";
+import {
+  autoGenerateName,
+  FILE_EXPLORER_APP_NAME,
+  getAppByName,
+} from "@/lib/utils";
 import {} from "@/components/DestopNavbar/DestopNavbar";
 import { PiNotepadFill } from "react-icons/pi";
 import {
@@ -48,7 +52,7 @@ export const FILE_EXPLORER_APP_LIST: APP_TYPE[] = [
     targetElementname: FILE_EXPLORER_APP_NAME.text_document,
     targetElementTabName: "Untitled",
     targetElementTabIcon: <PiNotepadFill size={20} />,
-    isTargetElementTab: false,
+    isTargetElementTab: true,
   },
 ];
 
@@ -123,10 +127,12 @@ const FolderContent = () => {
   };
 
   const handleCreateNewTextDocument = async () => {
+    const fileName = autoGenerateName(itemList);
+
     const res: any = await createNewTextDocument(
       FILE_EXPLORER_APP_NAME.text_document,
       "",
-      "Untitled"
+      fileName ? fileName : uuidv4()
     );
 
     console.log(res);

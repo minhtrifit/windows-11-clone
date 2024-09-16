@@ -73,3 +73,17 @@ export const getAppByName = (list: APP_TYPE[], appName: string) => {
 
   return null;
 };
+
+export const autoGenerateName = (list: APP_TYPE[]) => {
+  const baseName = "Untitled";
+  let newName = baseName;
+  let count = 0;
+
+  // Loop to find the next available name
+  while (list.some((item) => item.targetElementTabName === newName)) {
+    count++;
+    newName = `${baseName} (${count})`;
+  }
+
+  return newName;
+};

@@ -59,7 +59,7 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElementname: FILE_EXPLORER_APP_NAME.notepad,
     targetElementTabName: "Untitled",
     targetElementTabIcon: <PiNotepadFill size={20} />,
-    isTargetElementTab: false,
+    isTargetElementTab: true,
   },
 ];
 

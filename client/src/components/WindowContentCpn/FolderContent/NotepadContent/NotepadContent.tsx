@@ -1,21 +1,31 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { useFileExplorerWindowStore, useTextDocumentStore } from "@/lib/store";
-import { FILE_EXPLORER_APP_NAME } from "@/lib/utils";
+import { autoGenerateName, FILE_EXPLORER_APP_NAME } from "@/lib/utils";
 import {
   createNewTextDocument,
   getFileExplorerList,
   updateTextDocumentById,
 } from "@/lib/firebase.api";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuShortcut,
-} from "@/components/ui/dropdown-menu";
+  Menubar,
+  MenubarCheckboxItem,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
 
 const NotepadContent = () => {
+  const itemList = useFileExplorerWindowStore((state) => {
+    return state.itemList;
+  });
+
   const updateItemList = useFileExplorerWindowStore((state) => {
     return state.updateItemList;
   });
@@ -43,10 +53,13 @@ const NotepadContent = () => {
 
       console.log("Save exist:", itemData, res);
     } else {
+      handleGetFileExplorerList();
+      const fileName = autoGenerateName(itemList);
+
       const res: any = await createNewTextDocument(
         FILE_EXPLORER_APP_NAME.text_document,
         content,
-        "Untitled"
+        fileName ? fileName : uuidv4()
       );
 
       console.log("Save new:", itemData, res);
@@ -59,63 +72,150 @@ const NotepadContent = () => {
       className="w-full h-full rounded-b-md text-black dark:text-white bg-[#efefef] dark:bg-[#252525]
                     flex flex-col items-start"
     >
-      <div className="w-full px-2 py-1 flex items-center gap-3 bg-zinc-200 dark:bg-[#282828]">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <div className="px-2 rounded-sm dark:hover:bg-zinc-700">File</div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-60">
-            <DropdownMenuItem>
-              <span>New tab</span>
-              <DropdownMenuShortcut>Ctrl+N</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <span>New window</span>
-              <DropdownMenuShortcut>Ctrl+Shift+N</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+      <Menubar className="w-full rounded-none bg-zinc-200 dark:bg-[#282828]">
+        <MenubarMenu>
+          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarContent className="w-60">
+            <MenubarItem>
+              <span>New Tab</span>
+              <MenubarShortcut>Ctrl+N</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
+              <span>New Window</span>
+              <MenubarShortcut>Ctrl+Shift+N</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
               <span>Open</span>
-              <DropdownMenuShortcut>Ctrl+O</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem
+              <MenubarShortcut>Ctrl+O</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem
               onClick={() => {
                 handleSaveFile();
               }}
             >
               <span>Save</span>
-              <DropdownMenuShortcut>Ctrl+S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+              <MenubarShortcut>Ctrl+S</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
               <span>Save as</span>
-              <DropdownMenuShortcut>Ctrl+Shift+S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+              <MenubarShortcut>Ctrl+Shift+S</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
               <span>Save all</span>
-              <DropdownMenuShortcut>Ctrl+Alt+S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
+              <MenubarShortcut>Ctrl+Alt+S</MenubarShortcut>
+            </MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem>
               <span>Page setup</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+            </MenubarItem>
+            <MenubarItem>
               <span>Print</span>
-              <DropdownMenuShortcut>Ctrl+P</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <span>Close tab</span>
-              <DropdownMenuShortcut>Ctrl+W</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <span>Close all</span>
-              <DropdownMenuShortcut>Ctrl+Shift+W</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+              <MenubarShortcut>Ctrl+P</MenubarShortcut>
+            </MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem>
+              <span>Close Tab</span>
+              <MenubarShortcut>Ctrl+W</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
+              <span>Close window</span>
+              <MenubarShortcut>Ctrl+Shift+W</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
               <span>Exit</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger>Edit</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem disabled>
+              <span>Undo</span>
+              <MenubarShortcut>Ctrl+Z</MenubarShortcut>
+            </MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem disabled>
+              <span>Cut</span>
+              <MenubarShortcut>Ctrl+X</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem disabled>
+              <span>Copy</span>
+              <MenubarShortcut>Ctrl+C</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
+              <span>Paste</span>
+              <MenubarShortcut>Ctrl+V</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem disabled>
+              <span>Delete</span>
+              <MenubarShortcut>Del</MenubarShortcut>
+            </MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem disabled>
+              <span>Search with Bing</span>
+              <MenubarShortcut>Ctrl+E</MenubarShortcut>
+            </MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem disabled>
+              <span>Find</span>
+              <MenubarShortcut>Ctrl+F</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem disabled>
+              <span>Find next</span>
+              <MenubarShortcut>F3</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem disabled>
+              <span>Find previous</span>
+              <MenubarShortcut>Shift+F3</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem disabled>
+              <span>Replace</span>
+              <MenubarShortcut>Ctrl+H</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
+              <span>Go to</span>
+              <MenubarShortcut>Ctrl+G</MenubarShortcut>
+            </MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem>
+              <span>Select all</span>
+              <MenubarShortcut>Ctrl+A</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
+              <span>Time/Date</span>
+              <MenubarShortcut>F5</MenubarShortcut>
+            </MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem>
+              <span>Font</span>
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger>View</MenubarTrigger>
+          <MenubarContent>
+            <MenubarSub>
+              <MenubarSubTrigger inset>Zoom</MenubarSubTrigger>
+              <MenubarSubContent className="w-64">
+                <MenubarItem>
+                  <span>Zoom in</span>
+                  <MenubarShortcut>Ctrl+Plus</MenubarShortcut>
+                </MenubarItem>
+                <MenubarItem>
+                  <span>Zoom out</span>
+                  <MenubarShortcut>Ctrl+Minus</MenubarShortcut>
+                </MenubarItem>
+                <MenubarItem>
+                  <span>Restore default zoom</span>
+                  <MenubarShortcut>Ctrl+O</MenubarShortcut>
+                </MenubarItem>
+              </MenubarSubContent>
+            </MenubarSub>
+            <MenubarCheckboxItem checked>Status bar</MenubarCheckboxItem>
+            <MenubarCheckboxItem checked>Word wrap</MenubarCheckboxItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
       <textarea
         className="w-full h-full p-4 outline-none text-black rounded-b-md
                     dark:text-white bg-[#efefef] dark:bg-[#252525]"

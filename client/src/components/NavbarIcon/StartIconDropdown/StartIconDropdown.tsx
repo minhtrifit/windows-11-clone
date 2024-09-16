@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { useNavbarStore } from "@/lib/store";
 import { v4 as uuidv4 } from "uuid";
 import { APP_TYPE } from "@/lib/types";
-import { APP_NAME } from "@/lib/utils";
+import { APP_NAME, FILE_EXPLORER_APP_NAME } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -13,9 +13,9 @@ import {
   FaFolder,
 } from "react-icons/fa";
 import { IoPower, IoSettingsSharp } from "react-icons/io5";
-
 import { VscDebugRestart, VscSignOut } from "react-icons/vsc";
 import { IoIosMore } from "react-icons/io";
+import { PiNotepadFill } from "react-icons/pi";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,6 +33,7 @@ import FolderContent from "@/components/WindowContentCpn/FolderContent/FolderCon
 import StartAppIcon from "../StartAppIcon/StartAppIcon";
 import StartAppIcon2 from "../StartAppIcon2/StartAppIcon2";
 import SettingContent from "@/components/WindowContentCpn/SettingContent/SettingContent";
+import NotepadContent from "@/components/WindowContentCpn/FolderContent/NotepadContent/NotepadContent";
 
 const PINNED_APP_LIST: APP_TYPE[] = [
   {
@@ -67,6 +68,17 @@ const PINNED_APP_LIST: APP_TYPE[] = [
     targetElementTabName: "Folder",
     targetElementTabIcon: <IoSettingsSharp size={15} />,
     isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/notepad.ico",
+    iconName: "Notepad",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: <NotepadContent />,
+    targetElementname: FILE_EXPLORER_APP_NAME.notepad,
+    targetElementTabName: "Untitled",
+    targetElementTabIcon: <PiNotepadFill size={20} />,
+    isTargetElementTab: true,
   },
 ];
 
