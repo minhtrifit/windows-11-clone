@@ -11,6 +11,7 @@ import {
   APP_NAME,
   checkIsExistNavbarAppList,
   FILE_EXPLORER_APP_NAME,
+  FILE_EXPLORER_TAB_NAME,
   filterNavbarListByName,
   getAppByName,
   SETTING_NAME,
@@ -73,6 +74,10 @@ const WindowCpn = (props: PropType) => {
 
   const updateIsCloseTargetSubWindow = useFileExplorerWindowStore((state) => {
     return state.updateIsCloseTargetSubWindow;
+  });
+
+  const updateFileExplorerTab = useFileExplorerWindowStore((state) => {
+    return state.updateFileExplorerTab;
   });
 
   const updateItemData = useTextDocumentStore((state) => {
@@ -158,6 +163,10 @@ const WindowCpn = (props: PropType) => {
       // Update SETTING tab
       if (targetWindowName === APP_NAME.settings && updateSettingTab)
         updateSettingTab(SETTING_NAME.home);
+
+      // Update FILE EXPLORER tab
+      if (targetWindowName === APP_NAME.file_explorer && updateFileExplorerTab)
+        updateFileExplorerTab(FILE_EXPLORER_TAB_NAME.thisPC);
     }, 100);
   };
 

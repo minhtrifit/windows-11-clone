@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import {
   BACKGROUND_URLS,
+  FILE_EXPLORER_TAB_NAME,
   LOCK_SCREEN_BACKGROUND_URLS,
   SETTING_NAME,
 } from "./utils";
@@ -111,6 +112,7 @@ interface FileExplorerWindowState {
   isCloseTargetSubWindow: boolean;
   itemList: APP_TYPE[];
   isNewItem: boolean;
+  fileExplorerTab: string;
   updateIsCloseTargetWindow: (value: boolean) => void;
   updateIsTargetWindowTab: (value: boolean) => void;
   updateTargetWindow: (element: React.ReactElement | null) => void;
@@ -122,6 +124,7 @@ interface FileExplorerWindowState {
   updateItemList: (newList: APP_TYPE[]) => void;
   addItemList: (app: APP_TYPE) => void;
   updateIsNewItem: (value: boolean) => void;
+  updateFileExplorerTab: (value: string) => void;
 }
 
 export const useFileExplorerWindowStore = create<FileExplorerWindowState>()(
@@ -136,6 +139,7 @@ export const useFileExplorerWindowStore = create<FileExplorerWindowState>()(
     isCloseTargetSubWindow: true,
     itemList: [],
     isNewItem: false,
+    fileExplorerTab: FILE_EXPLORER_TAB_NAME.thisPC,
     updateIsCloseTargetWindow: (value) => set({ isCloseTargetWindow: value }),
     updateIsTargetWindowTab: (value) => set({ isTargetWindowTab: value }),
     updateTargetWindow: (element) => set({ targetWindow: element }),
@@ -155,6 +159,7 @@ export const useFileExplorerWindowStore = create<FileExplorerWindowState>()(
         itemList: [...state.itemList, app],
       })),
     updateIsNewItem: (value) => set({ isNewItem: value }),
+    updateFileExplorerTab: (value) => set({ fileExplorerTab: value }),
   }))
 );
 

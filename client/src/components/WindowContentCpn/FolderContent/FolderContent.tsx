@@ -11,6 +11,7 @@ import WindowCpn from "@/components/WindowCpn/WindowCpn";
 import {
   autoGenerateName,
   FILE_EXPLORER_APP_NAME,
+  FILE_EXPLORER_TAB_NAME,
   getAppByName,
 } from "@/lib/utils";
 import {} from "@/components/DestopNavbar/DestopNavbar";
@@ -24,14 +25,32 @@ import {
   FaFolder,
   FaAngleDown,
 } from "react-icons/fa";
-import { TbReload } from "react-icons/tb";
+import {
+  FaComputer,
+  FaCopy,
+  FaPaste,
+  FaShareFromSquare,
+  FaTrashCan,
+} from "react-icons/fa6";
+import { TbReload, TbCut } from "react-icons/tb";
 import { GoHome } from "react-icons/go";
-import { IoMdAddCircleOutline } from "react-icons/io";
-import { MdShortcut, MdOutlineFolderZip } from "react-icons/md";
+import { IoMdAddCircleOutline, IoMdGlobe } from "react-icons/io";
+import {
+  MdShortcut,
+  MdOutlineFolderZip,
+  MdOutlineDesktopWindows,
+  MdOutlineFileDownload,
+  MdMusicNote,
+  MdMoreHoriz,
+} from "react-icons/md";
 import { AiOutlineFileImage } from "react-icons/ai";
 import { SiMicrosoftword, SiMicrosoftexcel } from "react-icons/si";
 import { PiMicrosoftPowerpointLogoFill } from "react-icons/pi";
-import { IoLibrary } from "react-icons/io5";
+import { IoLibrary, IoHomeOutline } from "react-icons/io5";
+import { GrGallery, GrOnedrive } from "react-icons/gr";
+import { ImFileText2, ImFilm } from "react-icons/im";
+import { SlPicture } from "react-icons/sl";
+import { BiSolidRename } from "react-icons/bi";
 import NotepadContent from "./NotepadContent/NotepadContent";
 import FileExplorerIcon from "@/components/FileExplorerIcon/FileExplorerIcon";
 import {
@@ -40,6 +59,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 import { createNewTextDocument, getFileExplorerList } from "@/lib/firebase.api";
 
 export const FILE_EXPLORER_APP_LIST: APP_TYPE[] = [
@@ -56,9 +76,75 @@ export const FILE_EXPLORER_APP_LIST: APP_TYPE[] = [
   },
 ];
 
+const SLIDEBAR_ITEMS = [
+  {
+    name: FILE_EXPLORER_TAB_NAME.home,
+    icon: <IoHomeOutline className="mr-3" size={20} />,
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.gallery,
+    icon: <GrGallery className="mr-3" size={20} />,
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.oneDrive,
+    icon: <GrOnedrive className="mr-3" size={20} />,
+  },
+  {
+    name: "separator",
+    icon: (
+      <div className="w-[80%] h-[1px] my-2 rounded-md mx-auto bg-zinc-400 dark:bg-zinc-600"></div>
+    ),
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.desktop,
+    icon: <MdOutlineDesktopWindows className="mr-3" size={20} />,
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.downloads,
+    icon: <MdOutlineFileDownload className="mr-3" size={20} />,
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.documents,
+    icon: <ImFileText2 className="mr-3" size={20} />,
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.pictures,
+    icon: <SlPicture className="mr-3" size={20} />,
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.music,
+    icon: <MdMusicNote className="mr-3" size={20} />,
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.videos,
+    icon: <ImFilm className="mr-3" size={20} />,
+  },
+  {
+    name: "separator",
+    icon: (
+      <div className="w-[80%] h-[1px] my-2 rounded-md mx-auto bg-zinc-400 dark:bg-zinc-600"></div>
+    ),
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.thisPC,
+    icon: <FaComputer className="mr-3" size={20} />,
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.network,
+    icon: <IoMdGlobe className="mr-3" size={20} />,
+  },
+];
+
 const FolderContent = () => {
+  const fileExplorerTab = useFileExplorerWindowStore((state) => {
+    return state.fileExplorerTab;
+  });
+
   const [constraints, setConstraints] = useState<any>({});
   const [searchClient, setSearchClient] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<string>(
+    fileExplorerTab ? fileExplorerTab : FILE_EXPLORER_TAB_NAME.thisPC
+  );
 
   const parentChildRef = useWindowStore((state) => {
     return state.parentChildRef;
@@ -180,10 +266,7 @@ const FolderContent = () => {
           updateSettingTab={updateSettingTab}
         />
       )}
-      <div
-        className="w-full h-full rounded-b-md text-black dark:text-white bg-[#efefef] dark:bg-[#252525]
-                    border-x border-b border-zinc-200 dark:border-zinc-600"
-      >
+      <div className="w-full h-full rounded-b-md text-black dark:text-white bg-[#efefef] dark:bg-[#252525]">
         <header className="h-[8%] min-h-[40px] pr-4 text-black dark:text-white bg-zinc-300 dark:bg-[#3c3c3c]">
           <div className="w-full h-full flex items-center justify-between gap-3">
             <div className="min-w-[230px] max-w-[230px] h-full flex items-center justify-center gap-3">
@@ -203,7 +286,7 @@ const FolderContent = () => {
             <div className="w-[58%] px-4 py-2 bg-[#efefef] dark:bg-[#282828] rounded-md flex items-center gap-4">
               <GoHome size={20} />
               <FaChevronRight size={12} />
-              <p className="text-sm">This PC</p>
+              <p className="text-sm">{activeTab}</p>
             </div>
             <form
               className="relative w-[20%] flex items-center"
@@ -233,7 +316,7 @@ const FolderContent = () => {
               <div className="flex items-center gap-3">
                 <IoMdAddCircleOutline size={25} />
                 <span className="text-sm">New</span>
-                <FaAngleDown size={20} />
+                <FaAngleDown size={15} />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -297,49 +380,110 @@ const FolderContent = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <div className="w-[1px] h-[45%] bg-black dark:bg-white"></div>
+          <div className="w-[1px] h-[45%] bg-zinc-400 dark:bg-zinc-600"></div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700">
+            <TbCut size={20} />
+          </div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700">
+            <FaCopy size={20} />
+          </div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700">
+            <FaPaste size={20} />
+          </div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700">
+            <BiSolidRename size={20} />
+          </div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700">
+            <FaShareFromSquare size={20} />
+          </div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700">
+            <FaTrashCan size={20} />
+          </div>
+          <div className="w-[1px] h-[45%] bg-zinc-400 dark:bg-zinc-600"></div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700">
+            <MdMoreHoriz size={20} />
+          </div>
         </div>
-        <div className="p-4 flex items-center flex-wrap">
-          {itemList?.map((item: APP_TYPE) => {
-            const itemData = getAppByName(
-              FILE_EXPLORER_APP_LIST,
-              item?.type ? item?.type : ""
-            );
+        <div className="h-[84%] flex items-center">
+          <div
+            className="w-[180px] h-full p-1 overflow-y-auto
+                        border-r border-zinc-300 dark:border-zinc-600"
+          >
+            {SLIDEBAR_ITEMS?.map(
+              (item: { name: string; icon: React.ReactElement }) => {
+                if (item?.name === "separator")
+                  return <div key={uuidv4()}>{item?.icon}</div>;
 
-            return (
-              <FileExplorerIcon
-                key={uuidv4()}
-                iconUrl={itemData?.iconUrl ? itemData?.iconUrl : ""}
-                iconName={
-                  item?.targetElementTabName ? item?.targetElementTabName : ""
-                }
-                iconWidth={itemData?.iconWidth ? itemData?.iconWidth : 0}
-                iconHeight={itemData?.iconHeight ? itemData?.iconHeight : 0}
-                targetElement={
-                  itemData?.targetElement ? itemData?.targetElement : <></>
-                }
-                targetElementname={
-                  itemData?.targetElementname ? itemData?.targetElementname : ""
-                }
-                targetElementTabName={
-                  item?.targetElementTabName ? item?.targetElementTabName : ""
-                }
-                targetElementTabIcon={
-                  itemData?.targetElementTabIcon ? (
-                    itemData?.targetElementTabIcon
-                  ) : (
-                    <></>
-                  )
-                }
-                isTargetElementTab={
-                  itemData?.isTargetElementTab
-                    ? itemData?.isTargetElementTab
-                    : false
-                }
-                itemData={item ? item : null}
-              />
-            );
-          })}
+                return (
+                  <Button
+                    key={uuidv4()}
+                    variant={"ghost"}
+                    className={`relative w-full justify-start py-6 rounded-sm
+                  hover:bg-zinc-200 dark:hover:text-white dark:hover:bg-zinc-600 ${
+                    activeTab === item.name &&
+                    "bg-zinc-300 dark:text-white dark:bg-zinc-700"
+                  }`}
+                    onClick={() => {
+                      setActiveTab(item?.name);
+                    }}
+                  >
+                    {item?.icon}
+                    <span className="text-xs">{item?.name}</span>
+                  </Button>
+                );
+              }
+            )}
+          </div>
+          {activeTab === FILE_EXPLORER_TAB_NAME.thisPC && (
+            <div className="h-full p-4 flex gap-1 flex-wrap overflow-y-auto">
+              {itemList?.map((item: APP_TYPE) => {
+                const itemData = getAppByName(
+                  FILE_EXPLORER_APP_LIST,
+                  item?.type ? item?.type : ""
+                );
+
+                return (
+                  <FileExplorerIcon
+                    key={uuidv4()}
+                    iconUrl={itemData?.iconUrl ? itemData?.iconUrl : ""}
+                    iconName={
+                      item?.targetElementTabName
+                        ? item?.targetElementTabName
+                        : ""
+                    }
+                    iconWidth={itemData?.iconWidth ? itemData?.iconWidth : 0}
+                    iconHeight={itemData?.iconHeight ? itemData?.iconHeight : 0}
+                    targetElement={
+                      itemData?.targetElement ? itemData?.targetElement : <></>
+                    }
+                    targetElementname={
+                      itemData?.targetElementname
+                        ? itemData?.targetElementname
+                        : ""
+                    }
+                    targetElementTabName={
+                      item?.targetElementTabName
+                        ? item?.targetElementTabName
+                        : ""
+                    }
+                    targetElementTabIcon={
+                      itemData?.targetElementTabIcon ? (
+                        itemData?.targetElementTabIcon
+                      ) : (
+                        <></>
+                      )
+                    }
+                    isTargetElementTab={
+                      itemData?.isTargetElementTab
+                        ? itemData?.isTargetElementTab
+                        : false
+                    }
+                    itemData={item ? item : null}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </>

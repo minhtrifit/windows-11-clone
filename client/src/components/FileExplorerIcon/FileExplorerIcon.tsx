@@ -282,9 +282,9 @@ const FileExplorerIcon = (props: PropType) => {
         </AlertDialogContent>
       </AlertDialog>
       <ContextMenu>
-        <ContextMenuTrigger>
+        <ContextMenuTrigger className="w-[90px] h-[90px]">
           <div
-            className="w-[90px] h-[90px] p-[1px] rounded-lg flex gap-2 flex-col items-center justify-center
+            className="w-full h-full p-[1px] rounded-lg flex gap-2 flex-col items-center justify-center
               hover:border hover:border-gray-400"
             onDoubleClick={() => {
               if (!isRename) handleOpenApp();

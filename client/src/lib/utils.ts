@@ -32,6 +32,20 @@ export const SETTING_NAME = {
   ["windows_update"]: "Windows Update",
 };
 
+export const FILE_EXPLORER_TAB_NAME = {
+  home: "Home",
+  gallery: "Gallery",
+  oneDrive: "OneDrive",
+  desktop: "Desktop",
+  downloads: "Downloads",
+  documents: "Documents",
+  pictures: "Picture",
+  music: "Music",
+  videos: "Videos",
+  thisPC: "This PC",
+  network: "Network",
+};
+
 export const BACKGROUND_URLS: string[] = [
   "/Images/1.jpg",
   "/Images/2.jpg",
