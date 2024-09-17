@@ -15,6 +15,7 @@ import {
   getAppByName,
   getFileCountsByType,
   IMAGE_TYPES,
+  VIDEO_TYPES,
 } from "@/lib/utils";
 import {} from "@/components/DestopNavbar/DestopNavbar";
 import { PiNotepadFill } from "react-icons/pi";
@@ -55,6 +56,7 @@ import { SlPicture } from "react-icons/sl";
 import { BiSolidRename } from "react-icons/bi";
 import NotepadContent from "./NotepadContent/NotepadContent";
 import PictureContent from "./PictureContent/PictureContent";
+import VideoContent from "./VideoContent/VideoContent";
 import FileExplorerIcon from "@/components/FileExplorerIcon/FileExplorerIcon";
 import Disk from "./Disk/Disk";
 import { Button } from "@/components/ui/button";
@@ -94,6 +96,17 @@ export const FILE_EXPLORER_APP_LIST: APP_TYPE[] = [
     targetElement: <PictureContent />,
     targetElementname: FILE_EXPLORER_APP_NAME.pictures,
     targetElementTabName: "New Picture",
+    targetElementTabIcon: <SlPicture size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/tv.ico",
+    iconName: "New Video",
+    iconWidth: 50,
+    iconHeight: 50,
+    targetElement: <VideoContent />,
+    targetElementname: FILE_EXPLORER_APP_NAME.videos,
+    targetElementTabName: "New Video",
     targetElementTabIcon: <SlPicture size={20} />,
     isTargetElementTab: false,
   },
@@ -274,6 +287,7 @@ const FolderContent = () => {
       );
 
       const fileExtension = file?.name.split(".").pop()?.toLowerCase(); // Get file extension name
+      console.log(fileExtension);
 
       // Create picture file for FILE EXPLORER LIST
       if (
@@ -284,6 +298,22 @@ const FolderContent = () => {
       ) {
         const res: any = await createNewFileStoreFile(
           FILE_EXPLORER_APP_NAME.pictures,
+          file?.url,
+          file?.name ? file?.name.split(".")[0]?.toLowerCase() : uuidv4(),
+          file?.size
+        );
+        console.log(res);
+      }
+
+      // Create videos file for FILE EXPLORER LIST
+      if (
+        !isExist &&
+        file?.url &&
+        fileExtension &&
+        VIDEO_TYPES.includes(fileExtension)
+      ) {
+        const res: any = await createNewFileStoreFile(
+          FILE_EXPLORER_APP_NAME.videos,
           file?.url,
           file?.name ? file?.name.split(".")[0]?.toLowerCase() : uuidv4(),
           file?.size
@@ -322,16 +352,29 @@ const FolderContent = () => {
   }, [parentChildRef]);
 
   useEffect(() => {
+    // ACTIVE TAB = DOCUMENTS
     if (activeTab === FILE_EXPLORER_TAB_NAME.documents)
       handleGetFileExplorerList();
+
+    // ACTIVE TAB = PICTURES
     if (activeTab === FILE_EXPLORER_TAB_NAME.pictures)
       handleGetStorageFileList(
         process.env.NEXT_PUBLIC_FIREBASE_PICTURE_STORAGE_PATH
           ? process.env.NEXT_PUBLIC_FIREBASE_PICTURE_STORAGE_PATH
           : FILEBASE_STORAGE_PATH.pictures
       );
+
+    // ACTIVE TAB = THISPC
     if (activeTab === FILE_EXPLORER_TAB_NAME.thisPC)
       handleGetFileExplorerList();
+
+    // ACTIVE TAB = VIDEOS
+    if (activeTab === FILE_EXPLORER_TAB_NAME.videos)
+      handleGetStorageFileList(
+        process.env.NEXT_PUBLIC_FIREBASE_VIDEO_STORAGE_PATH
+          ? process.env.NEXT_PUBLIC_FIREBASE_VIDEO_STORAGE_PATH
+          : FILEBASE_STORAGE_PATH.videos
+      );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
@@ -649,6 +692,65 @@ const FolderContent = () => {
                   );
                 }
               )}
+            </div>
+          )}
+          {activeTab === FILE_EXPLORER_TAB_NAME.videos && (
+            <div className="max-h-full p-4 flex gap-1 flex-wrap overflow-y-auto">
+              {itemList?.map((item: APP_TYPE) => {
+                const itemData = getAppByName(
+                  FILE_EXPLORER_APP_LIST,
+                  item?.type ? item?.type : ""
+                );
+
+                // item.type === "videos"
+                if (item?.type === FILE_EXPLORER_APP_NAME.videos) {
+                  return (
+                    <FileExplorerIcon
+                      key={uuidv4()}
+                      iconUrl={itemData?.iconUrl ? itemData?.iconUrl : ""}
+                      iconName={
+                        item?.targetElementTabName
+                          ? item?.targetElementTabName
+                          : ""
+                      }
+                      iconWidth={itemData?.iconWidth ? itemData?.iconWidth : 0}
+                      iconHeight={
+                        itemData?.iconHeight ? itemData?.iconHeight : 0
+                      }
+                      targetElement={
+                        itemData?.targetElement ? (
+                          itemData?.targetElement
+                        ) : (
+                          <></>
+                        )
+                      }
+                      targetElementname={
+                        itemData?.targetElementname
+                          ? itemData?.targetElementname
+                          : ""
+                      }
+                      targetElementTabName={
+                        item?.targetElementTabName
+                          ? item?.targetElementTabName
+                          : ""
+                      }
+                      targetElementTabIcon={
+                        itemData?.targetElementTabIcon ? (
+                          itemData?.targetElementTabIcon
+                        ) : (
+                          <></>
+                        )
+                      }
+                      isTargetElementTab={
+                        itemData?.isTargetElementTab
+                          ? itemData?.isTargetElementTab
+                          : false
+                      }
+                      itemData={item ? item : null}
+                    />
+                  );
+                }
+              })}
             </div>
           )}
         </div>
