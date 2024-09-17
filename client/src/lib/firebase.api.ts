@@ -1,4 +1,4 @@
-import { db } from "./firebase";
+import { db, storage } from "./firebase";
 import {
   collection,
   getDocs,
@@ -9,9 +9,11 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  where,
 } from "firebase/firestore";
+import { getDownloadURL, ref, listAll } from "firebase/storage";
 
-const COLLECTION_NAME = {
+export const COLLECTION_NAME = {
   ["FILE_EXPLORER_LIST"]: "file-explorer-list",
 };
 
@@ -95,5 +97,46 @@ export const deleteTextDocumentById = async (id: string) => {
   } catch (error) {
     console.error("Delete document failed", error);
     return { message: "Delete document failed" };
+  }
+};
+
+export const checkIfExistKeyStorage = async (
+  collectionName: string,
+  keyName: string,
+  typeValue: string
+) => {
+  const q = query(
+    collection(db, collectionName),
+    where(keyName, "==", typeValue)
+  );
+
+  const querySnapshot = await getDocs(q);
+
+  if (!querySnapshot.empty) return true;
+  else return false;
+};
+
+export const getStorageFileList = async (
+  directoryPath: string
+): Promise<{ name: string; url: string }[]> => {
+  try {
+    const directoryRef = ref(storage, directoryPath);
+    const fileList = await listAll(directoryRef);
+
+    // Map through each file and get both name and download URL
+    const fileDetails = await Promise.all(
+      fileList.items.map(async (itemRef) => {
+        const url = await getDownloadURL(itemRef);
+        return {
+          name: itemRef.name, // Get the file name
+          url: url, // Get the download URL
+        };
+      })
+    );
+
+    return fileDetails;
+  } catch (error) {
+    console.error("Error listing files in Firebase Storage:", error);
+    throw new Error("Failed to list files");
   }
 };

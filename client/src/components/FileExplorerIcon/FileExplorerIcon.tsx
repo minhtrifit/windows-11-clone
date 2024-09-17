@@ -290,12 +290,25 @@ const FileExplorerIcon = (props: PropType) => {
               if (!isRename) handleOpenApp();
             }}
           >
-            <Image
-              src={iconUrl}
-              alt="favicon"
-              width={iconWidth}
-              height={iconHeight}
-            />
+            {targetElementname === FILE_EXPLORER_APP_NAME.pictures ? (
+              <div
+                className={`relative w-[${iconWidth}px] h-[${iconWidth}px] flex`}
+              >
+                <Image
+                  src={iconUrl}
+                  alt="favicon"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+            ) : (
+              <Image
+                src={iconUrl}
+                alt="favicon"
+                width={iconWidth}
+                height={iconHeight}
+              />
+            )}
             <div className={`max-w-[100%] flex justify-center`}>
               {isRename ? (
                 <form

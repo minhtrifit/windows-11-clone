@@ -15,6 +15,7 @@ export const APP_NAME = {
 export const FILE_EXPLORER_APP_NAME = {
   ["notepad"]: "notepad",
   ["text_document"]: "text_document",
+  ["pictures"]: "pictures",
 };
 
 export const SETTING_NAME = {
@@ -55,6 +56,10 @@ export const BACKGROUND_URLS: string[] = [
 ];
 
 export const LOCK_SCREEN_BACKGROUND_URLS: string[] = ["/Images/lock1.jpg"];
+
+export const IMAGE_TYPES = ["png", "jpg", "jpeg"];
+export const VIDEO_TYPES = ["mp4"];
+export const AUDIO_TYPES = ["mp3"];
 
 export const checkIsExistNavbarAppList = (
   list: APP_TYPE[],

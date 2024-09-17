@@ -74,7 +74,9 @@ const NotepadContent = () => {
     >
       <Menubar className="w-full rounded-none bg-zinc-200 dark:bg-[#282828]">
         <MenubarMenu>
-          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarTrigger className="hover:bg-zinc-300 dark:hover:bg-zinc-700">
+            File
+          </MenubarTrigger>
           <MenubarContent className="w-60">
             <MenubarItem>
               <span>New Tab</span>
@@ -127,7 +129,9 @@ const NotepadContent = () => {
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger>Edit</MenubarTrigger>
+          <MenubarTrigger className="hover:bg-zinc-300 dark:hover:bg-zinc-700">
+            Edit
+          </MenubarTrigger>
           <MenubarContent>
             <MenubarItem disabled>
               <span>Undo</span>
@@ -192,7 +196,9 @@ const NotepadContent = () => {
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger>View</MenubarTrigger>
+          <MenubarTrigger className="hover:bg-zinc-300 dark:hover:bg-zinc-700">
+            View
+          </MenubarTrigger>
           <MenubarContent>
             <MenubarSub>
               <MenubarSubTrigger inset>Zoom</MenubarSubTrigger>

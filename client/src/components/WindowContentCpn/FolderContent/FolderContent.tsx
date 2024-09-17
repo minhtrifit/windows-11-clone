@@ -13,6 +13,7 @@ import {
   FILE_EXPLORER_APP_NAME,
   FILE_EXPLORER_TAB_NAME,
   getAppByName,
+  IMAGE_TYPES,
 } from "@/lib/utils";
 import {} from "@/components/DestopNavbar/DestopNavbar";
 import { PiNotepadFill } from "react-icons/pi";
@@ -53,14 +54,21 @@ import { SlPicture } from "react-icons/sl";
 import { BiSolidRename } from "react-icons/bi";
 import NotepadContent from "./NotepadContent/NotepadContent";
 import FileExplorerIcon from "@/components/FileExplorerIcon/FileExplorerIcon";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { createNewTextDocument, getFileExplorerList } from "@/lib/firebase.api";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
+import {
+  checkIfExistKeyStorage,
+  COLLECTION_NAME,
+  createNewTextDocument,
+  getFileExplorerList,
+  getStorageFileList,
+} from "@/lib/firebase.api";
 
 export const FILE_EXPLORER_APP_LIST: APP_TYPE[] = [
   {
@@ -73,6 +81,17 @@ export const FILE_EXPLORER_APP_LIST: APP_TYPE[] = [
     targetElementTabName: "Untitled",
     targetElementTabIcon: <PiNotepadFill size={20} />,
     isTargetElementTab: true,
+  },
+  {
+    iconUrl: "/Icons/applications/photo.ico",
+    iconName: "New Picture",
+    iconWidth: 50,
+    iconHeight: 50,
+    targetElement: <div>Pictures content</div>,
+    targetElementname: FILE_EXPLORER_APP_NAME.pictures,
+    targetElementTabName: "New Picture",
+    targetElementTabIcon: <SlPicture size={20} />,
+    isTargetElementTab: false,
   },
 ];
 
@@ -212,6 +231,39 @@ const FolderContent = () => {
     if (res?.documents) updateItemList(res?.documents);
   };
 
+  const handleGetStorageFileList = async (path: string) => {
+    const STORAGE_PATH = `gs://${process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}/${path}`;
+    const files = await getStorageFileList(STORAGE_PATH);
+
+    files?.map(async (file: { name: string; url: string }) => {
+      const isExist = await checkIfExistKeyStorage(
+        COLLECTION_NAME.FILE_EXPLORER_LIST,
+        "content", // Firebase document format
+        file?.url
+      );
+
+      const fileExtension = file?.name.split(".").pop()?.toLowerCase(); // Get file extension name
+
+      // Create picture file for FILE EXPLORER LIST
+      if (
+        !isExist &&
+        file?.url &&
+        fileExtension &&
+        IMAGE_TYPES.includes(fileExtension)
+      ) {
+        const res: any = await createNewTextDocument(
+          FILE_EXPLORER_APP_NAME.pictures,
+          file?.url,
+          file?.name ? file?.name.split(".")[0]?.toLowerCase() : uuidv4()
+        );
+
+        console.log(res);
+      }
+    });
+
+    handleGetFileExplorerList();
+  };
+
   const handleCreateNewTextDocument = async () => {
     const fileName = autoGenerateName(itemList);
 
@@ -239,9 +291,12 @@ const FolderContent = () => {
   }, [parentChildRef]);
 
   useEffect(() => {
-    handleGetFileExplorerList();
+    if (activeTab === FILE_EXPLORER_TAB_NAME.documents)
+      handleGetFileExplorerList();
+    if (activeTab === FILE_EXPLORER_TAB_NAME.pictures)
+      handleGetStorageFileList("file_explorer/pictures");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [activeTab]);
 
   const handleSearchClient = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -308,78 +363,62 @@ const FolderContent = () => {
           </div>
         </header>
         <div
-          className="h-[8%] min-h-[40px] px-6 text-black dark:text-white bg-zinc-200 dark:bg-[#282828]
+          className="h-[8%] min-h-[40px] px-2 text-black dark:text-white bg-zinc-200 dark:bg-[#282828]
                         flex items-center gap-3"
         >
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <div className="flex items-center gap-3">
-                <IoMdAddCircleOutline size={25} />
-                <span className="text-sm">New</span>
-                <FaAngleDown size={15} />
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>
-                <div className="flex items-center gap-1">
+          <Menubar className="rounded-none bg-zinc-200 dark:bg-[#282828]">
+            <MenubarMenu>
+              <MenubarTrigger className="hover:bg-zinc-300 dark:hover:bg-zinc-700">
+                <div className="flex items-center gap-3">
+                  <IoMdAddCircleOutline size={25} />
+                  <span className="text-sm">New</span>
+                  <FaAngleDown size={15} />
+                </div>
+              </MenubarTrigger>
+              <MenubarContent>
+                <MenubarItem>
                   <FaFolder className="mr-3" size={15} />
                   <span>Folder</span>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex items-center gap-1">
+                </MenubarItem>
+                <MenubarItem>
                   <MdShortcut className="mr-3" size={15} />
                   <span>Shortcut</span>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex items-center gap-1">
+                </MenubarItem>
+                <MenubarItem>
                   <AiOutlineFileImage className="mr-3" size={15} />
                   <span>Bitmap image</span>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex items-center gap-1">
+                </MenubarItem>
+                <MenubarItem>
                   <SiMicrosoftword className="mr-3" size={15} />
                   <span>Microsoft Word Document</span>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex items-center gap-1">
+                </MenubarItem>
+                <MenubarItem>
                   <PiMicrosoftPowerpointLogoFill className="mr-3" size={15} />
                   <span>Microsoft PowerPoint Presentation</span>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex items-center gap-1">
+                </MenubarItem>
+                <MenubarItem>
                   <IoLibrary className="mr-3" size={15} />
                   <span>WinRAR archive</span>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => {
-                  handleCreateNewTextDocument();
-                }}
-              >
-                <div className="flex items-center gap-1">
+                </MenubarItem>
+                <MenubarItem
+                  onClick={() => {
+                    handleCreateNewTextDocument();
+                  }}
+                >
                   <PiNotepadFill className="mr-3" size={15} />
                   <span>Text Document</span>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex items-center gap-1">
+                </MenubarItem>
+                <MenubarItem>
                   <SiMicrosoftexcel className="mr-3" size={15} />
                   <span>Microsoft Excel Worksheet</span>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex items-center gap-1">
+                </MenubarItem>
+                <MenubarItem>
                   <MdOutlineFolderZip className="mr-3" size={15} />
                   <span>WinRAR ZIP archive</span>
-                </div>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                </MenubarItem>
+              </MenubarContent>
+            </MenubarMenu>
+          </Menubar>
           <div className="w-[1px] h-[45%] bg-zinc-400 dark:bg-zinc-600"></div>
           <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700">
             <TbCut size={20} />
@@ -418,7 +457,7 @@ const FolderContent = () => {
                   <Button
                     key={uuidv4()}
                     variant={"ghost"}
-                    className={`relative w-full justify-start py-6 rounded-sm
+                    className={`relative w-full justify-start py-4 rounded-sm
                   hover:bg-zinc-200 dark:hover:text-white dark:hover:bg-zinc-600 ${
                     activeTab === item.name &&
                     "bg-zinc-300 dark:text-white dark:bg-zinc-700"
@@ -434,7 +473,7 @@ const FolderContent = () => {
               }
             )}
           </div>
-          {activeTab === FILE_EXPLORER_TAB_NAME.thisPC && (
+          {activeTab === FILE_EXPLORER_TAB_NAME.documents && (
             <div className="h-full p-4 flex gap-1 flex-wrap overflow-y-auto">
               {itemList?.map((item: APP_TYPE) => {
                 const itemData = getAppByName(
@@ -442,45 +481,113 @@ const FolderContent = () => {
                   item?.type ? item?.type : ""
                 );
 
-                return (
-                  <FileExplorerIcon
-                    key={uuidv4()}
-                    iconUrl={itemData?.iconUrl ? itemData?.iconUrl : ""}
-                    iconName={
-                      item?.targetElementTabName
-                        ? item?.targetElementTabName
-                        : ""
-                    }
-                    iconWidth={itemData?.iconWidth ? itemData?.iconWidth : 0}
-                    iconHeight={itemData?.iconHeight ? itemData?.iconHeight : 0}
-                    targetElement={
-                      itemData?.targetElement ? itemData?.targetElement : <></>
-                    }
-                    targetElementname={
-                      itemData?.targetElementname
-                        ? itemData?.targetElementname
-                        : ""
-                    }
-                    targetElementTabName={
-                      item?.targetElementTabName
-                        ? item?.targetElementTabName
-                        : ""
-                    }
-                    targetElementTabIcon={
-                      itemData?.targetElementTabIcon ? (
-                        itemData?.targetElementTabIcon
-                      ) : (
-                        <></>
-                      )
-                    }
-                    isTargetElementTab={
-                      itemData?.isTargetElementTab
-                        ? itemData?.isTargetElementTab
-                        : false
-                    }
-                    itemData={item ? item : null}
-                  />
+                // item.type === "text_document"
+                if (item?.type === FILE_EXPLORER_APP_NAME.text_document) {
+                  return (
+                    <FileExplorerIcon
+                      key={uuidv4()}
+                      iconUrl={itemData?.iconUrl ? itemData?.iconUrl : ""}
+                      iconName={
+                        item?.targetElementTabName
+                          ? item?.targetElementTabName
+                          : ""
+                      }
+                      iconWidth={itemData?.iconWidth ? itemData?.iconWidth : 0}
+                      iconHeight={
+                        itemData?.iconHeight ? itemData?.iconHeight : 0
+                      }
+                      targetElement={
+                        itemData?.targetElement ? (
+                          itemData?.targetElement
+                        ) : (
+                          <></>
+                        )
+                      }
+                      targetElementname={
+                        itemData?.targetElementname
+                          ? itemData?.targetElementname
+                          : ""
+                      }
+                      targetElementTabName={
+                        item?.targetElementTabName
+                          ? item?.targetElementTabName
+                          : ""
+                      }
+                      targetElementTabIcon={
+                        itemData?.targetElementTabIcon ? (
+                          itemData?.targetElementTabIcon
+                        ) : (
+                          <></>
+                        )
+                      }
+                      isTargetElementTab={
+                        itemData?.isTargetElementTab
+                          ? itemData?.isTargetElementTab
+                          : false
+                      }
+                      itemData={item ? item : null}
+                    />
+                  );
+                }
+              })}
+            </div>
+          )}
+          {activeTab === FILE_EXPLORER_TAB_NAME.pictures && (
+            <div className="h-full p-4 flex gap-1 flex-wrap overflow-y-auto">
+              {itemList?.map((item: APP_TYPE) => {
+                const itemData = getAppByName(
+                  FILE_EXPLORER_APP_LIST,
+                  item?.type ? item?.type : ""
                 );
+
+                // item.type === "pictures"
+                if (item?.type === FILE_EXPLORER_APP_NAME.pictures) {
+                  return (
+                    <FileExplorerIcon
+                      key={uuidv4()}
+                      iconUrl={item?.content ? item?.content : ""}
+                      iconName={
+                        item?.targetElementTabName
+                          ? item?.targetElementTabName
+                          : ""
+                      }
+                      iconWidth={itemData?.iconWidth ? itemData?.iconWidth : 0}
+                      iconHeight={
+                        itemData?.iconHeight ? itemData?.iconHeight : 0
+                      }
+                      targetElement={
+                        itemData?.targetElement ? (
+                          itemData?.targetElement
+                        ) : (
+                          <></>
+                        )
+                      }
+                      targetElementname={
+                        itemData?.targetElementname
+                          ? itemData?.targetElementname
+                          : ""
+                      }
+                      targetElementTabName={
+                        item?.targetElementTabName
+                          ? item?.targetElementTabName
+                          : ""
+                      }
+                      targetElementTabIcon={
+                        itemData?.targetElementTabIcon ? (
+                          itemData?.targetElementTabIcon
+                        ) : (
+                          <></>
+                        )
+                      }
+                      isTargetElementTab={
+                        itemData?.isTargetElementTab
+                          ? itemData?.isTargetElementTab
+                          : false
+                      }
+                      itemData={item ? item : null}
+                    />
+                  );
+                }
               })}
             </div>
           )}
