@@ -53,6 +53,7 @@ import { ImFileText2, ImFilm } from "react-icons/im";
 import { SlPicture } from "react-icons/sl";
 import { BiSolidRename } from "react-icons/bi";
 import NotepadContent from "./NotepadContent/NotepadContent";
+import PictureContent from "./PictureContent/PictureContent";
 import FileExplorerIcon from "@/components/FileExplorerIcon/FileExplorerIcon";
 import { Button } from "@/components/ui/button";
 import {
@@ -65,6 +66,7 @@ import {
 import {
   checkIfExistKeyStorage,
   COLLECTION_NAME,
+  createNewFileStoreFile,
   createNewTextDocument,
   getFileExplorerList,
   getStorageFileList,
@@ -87,7 +89,7 @@ export const FILE_EXPLORER_APP_LIST: APP_TYPE[] = [
     iconName: "New Picture",
     iconWidth: 50,
     iconHeight: 50,
-    targetElement: <div>Pictures content</div>,
+    targetElement: <PictureContent />,
     targetElementname: FILE_EXPLORER_APP_NAME.pictures,
     targetElementTabName: "New Picture",
     targetElementTabIcon: <SlPicture size={20} />,
@@ -241,7 +243,7 @@ const FolderContent = () => {
     const STORAGE_PATH = `gs://${process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}/${path}`;
     const files = await getStorageFileList(STORAGE_PATH);
 
-    files?.map(async (file: { name: string; url: string }) => {
+    files?.map(async (file: { name: string; url: string; size: number }) => {
       const isExist = await checkIfExistKeyStorage(
         COLLECTION_NAME.FILE_EXPLORER_LIST,
         "content", // Firebase document format
@@ -257,12 +259,12 @@ const FolderContent = () => {
         fileExtension &&
         IMAGE_TYPES.includes(fileExtension)
       ) {
-        const res: any = await createNewTextDocument(
+        const res: any = await createNewFileStoreFile(
           FILE_EXPLORER_APP_NAME.pictures,
           file?.url,
-          file?.name ? file?.name.split(".")[0]?.toLowerCase() : uuidv4()
+          file?.name ? file?.name.split(".")[0]?.toLowerCase() : uuidv4(),
+          file?.size
         );
-
         console.log(res);
       }
     });

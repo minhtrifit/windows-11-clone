@@ -11,7 +11,7 @@ import {
   deleteDoc,
   where,
 } from "firebase/firestore";
-import { getDownloadURL, ref, listAll } from "firebase/storage";
+import { getDownloadURL, getMetadata, ref, listAll } from "firebase/storage";
 
 export const COLLECTION_NAME = {
   ["FILE_EXPLORER_LIST"]: process.env
@@ -121,7 +121,7 @@ export const checkIfExistKeyStorage = async (
 
 export const getStorageFileList = async (
   directoryPath: string
-): Promise<{ name: string; url: string }[]> => {
+): Promise<{ name: string; url: string; size: number }[]> => {
   try {
     const directoryRef = ref(storage, directoryPath);
     const fileList = await listAll(directoryRef);
@@ -130,9 +130,14 @@ export const getStorageFileList = async (
     const fileDetails = await Promise.all(
       fileList.items.map(async (itemRef) => {
         const url = await getDownloadURL(itemRef);
+        const metadata = await getMetadata(itemRef);
+
+        const sizeInKB = +(metadata.size / 1024).toFixed(2); // Convert bytes to KB and round to 2 decimals
+
         return {
           name: itemRef.name, // Get the file name
           url: url, // Get the download URL
+          size: sizeInKB, // Get the file size (in kilobytes)
         };
       })
     );
@@ -141,5 +146,30 @@ export const getStorageFileList = async (
   } catch (error) {
     console.error("Error listing files in Firebase Storage:", error);
     throw new Error("Failed to list files");
+  }
+};
+
+export const createNewFileStoreFile = async (
+  type: string,
+  content: string,
+  targetElementTabName: string,
+  size: any
+) => {
+  try {
+    const docRef = await addDoc(
+      collection(db, COLLECTION_NAME.FILE_EXPLORER_LIST),
+      {
+        ["type"]: type,
+        ["content"]: content,
+        ["targetElementTabName"]: targetElementTabName,
+        ["size"]: size,
+        ["createdAt"]: serverTimestamp(),
+      }
+    );
+
+    return { message: "Create document successfully", data: docRef };
+  } catch (error) {
+    console.error("Create document failed: ", error);
+    return { message: "Create document failed" };
   }
 };

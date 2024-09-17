@@ -13,4 +13,5 @@ export interface APP_TYPE {
   content?: string;
   type?: string;
   createdAt?: any;
+  size?: number | string;
 }
