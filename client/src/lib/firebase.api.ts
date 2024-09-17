@@ -14,7 +14,10 @@ import {
 import { getDownloadURL, ref, listAll } from "firebase/storage";
 
 export const COLLECTION_NAME = {
-  ["FILE_EXPLORER_LIST"]: "file-explorer-list",
+  ["FILE_EXPLORER_LIST"]: process.env
+    .NEXT_PUBLIC_FIREBASE_FILE_EXPLORER_COLLECTION
+    ? process.env.NEXT_PUBLIC_FIREBASE_FILE_EXPLORER_COLLECTION
+    : "file-explorer-list",
 };
 
 export const getFileExplorerList = async (sortOrder: string) => {

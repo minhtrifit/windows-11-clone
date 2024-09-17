@@ -154,6 +154,12 @@ const SLIDEBAR_ITEMS = [
   },
 ];
 
+const FILEBASE_STORAGE_PATH = {
+  pictures: "file_explorer/pictures",
+  videos: "file_explorer/videos",
+  musics: "file_explorer/pictures",
+};
+
 const FolderContent = () => {
   const fileExplorerTab = useFileExplorerWindowStore((state) => {
     return state.fileExplorerTab;
@@ -294,7 +300,11 @@ const FolderContent = () => {
     if (activeTab === FILE_EXPLORER_TAB_NAME.documents)
       handleGetFileExplorerList();
     if (activeTab === FILE_EXPLORER_TAB_NAME.pictures)
-      handleGetStorageFileList("file_explorer/pictures");
+      handleGetStorageFileList(
+        process.env.NEXT_PUBLIC_FIREBASE_PICTURE_STORAGE_PATH
+          ? process.env.NEXT_PUBLIC_FIREBASE_PICTURE_STORAGE_PATH
+          : FILEBASE_STORAGE_PATH.pictures
+      );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
