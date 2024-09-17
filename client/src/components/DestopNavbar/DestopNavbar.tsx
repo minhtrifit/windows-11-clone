@@ -18,7 +18,7 @@ export const NAVBAR_APP_LIST: APP_TYPE[] = [
     iconHeight: 28,
     targetElement: <FolderContent />,
     targetElementname: APP_NAME.file_explorer,
-    targetElementTabName: "Folder",
+    targetElementTabName: "File Explorer",
     targetElementTabIcon: <FaFolder size={15} />,
     isTargetElementTab: true,
   },
