@@ -13,6 +13,7 @@ import {
   FILE_EXPLORER_APP_NAME,
   FILE_EXPLORER_TAB_NAME,
   getAppByName,
+  getFileCountsByType,
   IMAGE_TYPES,
 } from "@/lib/utils";
 import {} from "@/components/DestopNavbar/DestopNavbar";
@@ -55,6 +56,7 @@ import { BiSolidRename } from "react-icons/bi";
 import NotepadContent from "./NotepadContent/NotepadContent";
 import PictureContent from "./PictureContent/PictureContent";
 import FileExplorerIcon from "@/components/FileExplorerIcon/FileExplorerIcon";
+import Disk from "./Disk/Disk";
 import { Button } from "@/components/ui/button";
 import {
   Menubar,
@@ -161,6 +163,27 @@ const FILEBASE_STORAGE_PATH = {
   videos: "file_explorer/videos",
   musics: "file_explorer/pictures",
 };
+
+const THIC_PC_LIST = [
+  {
+    name: FILE_EXPLORER_TAB_NAME.documents.toUpperCase(),
+    process: 30,
+    tabUrl: FILE_EXPLORER_TAB_NAME.documents,
+    type: FILE_EXPLORER_APP_NAME.text_document,
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.pictures.toUpperCase(),
+    process: 60,
+    tabUrl: FILE_EXPLORER_TAB_NAME.pictures,
+    type: FILE_EXPLORER_APP_NAME.pictures,
+  },
+  {
+    name: FILE_EXPLORER_TAB_NAME.videos.toUpperCase(),
+    process: 10,
+    tabUrl: FILE_EXPLORER_TAB_NAME.videos,
+    type: FILE_EXPLORER_APP_NAME.videos,
+  },
+];
 
 const FolderContent = () => {
   const fileExplorerTab = useFileExplorerWindowStore((state) => {
@@ -307,6 +330,8 @@ const FolderContent = () => {
           ? process.env.NEXT_PUBLIC_FIREBASE_PICTURE_STORAGE_PATH
           : FILEBASE_STORAGE_PATH.pictures
       );
+    if (activeTab === FILE_EXPLORER_TAB_NAME.thisPC)
+      handleGetFileExplorerList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
@@ -455,9 +480,9 @@ const FolderContent = () => {
             <MdMoreHoriz size={20} />
           </div>
         </div>
-        <div className="h-[84%] flex items-center">
+        <div className="h-[84%] flex items-start">
           <div
-            className="w-[180px] h-full p-1 overflow-y-auto
+            className="w-[15%] min-w-[180px] h-full p-1 overflow-y-auto
                         border-r border-zinc-300 dark:border-zinc-600"
           >
             {SLIDEBAR_ITEMS?.map(
@@ -486,7 +511,7 @@ const FolderContent = () => {
             )}
           </div>
           {activeTab === FILE_EXPLORER_TAB_NAME.documents && (
-            <div className="h-full p-4 flex gap-1 flex-wrap overflow-y-auto">
+            <div className="max-h-full p-4 flex gap-1 flex-wrap overflow-y-auto">
               {itemList?.map((item: APP_TYPE) => {
                 const itemData = getAppByName(
                   FILE_EXPLORER_APP_LIST,
@@ -545,7 +570,7 @@ const FolderContent = () => {
             </div>
           )}
           {activeTab === FILE_EXPLORER_TAB_NAME.pictures && (
-            <div className="h-full p-4 flex gap-1 flex-wrap overflow-y-auto">
+            <div className="max-h-full p-4 flex gap-1 flex-wrap overflow-y-auto">
               {itemList?.map((item: APP_TYPE) => {
                 const itemData = getAppByName(
                   FILE_EXPLORER_APP_LIST,
@@ -601,6 +626,29 @@ const FolderContent = () => {
                   );
                 }
               })}
+            </div>
+          )}
+          {activeTab === FILE_EXPLORER_TAB_NAME.thisPC && (
+            <div className="max-h-full p-4 flex gap-1 flex-wrap overflow-y-auto">
+              {THIC_PC_LIST?.map(
+                (item: {
+                  name: string;
+                  process: number;
+                  tabUrl: string;
+                  type: string;
+                }) => {
+                  return (
+                    <Disk
+                      key={uuidv4()}
+                      name={`DATA (${item?.name}:)`}
+                      process={item?.process}
+                      tabUrl={item?.tabUrl}
+                      setActiveTab={setActiveTab}
+                      fileCounts={getFileCountsByType(itemList, item?.type)}
+                    />
+                  );
+                }
+              )}
             </div>
           )}
         </div>

@@ -16,6 +16,8 @@ export const FILE_EXPLORER_APP_NAME = {
   ["notepad"]: "notepad",
   ["text_document"]: "text_document",
   ["pictures"]: "pictures",
+  ["videos"]: "videos",
+  ["music"]: "music",
 };
 
 export const SETTING_NAME = {
@@ -105,4 +107,14 @@ export const autoGenerateName = (list: APP_TYPE[]) => {
   }
 
   return newName;
+};
+
+export const getFileCountsByType = (list: APP_TYPE[], type: string) => {
+  let count: number = 0;
+
+  for (let i = 0; i < list?.length; ++i) {
+    if (list[i]?.type === type) ++count;
+  }
+
+  return count;
 };
