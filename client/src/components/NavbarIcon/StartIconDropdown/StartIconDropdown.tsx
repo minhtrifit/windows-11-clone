@@ -1,8 +1,10 @@
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useNavbarStore } from "@/lib/store";
 import { v4 as uuidv4 } from "uuid";
 import { APP_TYPE } from "@/lib/types";
 import { APP_NAME, FILE_EXPLORER_APP_NAME } from "@/lib/utils";
+import { logOut } from "@/lib/firebase.auth";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -110,6 +112,8 @@ const RECOMMENDED_APP_LIST: APP_TYPE[] = [
 ];
 
 const StartIconDropdown = () => {
+  const router = useRouter();
+
   const [windowStatus, setWindowStatus] = useState<string>("turn on");
   const [search, setSearch] = useState<string>("");
 
@@ -139,6 +143,15 @@ const StartIconDropdown = () => {
     if (search !== "") {
       console.log("Search:", search);
       setSearch("");
+    }
+  };
+
+  const handleShutDown = async () => {
+    try {
+      await logOut();
+      router.push("/");
+    } catch (error) {
+      console.log("LOGOUT ERROR:", error);
     }
   };
 
@@ -371,6 +384,7 @@ const StartIconDropdown = () => {
                   <DropdownMenuItem
                     onClick={() => {
                       setWindowStatus("shutdown");
+                      handleShutDown();
                     }}
                   >
                     <IoPower className="mr-3" size={18} />

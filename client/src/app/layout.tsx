@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/Providers/ThemeProvider/ThemeProvider";
 import ScreenProvider from "@/components/Providers/ScreenProvider/ScreenProvider";
 import SettingProvider from "@/components/Providers/SettingProvider/SettingProvider";
+import { AuthProvider } from "@/components/Providers/AuthProvider/AuthProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,16 +33,18 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ScreenProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <SettingProvider>{children}</SettingProvider>
-          </ThemeProvider>
-        </ScreenProvider>
+        <AuthProvider>
+          <ScreenProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <SettingProvider>{children}</SettingProvider>
+            </ThemeProvider>
+          </ScreenProvider>
+        </AuthProvider>
       </body>
     </html>
   );

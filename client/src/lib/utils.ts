@@ -118,3 +118,12 @@ export const getFileCountsByType = (list: APP_TYPE[], type: string) => {
 
   return count;
 };
+
+export const getFormattedTime = (): string => {
+  const now = new Date();
+  return now.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true, // For AM/PM format
+  });
+};

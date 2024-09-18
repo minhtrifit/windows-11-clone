@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useNavbarStore, useSettingStore, useWindowStore } from "@/lib/store";
 import { APP_NAME, FILE_EXPLORER_APP_NAME } from "@/lib/utils";
@@ -15,6 +15,7 @@ import { PiNotepadFill } from "react-icons/pi";
 import DestopNavbar from "../DestopNavbar/DestopNavbar";
 import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
 import NotepadContent from "../WindowContentCpn/FolderContent/NotepadContent/NotepadContent";
+import { AuthContext } from "../Providers/AuthProvider/AuthProvider";
 
 const DESTOP_APP_LIST: APP_TYPE[] = [
   {
@@ -64,6 +65,8 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
 ];
 
 const WindowContainer = () => {
+  const { user }: any = useContext(AuthContext);
+
   const [constraints, setConstraints] = useState<any>({});
 
   const parentRef = useRef<HTMLDivElement>(null);
@@ -130,6 +133,13 @@ const WindowContainer = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parentRef]);
+
+  useEffect(() => {
+    if (user) {
+      console.log("USER DATA:", user);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <div ref={parentRef} className="relative w-[100%] h-[100%] flex">
