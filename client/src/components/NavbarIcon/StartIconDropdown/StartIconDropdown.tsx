@@ -102,7 +102,7 @@ const RECOMMENDED_APP_LIST: APP_TYPE[] = [
     iconName: "File Explorer",
     iconWidth: 30,
     iconHeight: 30,
-    targetElement: <div>Hello</div>,
+    targetElement: <FolderContent />,
     targetElementname: APP_NAME.file_explorer,
     targetElementTabName: "Folder",
     targetElementTabIcon: <FaFolder size={15} />,

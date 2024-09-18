@@ -102,8 +102,8 @@ export const FILE_EXPLORER_APP_LIST: APP_TYPE[] = [
   {
     iconUrl: "/Icons/applications/tv.ico",
     iconName: "New Video",
-    iconWidth: 50,
-    iconHeight: 50,
+    iconWidth: 40,
+    iconHeight: 40,
     targetElement: <VideoContent />,
     targetElementname: FILE_EXPLORER_APP_NAME.videos,
     targetElementTabName: "New Video",
