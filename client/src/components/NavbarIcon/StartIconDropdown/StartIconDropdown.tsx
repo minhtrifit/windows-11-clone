@@ -18,6 +18,7 @@ import { IoPower, IoSettingsSharp } from "react-icons/io5";
 import { VscDebugRestart, VscSignOut } from "react-icons/vsc";
 import { IoIosMore } from "react-icons/io";
 import { PiNotepadFill } from "react-icons/pi";
+import { SiVisualstudiocode } from "react-icons/si";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,6 +37,7 @@ import StartAppIcon from "../StartAppIcon/StartAppIcon";
 import StartAppIcon2 from "../StartAppIcon2/StartAppIcon2";
 import SettingContent from "@/components/WindowContentCpn/SettingContent/SettingContent";
 import NotepadContent from "@/components/WindowContentCpn/FolderContent/NotepadContent/NotepadContent";
+import VisualCodeContent from "@/components/WindowContentCpn/VisualCodeContent/VisualCodeContent";
 
 const PINNED_APP_LIST: APP_TYPE[] = [
   {
@@ -72,10 +74,21 @@ const PINNED_APP_LIST: APP_TYPE[] = [
     isTargetElementTab: false,
   },
   {
+    iconUrl: "/Icons/applications/visualcode.ico",
+    iconName: "Visual Studio Code",
+    iconWidth: 40,
+    iconHeight: 40,
+    targetElement: <VisualCodeContent />,
+    targetElementname: APP_NAME.visualcode,
+    targetElementTabName: "Visual Studio Code",
+    targetElementTabIcon: <SiVisualstudiocode size={20} />,
+    isTargetElementTab: false,
+  },
+  {
     iconUrl: "/Icons/applications/notepad.ico",
     iconName: "Notepad",
-    iconWidth: 45,
-    iconHeight: 45,
+    iconWidth: 40,
+    iconHeight: 40,
     targetElement: <NotepadContent />,
     targetElementname: FILE_EXPLORER_APP_NAME.notepad,
     targetElementTabName: "Untitled",

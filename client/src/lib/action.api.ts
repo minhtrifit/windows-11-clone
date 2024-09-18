@@ -12,16 +12,21 @@ export const getAllUsers = async () => {
   }
 };
 
-export const excuteCode = async (language: string, content: string) => {
+export const excuteCode = async (
+  name: string,
+  version: string,
+  language: string,
+  content: string
+) => {
   try {
     const response = await axios.post(
       "https://emkc.org/api/v2/piston/execute",
       {
         language: language,
-        version: "18.15.0",
+        version: version,
         files: [
           {
-            name: "main.js",
+            name: name,
             content: content,
           },
         ],
