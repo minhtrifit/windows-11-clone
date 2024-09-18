@@ -12,9 +12,11 @@ import DestopIcon from "../DestopIcon/DestopIcon";
 import { FaEdge, FaFolder } from "react-icons/fa";
 import { IoSettingsSharp } from "react-icons/io5";
 import { PiNotepadFill } from "react-icons/pi";
+import { SiVisualstudiocode } from "react-icons/si";
 import DestopNavbar from "../DestopNavbar/DestopNavbar";
 import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
 import NotepadContent from "../WindowContentCpn/FolderContent/NotepadContent/NotepadContent";
+import VisualCodeContent from "../WindowContentCpn/VisualCodeContent/VisualCodeContent";
 import { AuthContext } from "../Providers/AuthProvider/AuthProvider";
 
 const DESTOP_APP_LIST: APP_TYPE[] = [
@@ -39,6 +41,17 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElementTabName: "File Explorer",
     targetElementTabIcon: <FaFolder size={15} />,
     isTargetElementTab: true,
+  },
+  {
+    iconUrl: "/Icons/applications/visualcode.ico",
+    iconName: "Visual Studio Code",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: <VisualCodeContent />,
+    targetElementname: APP_NAME.visualcode,
+    targetElementTabName: "Visual Studio Code",
+    targetElementTabIcon: <SiVisualstudiocode size={20} />,
+    isTargetElementTab: false,
   },
   {
     iconUrl: "/Icons/applications/settings.ico",
