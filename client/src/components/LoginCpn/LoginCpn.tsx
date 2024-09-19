@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Loading from "../Loading/Loading";
 import { FaChevronRight } from "react-icons/fa";
 import { AuthContext } from "../Providers/AuthProvider/AuthProvider";
+import { toast } from "react-toastify";
 
 const LoginCpn = () => {
   const { loading }: any = useContext(AuthContext);
@@ -30,6 +31,7 @@ const LoginCpn = () => {
       }
     } catch (error) {
       console.log("LOGIN ERROR:", error);
+      toast.error("Wrong username or password!");
     }
   };
 

@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/Providers/ThemeProvider/ThemeProvide
 import ScreenProvider from "@/components/Providers/ScreenProvider/ScreenProvider";
 import SettingProvider from "@/components/Providers/SettingProvider/SettingProvider";
 import { AuthProvider } from "@/components/Providers/AuthProvider/AuthProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,6 +43,18 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
+              <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+              />
               <SettingProvider>{children}</SettingProvider>
             </ThemeProvider>
           </ScreenProvider>
