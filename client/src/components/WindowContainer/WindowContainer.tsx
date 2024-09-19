@@ -10,13 +10,14 @@ import BrowserContent from "@/components/WindowContentCpn/BrowserContent/Browser
 import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import DestopIcon from "../DestopIcon/DestopIcon";
 import { FaEdge, FaFolder } from "react-icons/fa";
-import { IoSettingsSharp } from "react-icons/io5";
+import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { PiNotepadFill } from "react-icons/pi";
 import { SiVisualstudiocode } from "react-icons/si";
 import DestopNavbar from "../DestopNavbar/DestopNavbar";
 import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
 import NotepadContent from "../WindowContentCpn/FolderContent/NotepadContent/NotepadContent";
 import VisualCodeContent from "../WindowContentCpn/VisualCodeContent/VisualCodeContent";
+import IframeContent from "../WindowContentCpn/IframeContent/IframeContent";
 import { AuthContext } from "../Providers/AuthProvider/AuthProvider";
 
 const DESTOP_APP_LIST: APP_TYPE[] = [
@@ -62,6 +63,19 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElementname: APP_NAME.settings,
     targetElementTabName: "Settings",
     targetElementTabIcon: <IoSettingsSharp size={15} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/assets/app_custom.ico",
+    iconName: "My Portfolio",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: (
+      <IframeContent url={process.env.NEXT_PUBLIC_MY_PORTFOLIO_APP_URL} />
+    ),
+    targetElementname: APP_NAME.settings,
+    targetElementTabName: "My Portfolio",
+    targetElementTabIcon: <IoAppsSharp size={15} />,
     isTargetElementTab: false,
   },
   {

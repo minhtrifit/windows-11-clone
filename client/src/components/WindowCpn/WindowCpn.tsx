@@ -175,7 +175,7 @@ const WindowCpn = (props: PropType) => {
       {!isCloseTargetWindow && (
         <motion.div
           ref={windowRef}
-          className={`absolute z-10 inset-0 m-auto w-[80%] h-[70%] 3xl:w-[60%] min-h-[600px]
+          className={`absolute z-10 inset-0 m-auto w-[70%] h-[70%] 3xl:w-[60%] min-h-[600px]
                   border-[1px] border-zinc-300 dark:border-zinc-600 rounded-[10px]`}
           drag
           dragConstraints={constraints}
