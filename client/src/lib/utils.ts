@@ -12,6 +12,7 @@ export const APP_NAME = {
   ["settings"]: "settings",
   ["visualcode"]: "visual_code",
   ["app_custom"]: "app_custom",
+  ["paint"]: "paint",
 };
 
 export const FILE_EXPLORER_APP_NAME = {

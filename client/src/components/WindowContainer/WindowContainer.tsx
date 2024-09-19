@@ -9,7 +9,7 @@ import WindowCpn from "@/components/WindowCpn/WindowCpn";
 import BrowserContent from "@/components/WindowContentCpn/BrowserContent/BrowserContent";
 import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import DestopIcon from "../DestopIcon/DestopIcon";
-import { FaEdge, FaFolder } from "react-icons/fa";
+import { FaEdge, FaFolder, FaPaintBrush } from "react-icons/fa";
 import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { PiNotepadFill } from "react-icons/pi";
 import { SiVisualstudiocode } from "react-icons/si";
@@ -18,6 +18,7 @@ import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
 import NotepadContent from "../WindowContentCpn/FolderContent/NotepadContent/NotepadContent";
 import VisualCodeContent from "../WindowContentCpn/VisualCodeContent/VisualCodeContent";
 import IframeContent from "../WindowContentCpn/IframeContent/IframeContent";
+import PaintContent from "../WindowContentCpn/PaintContent/PaintContent";
 import { AuthContext } from "../Providers/AuthProvider/AuthProvider";
 
 const DESTOP_APP_LIST: APP_TYPE[] = [
@@ -88,6 +89,17 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElementTabName: "Untitled",
     targetElementTabIcon: <PiNotepadFill size={20} />,
     isTargetElementTab: true,
+  },
+  {
+    iconUrl: "/Icons/applications/paint.ico",
+    iconName: "Paint",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: <PaintContent />,
+    targetElementname: APP_NAME.paint,
+    targetElementTabName: "Untitled - Paint",
+    targetElementTabIcon: <FaPaintBrush size={20} />,
+    isTargetElementTab: false,
   },
 ];
 

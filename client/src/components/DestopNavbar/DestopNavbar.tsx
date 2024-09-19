@@ -5,7 +5,7 @@ import { APP_NAME, FILE_EXPLORER_APP_NAME } from "@/lib/utils";
 import { APP_TYPE } from "@/lib/types";
 import AppIcon from "../NavbarIcon/AppIcon/AppIcon";
 import StartIcon from "../NavbarIcon/StartIcon/StartIcon";
-import { FaEdge, FaFolder } from "react-icons/fa";
+import { FaEdge, FaFolder, FaPaintBrush } from "react-icons/fa";
 import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { SiVisualstudiocode } from "react-icons/si";
 import BrowserContent from "../WindowContentCpn/BrowserContent/BrowserContent";
@@ -13,6 +13,7 @@ import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
 import VisualCodeContent from "../WindowContentCpn/VisualCodeContent/VisualCodeContent";
 import IframeContent from "../WindowContentCpn/IframeContent/IframeContent";
+import PaintContent from "../WindowContentCpn/PaintContent/PaintContent";
 
 export const NAVBAR_APP_LIST: APP_TYPE[] = [
   {
@@ -75,6 +76,17 @@ export const OPTION_NAVBAR_APP_LIST: APP_TYPE[] = [
     targetElementname: APP_NAME.app_custom,
     targetElementTabName: "My Portfolio",
     targetElementTabIcon: <IoAppsSharp size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/paint.ico",
+    iconName: "Paint",
+    iconWidth: 28,
+    iconHeight: 28,
+    targetElement: <PaintContent />,
+    targetElementname: APP_NAME.paint,
+    targetElementTabName: "Untitled - Paint",
+    targetElementTabIcon: <FaPaintBrush size={20} />,
     isTargetElementTab: false,
   },
 ];
