@@ -51,7 +51,7 @@ const LoginCpn = () => {
       ) : (
         <div className="flex flex-col items-center gap-5">
           <Avatar className="w-40 h-40 text-5xl">
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src="/assets/avatar.png" />
             <AvatarFallback>T</AvatarFallback>
           </Avatar>
           <form

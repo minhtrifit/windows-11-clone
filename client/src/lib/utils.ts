@@ -68,37 +68,49 @@ export const CODE_LANGUAGES = {
   javascript: {
     name: "javascript",
     version: "18.15.0",
+    extension: ".js",
+    command: "node",
   },
   typescript: {
     name: "typescript",
     version: "5.0.3",
+    extension: ".ts",
+    command: "node",
   },
   python: {
     name: "python",
     version: "3.10.0",
+    extension: ".py",
+    command: "py",
   },
   java: {
     name: "java",
     version: "15.0.2",
+    extension: ".java",
+    command: "java",
   },
   csharp: {
     name: "csharp",
     version: "6.12.0",
+    extension: ".cs",
+    command: "cs",
   },
   php: {
     name: "php",
     version: "8.2.3",
+    extension: ".php",
+    command: "php",
   },
 };
 
 export const CODE_SNIPPETS = {
-  javascript: `function greet(name) {\n\tconsole.log("Hello, " + name + "!");\n}\n\ngreet("minhtrifit");\n`,
-  typescript: `type Params = {\n\tname: string;\n}\n\nfunction greet(data: Params) {\n\tconsole.log("Hello, " + data.name + "!");\n}\n\ngreet({ name: "minhtrifit" });\n`,
-  python: `def greet(name):\n\tprint("Hello, " + name + "!")\n\ngreet("minhtrifit")\n`,
-  java: `public class HelloWorld {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println("Hello World");\n\t}\n}\n`,
+  javascript: `function greet(name) {\n\tconsole.log("Hello Javascript from " + name + " with love <3");\n}\n\ngreet("minhtrifit");\n`,
+  typescript: `type Params = {\n\tname: string;\n}\n\nfunction greet(data: Params) {\n\tconsole.log("Hello Typescript from " + data.name + " with love <3");\n}\n\ngreet({ name: "minhtrifit" });\n`,
+  python: `def greet(name):\n\tprint(name)\n\ngreet("Hello Python from minhtrifit with love <3")\n`,
+  java: `public class HelloWorld {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println("Hello Java from minhtrifit with love <3");\n\t}\n}\n`,
   csharp:
-    'using System;\n\nnamespace HelloWorld\n{\n\tclass Hello { \n\t\tstatic void Main(string[] args) {\n\t\t\tConsole.WriteLine("Hello World in C#");\n\t\t}\n\t}\n}\n',
-  php: "<?php\n\n$name = 'minhtrifit';\necho $name;\n",
+    'using System;\n\nnamespace HelloWorld\n{\n\tclass Hello { \n\t\tstatic void Main(string[] args) {\n\t\t\tConsole.WriteLine("Hello C# from minhtrifit with love <3");\n\t\t}\n\t}\n}\n',
+  php: "<?php\n\n$name = 'Hello Php from minhtrifit with love <3';\necho $name;\n",
 };
 
 export const checkIsExistNavbarAppList = (
