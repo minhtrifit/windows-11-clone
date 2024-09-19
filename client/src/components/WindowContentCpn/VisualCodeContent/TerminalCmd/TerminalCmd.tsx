@@ -1,6 +1,7 @@
 import { FaTerminal } from "react-icons/fa";
 import { GiOpenFolder } from "react-icons/gi";
 import { BiGitBranch } from "react-icons/bi";
+import { VscThreeBars } from "react-icons/vsc";
 
 interface PropType {
   childrenEl: React.ReactElement;
@@ -12,7 +13,7 @@ const TerminalCmd = (props: PropType) => {
   return (
     <div className="flex items-center">
       <div className="flex items-center">
-        <div className="flex gap-2 items-center text-white bg-blue-600 px-2">
+        <div className="flex gap-2 items-center text-white bg-blue-600 px-2 rounded-l-sm">
           <FaTerminal />
           <h1 className="max-w-[150px] text-sm truncate">minhtrifit</h1>
         </div>
@@ -44,6 +45,7 @@ const TerminalCmd = (props: PropType) => {
           <div className="flex gap-2 items-center justify-center pl-8 text-black pr-2">
             <BiGitBranch />
             <h1 className="text-sm max-w-[150px] truncate">master</h1>
+            <VscThreeBars />
           </div>
         </div>
         <div

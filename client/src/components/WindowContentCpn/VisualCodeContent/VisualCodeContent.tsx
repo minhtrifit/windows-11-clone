@@ -40,10 +40,11 @@ const VisualCodeContent = () => {
   const editorRef = useRef<any>();
   const inputRef = useRef<any>(null);
   const inputCmdRef = useRef<any>(null);
+  const cmdContainerRef = useRef<any>(null);
 
+  const [activeTab, setActiveTab] = useState<string>("Explorer");
   const [language, setLanguage] = useState<string>("");
   const [code, setCode] = useState<string>("");
-  const [result, setResult] = useState<string>("");
   const [files, setFiles] = useState<FILE_TYPE[]>([
     {
       id: uuidv4(),
@@ -85,6 +86,26 @@ const VisualCodeContent = () => {
   const [targetFile, setTargetFile] = useState<FILE_TYPE | null>(null);
   const [editValueInput, setEditValueInput] = useState<string>("new.js");
   const [executeValueInput, setExecuteValueInput] = useState<string>("");
+  const [commandHistory, setCommandHistory] = useState<
+    {
+      command: string;
+      result: string;
+    }[]
+  >([]);
+
+  const TAB_NAME = {
+    explorer: "Explorer",
+    search: "Search",
+    ["source_control"]: "Source control",
+    settings: "Settings",
+  };
+
+  const SLIDEBAR_ITEMS = [
+    { name: TAB_NAME.explorer, icon: <FaRegCopy size={26} /> },
+    { name: TAB_NAME.search, icon: <FaSearch size={26} /> },
+    { name: TAB_NAME.source_control, icon: <FaCodeFork size={26} /> },
+    { name: TAB_NAME.settings, icon: <IoSettings size={26} /> },
+  ];
 
   const onMount = (editor: any) => {
     editorRef.current = editor;
@@ -130,11 +151,10 @@ const VisualCodeContent = () => {
     fileNameExtension: string
   ) => {
     const language = Object.values(CODE_LANGUAGES).find(
-      (lang) => lang.command === cmd
+      (lang) => lang.command === cmd && lang?.extension === fileNameExtension
     );
 
-    if (language?.command && language?.extension === fileNameExtension)
-      return true;
+    if (language) return true;
     else return false;
   };
 
@@ -155,7 +175,23 @@ const VisualCodeContent = () => {
   const handleExecuteCode = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("EXECUTE CODE:", executeValueInput);
+
+    if (executeValueInput === "clear" || executeValueInput === "cls") {
+      setCommandHistory([]);
+      setExecuteValueInput("");
+      return;
+    }
+
     const codes = executeValueInput.split(" ");
+    if (codes?.length < 2) {
+      setCommandHistory([
+        ...commandHistory,
+        { command: executeValueInput, result: "execute code failed :(" },
+      ]);
+      setExecuteValueInput("");
+      return;
+    }
+
     const [exCmd, exFileName] = codes;
 
     // Ex: Check command = "node" with javascript file
@@ -191,11 +227,19 @@ const VisualCodeContent = () => {
       );
 
       console.log("RESULT:", res?.run?.output);
-      setResult(res?.run?.output);
+      setCommandHistory([
+        ...commandHistory,
+        { command: executeValueInput, result: res?.run?.output },
+      ]);
     } else {
       console.log("EXECUTE CODE FAILED");
-      setResult("execute code failed :(");
+      setCommandHistory([
+        ...commandHistory,
+        { command: executeValueInput, result: "execute code failed :(" },
+      ]);
     }
+
+    setExecuteValueInput("");
   };
 
   const handleCreateNewFile = () => {
@@ -263,11 +307,19 @@ const VisualCodeContent = () => {
       console.log("FILES:", files);
       inputRef.current?.focus(); // Focus new file input
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
+
+  useEffect(() => {
+    if (cmdContainerRef?.current) {
+      cmdContainerRef.current.scrollTop = cmdContainerRef.current.scrollHeight;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commandHistory]);
 
   return (
     <div className="w-full h-full flex text-black dark:text-white">
-      <div className="w-[60px] h-full bg-[#eaeaea] dark:bg-[#2e3138] flex flex-col gap-2 rounded-b-md">
+      <div className="w-[60px] h-full bg-[#eaeaea] dark:bg-[#2e3138] flex flex-col gap-2 rounded-bl-md">
         <Image
           className="pt-2"
           src={"/assets/logo.png"}
@@ -275,193 +327,226 @@ const VisualCodeContent = () => {
           width={60}
           height={60}
         />
-        <div
-          className="py-3 flex items-center justify-center text-zinc-400
-                        hover:text-zinc-500 dark:hover:text-white hover:cursor-pointer"
-        >
-          <FaRegCopy size={26} />
-        </div>
-        <div
-          className="py-3 flex items-center justify-center text-zinc-400
-                        hover:text-zinc-500 dark:hover:text-white hover:cursor-pointer"
-        >
-          <FaSearch size={24} />
-        </div>
-        <div
-          className="py-3 flex items-center justify-center text-zinc-400
-                        hover:text-zinc-500 dark:hover:text-white hover:cursor-pointer"
-        >
-          <FaCodeFork size={24} />
-        </div>
-        <div
-          className="py-3 flex items-center justify-center text-zinc-400
-                        hover:text-zinc-500 dark:hover:text-white hover:cursor-pointer"
-        >
-          <IoSettings size={26} />
-        </div>
-      </div>
-      <div className="w-[230px] h-full overflow-y-auto bg-[#f3f3f3] dark:bg-[#202327]">
-        <div className="px-4 py-2 flex items-center justify-between">
-          <span className="text-[0.75rem]">PROJECT</span>
-          <div
-            className="p-[1px] rounded-sm flex items-center justify-center
-                          hover:bg-zinc-300 hover:dark:bg-zinc-600 hover:cursor-pointer"
-          >
-            <MdMoreHoriz size={20} />
-          </div>
-        </div>
-        <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
-          <AccordionItem value="item-1">
-            <AccordionTrigger
-              className="px-4 py-1 bg-[#eaeaea] dark:bg-[#2e3138]
-                            text-[0.75rem] font-bold hover:no-underline"
-            >
-              INFO
-            </AccordionTrigger>
-            <AccordionContent className="px-4 py-2 border-0">
-              <span className="text-[0.85rem] font-semibold">
-                Windows 11 Clone
-              </span>
-              <div className="mt-3 flex items-center gap-5">
-                <div className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400">
-                  <FaEye size={15} />
-                  <span className="text-[0.8rem]">1 views</span>
-                </div>
-                <div className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400">
-                  <FaCodeFork size={15} />
-                  <span className="text-[0.8rem]">1 forks</span>
-                </div>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-2" className="relative">
-            <AccordionTrigger
-              className="px-4 py-1 bg-[#eaeaea] dark:bg-[#2e3138]
-                            text-[0.75rem] font-bold hover:no-underline"
-            >
-              <div className="w-full flex items-center justify-between">
-                <span>FILES</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="h-[400px] border-0 overflow-y-auto">
+        {SLIDEBAR_ITEMS?.map(
+          (item: { name: string; icon: React.ReactElement }) => {
+            return (
               <div
-                className="absolute top-[2px] right-[45px] p-[3px] rounded-sm flex items-center justify-center
-                            hover:bg-zinc-300 hover:dark:bg-zinc-600 hover:cursor-pointer"
+                key={uuidv4()}
+                className="py-3 flex items-center justify-center text-zinc-400
+                        hover:text-zinc-500 dark:hover:text-white hover:cursor-pointer"
                 onClick={() => {
-                  handleCreateNewFile();
+                  setActiveTab(item?.name);
                 }}
               >
-                <VscNewFile size={16} />
+                {item?.icon}
               </div>
-              {files?.map((file: FILE_TYPE) => {
-                if (file?.editMode) {
-                  return (
-                    <form
-                      key={uuidv4()}
-                      className="px-4 py-1"
-                      onSubmit={(e) => {
-                        handleConfirmNewFile(e, file);
-                      }}
-                    >
-                      <input
-                        ref={inputRef}
-                        className="px-2 outline-none"
-                        value={editValueInput}
-                        onChange={(e) => {
-                          setEditValueInput(e.target.value);
-                        }}
-                      />
-                    </form>
-                  );
-                }
-
-                return (
+            );
+          }
+        )}
+      </div>
+      {activeTab === TAB_NAME.explorer && (
+        <div className="w-[calc(100%-60px)] h-full flex">
+          <div className="w-[230px] h-full overflow-y-auto bg-[#f3f3f3] dark:bg-[#202327]">
+            <div className="px-4 py-2 flex items-center justify-between">
+              <span className="text-[0.75rem]">PROJECT</span>
+              <div
+                className="p-[1px] rounded-sm flex items-center justify-center
+                          hover:bg-zinc-300 hover:dark:bg-zinc-600 hover:cursor-pointer"
+              >
+                <MdMoreHoriz size={20} />
+              </div>
+            </div>
+            <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
+              <AccordionItem value="item-1">
+                <AccordionTrigger
+                  className="px-4 py-1 bg-[#eaeaea] dark:bg-[#2e3138]
+                            text-[0.75rem] font-bold hover:no-underline"
+                >
+                  INFO
+                </AccordionTrigger>
+                <AccordionContent className="px-4 py-2 border-0">
+                  <span className="text-[0.85rem] font-semibold">
+                    Windows 11 Clone
+                  </span>
+                  <div className="mt-3 flex items-center gap-5">
+                    <div className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400">
+                      <FaEye size={15} />
+                      <span className="text-[0.8rem]">1 views</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400">
+                      <FaCodeFork size={15} />
+                      <span className="text-[0.8rem]">1 forks</span>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2" className="relative">
+                <AccordionTrigger
+                  className="px-4 py-1 bg-[#eaeaea] dark:bg-[#2e3138]
+                            text-[0.75rem] font-bold hover:no-underline"
+                >
+                  <div className="w-full flex items-center justify-between">
+                    <span>FILES</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="h-[400px] border-0 overflow-y-auto">
                   <div
-                    key={uuidv4()}
-                    className={`w-full px-4 py-1 flex items-center gap-2
+                    className="absolute top-[2px] right-[45px] p-[3px] rounded-sm flex items-center justify-center
+                            hover:bg-zinc-300 hover:dark:bg-zinc-600 hover:cursor-pointer"
+                    onClick={() => {
+                      handleCreateNewFile();
+                    }}
+                  >
+                    <VscNewFile size={16} />
+                  </div>
+                  {files?.map((file: FILE_TYPE) => {
+                    if (file?.editMode) {
+                      return (
+                        <form
+                          key={uuidv4()}
+                          className="px-4 py-1"
+                          onSubmit={(e) => {
+                            handleConfirmNewFile(e, file);
+                          }}
+                        >
+                          <input
+                            ref={inputRef}
+                            className="px-2 outline-none"
+                            value={editValueInput}
+                            onChange={(e) => {
+                              setEditValueInput(e.target.value);
+                            }}
+                          />
+                        </form>
+                      );
+                    }
+
+                    return (
+                      <div
+                        key={uuidv4()}
+                        className={`w-full px-4 py-1 flex items-center gap-2
                             hover:bg-zinc-200 dark:hover:bg-zinc-600 hover:cursor-pointer ${
                               file?.id === targetFile?.id &&
                               "bg-zinc-300 dark:bg-zinc-700"
                             }`}
-                    onClick={() => {
-                      setCode(file?.content);
-                      setTargetFile(file);
-                      setLanguage(handleGetFileLanguage(file?.name));
-                    }}
-                  >
-                    {handleGetFileIcon(file?.name)}
-                    <span>{file?.name}</span>
-                  </div>
-                );
-              })}
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </div>
-      <div className="w-[calc(100%-290px)] h-full flex flex-col">
-        <div className="w-full h-[40px] bg-[#f3f3f3] dark:bg-[#202327] flex">
-          <div className="px-4 py-2 text-[0.95rem] bg-[#fcfcfc] dark:bg-[#1e1e1e] flex items-center justify-center gap-3">
-            {targetFile?.name && handleGetFileIcon(targetFile?.name)}
-            <span>{targetFile?.name ? targetFile?.name : "untitled"}</span>
+                        onClick={() => {
+                          setCode(file?.content);
+                          setTargetFile(file);
+                          setLanguage(handleGetFileLanguage(file?.name));
+                        }}
+                      >
+                        {handleGetFileIcon(file?.name)}
+                        <span>{file?.name}</span>
+                      </div>
+                    );
+                  })}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+          <div className="w-[calc(100%-230px)] h-full flex flex-col">
+            <div className="w-full h-[40px] bg-[#f3f3f3] dark:bg-[#202327] flex">
+              <div className="px-4 py-2 text-[0.95rem] bg-[#fcfcfc] dark:bg-[#1e1e1e] flex items-center justify-center gap-3">
+                {targetFile?.name && handleGetFileIcon(targetFile?.name)}
+                <span>{targetFile?.name ? targetFile?.name : "untitled"}</span>
+                <div
+                  className="p-[1px] rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:cursor-pointer"
+                  onClick={() => {
+                    if (targetFile?.id) handleDeleteFile(targetFile?.id);
+                  }}
+                >
+                  <IoClose size={18} />
+                </div>
+              </div>
+            </div>
+            <div className="w-full h-[calc(100%-200px)]">
+              <Editor
+                options={{
+                  minimap: {
+                    enabled: false,
+                  },
+                }}
+                width="100%"
+                height="100%"
+                theme={`${theme === "light" ? "vs-light" : "vs-dark"}`}
+                language={language}
+                defaultValue={CODE_SNIPPETS.javascript}
+                onMount={onMount}
+                value={code}
+                onChange={(value) => {
+                  if (value) setCode(value);
+                }}
+              />
+            </div>
             <div
-              className="p-[1px] rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:cursor-pointer"
+              ref={cmdContainerRef}
+              className="w-full h-[160px] px-4 py-4 flex flex-col items-start gap-3
+                    border-t border-zinc-300 dark:border-zinc-700 rounded-br-md
+                    bg-[#fcfcfc] dark:bg-[#1e1e1e] overflow-y-auto"
               onClick={() => {
-                if (targetFile?.id) handleDeleteFile(targetFile?.id);
+                console.log("FOCUS TERMINAL");
+                inputCmdRef.current?.focus();
               }}
             >
-              <IoClose size={18} />
+              {commandHistory?.map(
+                (value: { command: string; result: string }) => {
+                  return (
+                    <div key={uuidv4()} className="flex flex-col gap-3">
+                      <TerminalCmd
+                        childrenEl={
+                          <span className="text-sm font-semibold">
+                            {value?.command}
+                          </span>
+                        }
+                      />
+                      <TerminalCmd
+                        childrenEl={
+                          <span
+                            className={`text-sm font-semibold ${
+                              value?.result === "execute code failed :("
+                                ? "text-red-500"
+                                : "text-green-500"
+                            }`}
+                          >
+                            {value?.result}
+                          </span>
+                        }
+                      />
+                    </div>
+                  );
+                }
+              )}
+              <TerminalCmd
+                childrenEl={
+                  <form
+                    onSubmit={(e) => {
+                      handleExecuteCode(e);
+                    }}
+                  >
+                    <input
+                      ref={inputCmdRef}
+                      className="text-sm text-yellow-600 dark:text-yellow-400 font-semibold bg-[#fcfcfc] dark:bg-[#1e1e1e] outline-none"
+                      value={executeValueInput}
+                      onChange={(e) => {
+                        setExecuteValueInput(e.target.value);
+                      }}
+                    />
+                  </form>
+                }
+              />
             </div>
           </div>
         </div>
-        <div className="w-full h-[calc(100%-200px)]">
-          <Editor
-            options={{
-              minimap: {
-                enabled: false,
-              },
-            }}
-            width="100%"
-            height="100%"
-            theme={`${theme === "light" ? "vs-light" : "vs-dark"}`}
-            language={language}
-            defaultValue={CODE_SNIPPETS.javascript}
-            onMount={onMount}
-            value={code}
-            onChange={(value) => {
-              if (value) setCode(value);
-            }}
-          />
-        </div>
-        <div
-          className="w-full h-[160px] px-4 py-4 flex flex-col items-start gap-3
-                    border-t border-zinc-300 dark:border-zinc-700
-                    bg-[#fcfcfc] dark:bg-[#1e1e1e] overflow-y-auto"
-          onClick={() => {
-            console.log("FOCUS TERMINAL");
-            inputCmdRef.current?.focus();
-          }}
-        >
-          <TerminalCmd
-            childrenEl={
-              <form
-                onSubmit={(e) => {
-                  handleExecuteCode(e);
-                }}
-              >
-                <input
-                  ref={inputCmdRef}
-                  className="text-sm text-orange-500 font-semibold bg-[#fcfcfc] dark:bg-[#1e1e1e] outline-none"
-                  value={executeValueInput}
-                  onChange={(e) => {
-                    setExecuteValueInput(e.target.value);
-                  }}
-                />
-              </form>
-            }
-          />
-          {result && <TerminalCmd childrenEl={<span>{result}</span>} />}
-        </div>
-      </div>
+      )}
+      {activeTab === TAB_NAME.search && (
+        <div className="w-[calc(100%-60px)] h-full flex">Search</div>
+      )}
+      {activeTab === TAB_NAME.source_control && (
+        <div className="w-[calc(100%-60px)] h-full flex">Source control</div>
+      )}
+      {activeTab === TAB_NAME.settings && (
+        <div className="w-[calc(100%-60px)] h-full flex">Settings</div>
+      )}
     </div>
   );
 };
