@@ -6,10 +6,13 @@ import { APP_TYPE } from "@/lib/types";
 import AppIcon from "../NavbarIcon/AppIcon/AppIcon";
 import StartIcon from "../NavbarIcon/StartIcon/StartIcon";
 import { FaEdge, FaFolder } from "react-icons/fa";
-import { IoSettingsSharp } from "react-icons/io5";
+import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
+import { SiVisualstudiocode } from "react-icons/si";
 import BrowserContent from "../WindowContentCpn/BrowserContent/BrowserContent";
 import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
+import VisualCodeContent from "../WindowContentCpn/VisualCodeContent/VisualCodeContent";
+import IframeContent from "../WindowContentCpn/IframeContent/IframeContent";
 
 export const NAVBAR_APP_LIST: APP_TYPE[] = [
   {
@@ -43,7 +46,7 @@ export const OPTION_NAVBAR_APP_LIST: APP_TYPE[] = [
     targetElement: <SettingContent />,
     targetElementname: APP_NAME.settings,
     targetElementTabName: "Settings",
-    targetElementTabIcon: <IoSettingsSharp size={15} />,
+    targetElementTabIcon: <IoSettingsSharp size={20} />,
     isTargetElementTab: false,
   },
   {
@@ -51,6 +54,28 @@ export const OPTION_NAVBAR_APP_LIST: APP_TYPE[] = [
     iconWidth: 28,
     iconHeight: 28,
     targetElementname: FILE_EXPLORER_APP_NAME.notepad,
+  },
+  {
+    iconUrl: "/Icons/applications/visualcode.ico",
+    iconWidth: 28,
+    iconHeight: 28,
+    targetElement: <VisualCodeContent />,
+    targetElementname: APP_NAME.visualcode,
+    targetElementTabName: "Visual Studio Code",
+    targetElementTabIcon: <SiVisualstudiocode size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/assets/app_custom.ico",
+    iconWidth: 28,
+    iconHeight: 28,
+    targetElement: (
+      <IframeContent url={process.env.NEXT_PUBLIC_MY_PORTFOLIO_APP_URL} />
+    ),
+    targetElementname: APP_NAME.app_custom,
+    targetElementTabName: "My Portfolio",
+    targetElementTabIcon: <IoAppsSharp size={20} />,
+    isTargetElementTab: false,
   },
 ];
 

@@ -11,6 +11,7 @@ export const APP_NAME = {
   ["file_explorer"]: "file_explorer",
   ["settings"]: "settings",
   ["visualcode"]: "visual_code",
+  ["app_custom"]: "app_custom",
 };
 
 export const FILE_EXPLORER_APP_NAME = {

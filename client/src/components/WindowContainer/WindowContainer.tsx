@@ -62,7 +62,7 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElement: <SettingContent />,
     targetElementname: APP_NAME.settings,
     targetElementTabName: "Settings",
-    targetElementTabIcon: <IoSettingsSharp size={15} />,
+    targetElementTabIcon: <IoSettingsSharp size={20} />,
     isTargetElementTab: false,
   },
   {
@@ -73,9 +73,9 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElement: (
       <IframeContent url={process.env.NEXT_PUBLIC_MY_PORTFOLIO_APP_URL} />
     ),
-    targetElementname: APP_NAME.settings,
+    targetElementname: APP_NAME.app_custom,
     targetElementTabName: "My Portfolio",
-    targetElementTabIcon: <IoAppsSharp size={15} />,
+    targetElementTabIcon: <IoAppsSharp size={20} />,
     isTargetElementTab: false,
   },
   {
