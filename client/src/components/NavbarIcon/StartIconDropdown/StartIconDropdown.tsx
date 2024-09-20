@@ -13,8 +13,9 @@ import {
   FaSearch,
   FaEdge,
   FaFolder,
+  FaPaintBrush,
 } from "react-icons/fa";
-import { IoPower, IoSettingsSharp } from "react-icons/io5";
+import { IoPower, IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { VscDebugRestart, VscSignOut } from "react-icons/vsc";
 import { IoIosMore } from "react-icons/io";
 import { PiNotepadFill } from "react-icons/pi";
@@ -38,6 +39,8 @@ import StartAppIcon2 from "../StartAppIcon2/StartAppIcon2";
 import SettingContent from "@/components/WindowContentCpn/SettingContent/SettingContent";
 import NotepadContent from "@/components/WindowContentCpn/FolderContent/NotepadContent/NotepadContent";
 import VisualCodeContent from "@/components/WindowContentCpn/VisualCodeContent/VisualCodeContent";
+import IframeContent from "@/components/WindowContentCpn/IframeContent/IframeContent";
+import PaintContent from "@/components/WindowContentCpn/PaintContent/PaintContent";
 
 const PINNED_APP_LIST: APP_TYPE[] = [
   {
@@ -94,6 +97,30 @@ const PINNED_APP_LIST: APP_TYPE[] = [
     targetElementTabName: "Untitled",
     targetElementTabIcon: <PiNotepadFill size={20} />,
     isTargetElementTab: true,
+  },
+  {
+    iconUrl: "/assets/app_custom.ico",
+    iconName: "My Portfolio",
+    iconWidth: 40,
+    iconHeight: 40,
+    targetElement: (
+      <IframeContent url={process.env.NEXT_PUBLIC_MY_PORTFOLIO_APP_URL} />
+    ),
+    targetElementname: APP_NAME.app_custom,
+    targetElementTabName: "My Portfolio",
+    targetElementTabIcon: <IoAppsSharp size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/paint.ico",
+    iconName: "Paint",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: <PaintContent />,
+    targetElementname: APP_NAME.paint,
+    targetElementTabName: "Untitled - Paint",
+    targetElementTabIcon: <FaPaintBrush size={20} />,
+    isTargetElementTab: false,
   },
 ];
 
