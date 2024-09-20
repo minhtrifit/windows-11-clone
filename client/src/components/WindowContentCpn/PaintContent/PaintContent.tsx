@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import CanvasDraw from "react-canvas-draw";
+import ColorPicker from "react-pick-color";
 import { LuMousePointer2 } from "react-icons/lu";
 import { PiResize } from "react-icons/pi";
 import { FaPaintBrush, FaFillDrip, FaSearch } from "react-icons/fa";
@@ -25,6 +27,52 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 
+const SingleColorPicker = (props: {
+  width: number;
+  height: number;
+  color: string;
+  setBrushColor?: Dispatch<SetStateAction<string>>;
+}) => {
+  const { width, height, color, setBrushColor } = props;
+
+  return (
+    <div
+      className="w-4 h-4 rounded-full hover:cursor-pointer"
+      style={{ width: width, height: height, backgroundColor: color }}
+      onClick={() => {
+        if (setBrushColor) setBrushColor(color);
+      }}
+    ></div>
+  );
+};
+
+const COLOR_LIST = {
+  ["LINE_1"]: [
+    "#000",
+    "#868686",
+    "#8d0223",
+    "#ed2831",
+    "#ff8432",
+    "#fff114",
+    "#2cb452",
+    "#0ea6e6",
+    "#4751ca",
+    "#A851A9",
+  ],
+  ["LINE_2"]: [
+    "#fff",
+    "#c2c1c6",
+    "#bb8464",
+    "#FEB1D0",
+    "#fcc817",
+    "#EEE4B1",
+    "#B8E625",
+    "#a1dbe9",
+    "#7A97C1",
+    "#ccc3ec",
+  ],
+};
+
 const PaintContent = () => {
   const windowRef = useRef<HTMLDivElement | null>(null);
   const canvasDrawRef = useRef<any>(null);
@@ -36,7 +84,9 @@ const PaintContent = () => {
     x: 0,
     y: 0,
   });
-  const [brushSize, setBrushSize] = useState(10);
+  const [brushSize, setBrushSize] = useState(5);
+  const [brushColor, setBrushColor] = useState<string>("#000");
+  const [activeColorPicker, setActiveColorPicker] = useState<boolean>(false);
 
   const handleSave = () => {
     if (canvasDrawRef?.current.getSaveData()) {
@@ -224,22 +274,22 @@ const PaintContent = () => {
             <CgRedo size={25} />
           </div>
         </div>
-        <div className="w-full h-full px-2 flex items-center gap-3 bg-[#f3f3f3] dark:bg-[#202327]">
+        <div className="relative w-full h-full p-2 flex items-center gap-4 bg-[#f3f3f3] dark:bg-[#202327]">
           <div className="h-full flex items-center justify-center">
             <div
-              className="px-4 py-2 flex flex-col items-center justify-center gap-1 rounded-md
+              className="h-full px-6 flex flex-col items-center justify-center gap-1 rounded-md
                           hover:cursor-pointer hover:bg-zinc-300 dark:hover:bg-zinc-700"
               onClick={() => {
                 handleLoad();
               }}
             >
-              <MdOutlineCloudUpload size={20} />
+              <MdOutlineCloudUpload size={30} />
               <span className="text-[0.75rem]">Load</span>
             </div>
           </div>
           <div className="w-[1px] h-[50%] bg-zinc-400 dark:bg-zinc-600"></div>
-          <div className="w-[120px] h-full py-1 flex flex-col gap-y-2 items-center justify-center">
-            <div className="flex items-center justify-center gap-x-3">
+          <div className="h-full flex flex-col justify-between">
+            <div className="grid grid-cols-3 gap-x-3">
               <div
                 className="w-[30px] h-[30px] flex flex-col items-center justify-center gap-1 rounded-md
                           hover:cursor-pointer hover:bg-zinc-300 dark:hover:bg-zinc-700"
@@ -259,7 +309,7 @@ const PaintContent = () => {
                 <ImTextColor size={25} />
               </div>
             </div>
-            <div className="flex items-center justify-center gap-x-3">
+            <div className="grid grid-cols-3 gap-x-3">
               <div
                 className="w-[30px] h-[30px] flex flex-col items-center justify-center gap-1 rounded-md
                           hover:cursor-pointer hover:bg-zinc-300 dark:hover:bg-zinc-700"
@@ -284,6 +334,64 @@ const PaintContent = () => {
             </div>
           </div>
           <div className="w-[1px] h-[50%] bg-zinc-400 dark:bg-zinc-600"></div>
+          <div className="h-full flex items-center gap-x-5">
+            <div className="h-full flex flex-col justify-between">
+              <SingleColorPicker
+                width={24}
+                height={24}
+                color={"#000"}
+                setBrushColor={setBrushColor}
+              />
+              <SingleColorPicker
+                width={24}
+                height={24}
+                color={"#fff"}
+                setBrushColor={setBrushColor}
+              />
+            </div>
+            <div className="h-full flex flex-col gap-y-3">
+              <div className="grid grid-cols-10 gap-x-3">
+                {COLOR_LIST?.LINE_1?.map((color: string) => {
+                  return (
+                    <SingleColorPicker
+                      key={uuidv4()}
+                      width={18}
+                      height={18}
+                      color={color}
+                      setBrushColor={setBrushColor}
+                    />
+                  );
+                })}
+              </div>
+              <div className="grid grid-cols-10 gap-x-3">
+                {COLOR_LIST?.LINE_2?.map((color: string) => {
+                  return (
+                    <SingleColorPicker
+                      key={uuidv4()}
+                      width={18}
+                      height={18}
+                      color={color}
+                      setBrushColor={setBrushColor}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="w-[1px] h-[50%] bg-zinc-400 dark:bg-zinc-600"></div>
+          <div
+            className="w-[30px] h-[30px] rounded-full bg-gradient-to-r from-pink-500 to-orange-500"
+            onClick={() => {
+              setActiveColorPicker(!activeColorPicker);
+            }}
+          />
+          {activeColorPicker && (
+            <ColorPicker
+              className="absolute z-[999] top-[70px] left-[630px]"
+              color={brushColor}
+              onChange={(color) => setBrushColor(color.hex)}
+            />
+          )}
         </div>
       </div>
       <div
@@ -297,7 +405,7 @@ const PaintContent = () => {
         <CanvasDraw
           ref={canvasDrawRef}
           style={{ width: screenWidth, height: screenHeight - 140 }}
-          brushColor="red"
+          brushColor={brushColor}
           brushRadius={brushSize}
           saveData={saveData}
           hideGrid={true}
