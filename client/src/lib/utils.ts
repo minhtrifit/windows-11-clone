@@ -13,6 +13,7 @@ export const APP_NAME = {
   ["visualcode"]: "visual_code",
   ["app_custom"]: "app_custom",
   ["paint"]: "paint",
+  ["calculator"]: "calculator",
 };
 
 export const FILE_EXPLORER_APP_NAME = {

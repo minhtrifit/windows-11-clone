@@ -18,7 +18,7 @@ import {
 import { IoPower, IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { VscDebugRestart, VscSignOut } from "react-icons/vsc";
 import { IoIosMore } from "react-icons/io";
-import { PiNotepadFill } from "react-icons/pi";
+import { PiNotepadFill, PiMathOperationsFill } from "react-icons/pi";
 import { SiVisualstudiocode } from "react-icons/si";
 import {
   DropdownMenu,
@@ -41,6 +41,7 @@ import NotepadContent from "@/components/WindowContentCpn/FolderContent/NotepadC
 import VisualCodeContent from "@/components/WindowContentCpn/VisualCodeContent/VisualCodeContent";
 import IframeContent from "@/components/WindowContentCpn/IframeContent/IframeContent";
 import PaintContent from "@/components/WindowContentCpn/PaintContent/PaintContent";
+import CalculatorContent from "@/components/WindowContentCpn/CalculatorContent/CalculatorContent";
 
 const PINNED_APP_LIST: APP_TYPE[] = [
   {
@@ -120,6 +121,17 @@ const PINNED_APP_LIST: APP_TYPE[] = [
     targetElementname: APP_NAME.paint,
     targetElementTabName: "Untitled - Paint",
     targetElementTabIcon: <FaPaintBrush size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/calculator.ico",
+    iconName: "Calculator",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: <CalculatorContent />,
+    targetElementname: APP_NAME.calculator,
+    targetElementTabName: "Calculator",
+    targetElementTabIcon: <PiMathOperationsFill size={20} />,
     isTargetElementTab: false,
   },
 ];

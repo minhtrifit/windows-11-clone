@@ -8,12 +8,14 @@ import StartIcon from "../NavbarIcon/StartIcon/StartIcon";
 import { FaEdge, FaFolder, FaPaintBrush } from "react-icons/fa";
 import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { SiVisualstudiocode } from "react-icons/si";
+import { PiMathOperationsFill } from "react-icons/pi";
 import BrowserContent from "../WindowContentCpn/BrowserContent/BrowserContent";
 import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
 import VisualCodeContent from "../WindowContentCpn/VisualCodeContent/VisualCodeContent";
 import IframeContent from "../WindowContentCpn/IframeContent/IframeContent";
 import PaintContent from "../WindowContentCpn/PaintContent/PaintContent";
+import CalculatorContent from "../WindowContentCpn/CalculatorContent/CalculatorContent";
 
 export const NAVBAR_APP_LIST: APP_TYPE[] = [
   {
@@ -87,6 +89,17 @@ export const OPTION_NAVBAR_APP_LIST: APP_TYPE[] = [
     targetElementname: APP_NAME.paint,
     targetElementTabName: "Untitled - Paint",
     targetElementTabIcon: <FaPaintBrush size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/calculator.ico",
+    iconName: "Calculator",
+    iconWidth: 28,
+    iconHeight: 28,
+    targetElement: <CalculatorContent />,
+    targetElementname: APP_NAME.calculator,
+    targetElementTabName: "Calculator",
+    targetElementTabIcon: <PiMathOperationsFill size={20} />,
     isTargetElementTab: false,
   },
 ];

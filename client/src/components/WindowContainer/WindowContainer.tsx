@@ -11,7 +11,7 @@ import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import DestopIcon from "../DestopIcon/DestopIcon";
 import { FaEdge, FaFolder, FaPaintBrush } from "react-icons/fa";
 import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
-import { PiNotepadFill } from "react-icons/pi";
+import { PiNotepadFill, PiMathOperationsFill } from "react-icons/pi";
 import { SiVisualstudiocode } from "react-icons/si";
 import DestopNavbar from "../DestopNavbar/DestopNavbar";
 import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
@@ -20,6 +20,7 @@ import VisualCodeContent from "../WindowContentCpn/VisualCodeContent/VisualCodeC
 import IframeContent from "../WindowContentCpn/IframeContent/IframeContent";
 import PaintContent from "../WindowContentCpn/PaintContent/PaintContent";
 import { AuthContext } from "../Providers/AuthProvider/AuthProvider";
+import CalculatorContent from "../WindowContentCpn/CalculatorContent/CalculatorContent";
 
 const DESTOP_APP_LIST: APP_TYPE[] = [
   {
@@ -99,6 +100,17 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElementname: APP_NAME.paint,
     targetElementTabName: "Untitled - Paint",
     targetElementTabIcon: <FaPaintBrush size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/calculator.ico",
+    iconName: "Calculator",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: <CalculatorContent />,
+    targetElementname: APP_NAME.calculator,
+    targetElementTabName: "Calculator",
+    targetElementTabIcon: <PiMathOperationsFill size={20} />,
     isTargetElementTab: false,
   },
 ];
