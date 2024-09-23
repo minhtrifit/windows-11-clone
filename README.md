@@ -1,11 +1,93 @@
 # WINDOWS 11 CLONE DOCUMENTATION
 
-# Table of Contents
+<img src="https://img.shields.io/github/stars/minhtrifit/windows-11-clone"/> ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/minhtrifit/windows-11-clone)
 
-1. [Developer Workspace](#developer-workspace)
+# 📋 Table of Contents
+
+1. [Project Setup](#project-setup)
+   1. [Firebase setup](#firebase-setup)
+   2. [Source code setup](#source-code-setup)
+2. [Developer Workspace](#developer-workspace)
    1. [Conflict npm packages](#conflict-npm-packages)
    2. [Add more apps](#add-more-apps)
-   3. [Firebase setup](#firebase-setup)
+
+## 💽 Project Setup <a name="project-setup"></a>
+
+### 🔥 Firebase setup <a name="firebase-setup"></a>
+
+- [This project use Firebase for some features (Click to see basic setup).](https://mydevpa.ge/blog/how-to-setup-firebase-firestore-with-nextjs-14)
+- This project doesn't have server, so you can add your own data to Firebase for testing app manually.
+
+**Make sure that you have enabled following firebase services:**
+
+- Storage (Files storage).
+- Firestore Database (Real time database).
+- Authentication (This project default use email & password only).
+
+**1. Storage have default structure:**
+
+This topic and **2. Firestore Database** show how to add your own data to app. If you just want to run app only, you can move to <a name="source-code-setup">Source code setup</a>.
+
+**Storage for this project has format:**
+
+- `file_explorer/pictures`
+- `file_explorer/music`
+- `file_explorer/videos`
+
+![firebase example 1](showcase/6.png)
+
+Picture files (.png, .jpg,...) example (same for videos & music files)
+
+![firebase example 2](showcase/7.png)
+
+**2. Firestore Database:**
+
+- type list: ["text_document", "pictures", "videos", "music"]
+- content is url for: `pictures`, `videos`, `music` (provided by [Storage](https://firebase.google.com/docs/storage/web/start))
+
+![firebase example 3](showcase/8.png)
+
+![firebase example 4](showcase/9.png)
+
+![firebase example 5](showcase/10.png)
+
+### 📦 Source code setup <a name="source-code-setup"></a>
+
+⚙️ Config [.env]() file in client dir with path `./client/.env`:
+
+```bash
+NEXT_PUBLIC_API_URL=
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NEXT_PUBLIC_FIREBASE_APP_ID=
+NEXT_PUBLIC_FIREBASE_FILE_EXPLORER_COLLECTION=file-explorer-list
+NEXT_PUBLIC_FIREBASE_PICTURE_STORAGE_PATH=file_explorer/pictures
+NEXT_PUBLIC_FIREBASE_VIDEO_STORAGE_PATH=file_explorer/videos
+NEXT_PUBLIC_MY_PORTFOLIO_APP_URL=https://sparkling-nasturtium-3d4d3c.netlify.app
+```
+
+📥 Installation packages:
+
+Intall packages & dependencies
+
+```console
+npm install
+```
+
+Or install packages with legacy peer dependencies.
+
+```console
+npm install --legacy-peer-deps
+```
+
+Run client project (supported by [Create Next App](https://nextjs.org/docs/getting-started/installation))
+
+```console
+npm run dev
+```
 
 ## 💻 Developer Workspace <a name="developer-workspace"></a>
 
@@ -43,34 +125,3 @@ Your new app will display on desktop:
 3. You can develop & put new app content file for `targetElement` with url: `src/components/WindowContentCpn`:
 
 ![add app example 5](showcase/5.png)
-
-### 🔥 Firebase setup <a name="firebase-setup"></a>
-
-**Make sure that you have enabled following firebase services:**
-
-- Storage
-- Firestore Database
-- Authentication (project default use email & password only)
-
-**1. Storage have default structure:**
-
-- `file_explorer/pictures`
-- `file_explorer/music`
-- `file_explorer/videos`
-
-![firebase example 1](showcase/6.png)
-
-Picture files (.png, .jpg,...) example (same for videos & music files)
-
-![firebase example 2](showcase/7.png)
-
-**2. Firestore Database**
-
-- type list: ["text_document", "pictures", "videos", "music"]
-- content is url for: `pictures`, `videos`, `music` (provided by Storage)
-
-![firebase example 3](showcase/8.png)
-
-![firebase example 4](showcase/9.png)
-
-![firebase example 5](showcase/10.png)
