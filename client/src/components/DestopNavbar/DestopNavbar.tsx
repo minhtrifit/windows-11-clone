@@ -8,7 +8,7 @@ import StartIcon from "../NavbarIcon/StartIcon/StartIcon";
 import { FaEdge, FaFolder, FaPaintBrush } from "react-icons/fa";
 import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { SiVisualstudiocode } from "react-icons/si";
-import { PiMathOperationsFill } from "react-icons/pi";
+import { PiCalculatorFill } from "react-icons/pi";
 import BrowserContent from "../WindowContentCpn/BrowserContent/BrowserContent";
 import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
@@ -99,7 +99,7 @@ export const OPTION_NAVBAR_APP_LIST: APP_TYPE[] = [
     targetElement: <CalculatorContent />,
     targetElementname: APP_NAME.calculator,
     targetElementTabName: "Calculator",
-    targetElementTabIcon: <PiMathOperationsFill size={20} />,
+    targetElementTabIcon: <PiCalculatorFill size={20} />,
     isTargetElementTab: false,
   },
 ];

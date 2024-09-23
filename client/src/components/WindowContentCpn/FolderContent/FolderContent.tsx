@@ -405,7 +405,12 @@ const FolderContent = () => {
         <header className="h-[8%] min-h-[40px] pr-4 text-black dark:text-white bg-zinc-300 dark:bg-[#3c3c3c]">
           <div className="w-full h-full flex items-center justify-between gap-3">
             <div className="min-w-[230px] max-w-[230px] h-full flex items-center justify-center gap-3">
-              <button className="p-3 rounded-md hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]">
+              <button
+                className="p-3 rounded-md hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]"
+                onClick={() => {
+                  setActiveTab(FILE_EXPLORER_TAB_NAME.thisPC);
+                }}
+              >
                 <FaArrowLeft size={15} />
               </button>
               <button className="p-3 rounded-md hover:bg-zinc-200 dark:hover:bg-[#4f4f4f]">

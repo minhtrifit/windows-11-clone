@@ -8,7 +8,7 @@ import { APP_TYPE } from "@/lib/types";
 
 import { FaEdge, FaFolder, FaPaintBrush } from "react-icons/fa";
 import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
-import { PiNotepadFill, PiMathOperationsFill } from "react-icons/pi";
+import { PiNotepadFill, PiCalculatorFill } from "react-icons/pi";
 import { SiVisualstudiocode } from "react-icons/si";
 
 import { AuthContext } from "../Providers/AuthProvider/AuthProvider";
@@ -112,7 +112,7 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElement: <CalculatorContent />,
     targetElementname: APP_NAME.calculator,
     targetElementTabName: "Calculator",
-    targetElementTabIcon: <PiMathOperationsFill size={20} />,
+    targetElementTabIcon: <PiCalculatorFill size={20} />,
     isTargetElementTab: false,
   },
 ];

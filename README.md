@@ -36,3 +36,34 @@ You new app will display on desktop:
 3. You can develop & put new app content file for `targetElement` with url: `src/components/WindowContentCpn`:
 
 ![add app example 5](showcase/5.png)
+
+### 🔥 Firebase setup
+
+**Make sure that you have enabled following firebase services:**
+
+- Storage
+- Firestore Database
+- Authentication (project default use email & password only)
+
+**1. Storage have default structure:**
+
+- `file_explorer/pictures`
+- `file_explorer/music`
+- `file_explorer/videos`
+
+![firebase example 1](showcase/6.png)
+
+Picture files (.png, .jpg,...) example (same for videos & music files)
+
+![firebase example 2](showcase/7.png)
+
+**2. Firestore Database**
+
+- type list: ["text_document", "pictures", "videos", "music"]
+- content is url for: `pictures`, `videos`, `music` (provided by Storage)
+
+![firebase example 3](showcase/8.png)
+
+![firebase example 4](showcase/9.png)
+
+![firebase example 5](showcase/10.png)

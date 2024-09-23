@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   Sheet,
@@ -9,11 +9,27 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { VscThreeBars } from "react-icons/vsc";
-import { HiOutlineArrowTopRightOnSquare } from "react-icons/hi2";
+import {
+  HiOutlineArrowTopRightOnSquare,
+  HiOutlineCurrencyEuro,
+} from "react-icons/hi2";
 import { LuHistory } from "react-icons/lu";
-import { FaSquareRootAlt } from "react-icons/fa";
+import {
+  FaSquareRootAlt,
+  FaChevronDown,
+  FaVolumeUp,
+  FaWeightHanging,
+  FaFire,
+} from "react-icons/fa";
 import { RiDeleteBack2Line } from "react-icons/ri";
 import { TbArrowsDoubleNeSw } from "react-icons/tb";
+import { PiCalculatorFill } from "react-icons/pi";
+import { MdOutlineScience } from "react-icons/md";
+import { BsGraphDown } from "react-icons/bs";
+import { IoCodeSlashSharp } from "react-icons/io5";
+import { CgCalendarDates } from "react-icons/cg";
+import { LiaRulerVerticalSolid } from "react-icons/lia";
+import { FaTemperatureFull } from "react-icons/fa6";
 
 const BUTTON_LIST = [
   { name: "%", icon: null },
@@ -42,7 +58,58 @@ const BUTTON_LIST = [
   { name: "=", icon: null },
 ];
 
+const TAB_LIST = [
+  {
+    name: "Standard",
+    icon: <PiCalculatorFill size={25} />,
+  },
+  {
+    name: "Scentific",
+    icon: <MdOutlineScience size={25} />,
+  },
+  {
+    name: "Graphing",
+    icon: <BsGraphDown size={20} />,
+  },
+  {
+    name: "Programmer",
+    icon: <IoCodeSlashSharp size={20} />,
+  },
+  {
+    name: "Date calculation",
+    icon: <CgCalendarDates size={25} />,
+  },
+];
+
+const TAB2_LIST = [
+  {
+    name: "Currency",
+    icon: <HiOutlineCurrencyEuro size={25} />,
+  },
+  {
+    name: "Volume",
+    icon: <FaVolumeUp size={25} />,
+  },
+  {
+    name: "Length",
+    icon: <LiaRulerVerticalSolid size={20} />,
+  },
+  {
+    name: "Weight and mass",
+    icon: <FaWeightHanging size={20} />,
+  },
+  {
+    name: "Temperature",
+    icon: <FaTemperatureFull size={25} />,
+  },
+  {
+    name: "Energy",
+    icon: <FaFire size={25} />,
+  },
+];
+
 const CalculatorContent = () => {
+  const [mode, setMode] = useState<string>(TAB_LIST[0]?.name);
   const [calcValue, setCalcValue] = useState<string>("");
   const [result, setResult] = useState<number>(0);
 
@@ -67,6 +134,23 @@ const CalculatorContent = () => {
     const newExpression: string = expression.replace(
       lastNumber,
       `${lastNumber}^2`
+    );
+
+    return newExpression;
+  };
+
+  const reciprocalLastNumber = (expression: string) => {
+    const numbers: any = expression.match(/\d+/g);
+
+    if (numbers.length === 1) {
+      return `1/${numbers[0]}`;
+    }
+
+    const lastNumber: string = numbers[numbers.length - 1];
+
+    const newExpression: string = expression.replace(
+      lastNumber,
+      `1/${lastNumber}`
     );
 
     return newExpression;
@@ -106,13 +190,11 @@ const CalculatorContent = () => {
     } else if (value === "x") {
       const newValue = calcValue + "*";
       setCalcValue(newValue);
+    } else if (value === "1/x") {
+      const newValue = reciprocalLastNumber(calcValue);
+      setCalcValue(newValue);
     } else if (value === "squared") {
-      // const lastValue = calcValue.charAt(calcValue.length - 1);
-      // const newValue = lastValue + "^2";
-      // setCalcValue(newValue);
-
       const newValue = exponentiateLastNumber(calcValue);
-      console.log("AAA:", newValue);
       setCalcValue(newValue);
     } else if (value === "square") {
       const lastNumber = getLastNumber(calcValue);
@@ -142,22 +224,62 @@ const CalculatorContent = () => {
               </SheetTrigger>
               <SheetContent side={"left"} className="flex flex-col gap-5">
                 <SheetHeader>
-                  <SheetTitle>Calculator</SheetTitle>
-                  <SheetDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
-                  </SheetDescription>
+                  <SheetTitle className="text-zinc-400 dark:text-zinc-500">
+                    Calculator
+                  </SheetTitle>
+                  <SheetDescription></SheetDescription>
+                  <div className="w-full flex flex-col gap-3">
+                    {TAB_LIST?.map(
+                      (tab: { name: string; icon: React.ReactElement }) => {
+                        return (
+                          <div
+                            key={uuidv4()}
+                            className="p-2 flex items-center gap-3 rounded-md text-black dark:text-white
+                                          hover:bg-zinc-200 dark:hover:bg-zinc-600"
+                            onClick={() => {
+                              setMode(tab?.name);
+                            }}
+                          >
+                            {tab?.icon}
+                            <p className="text-[1.05rem] hover:cursor-default">
+                              {tab?.name}
+                            </p>
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
                 </SheetHeader>
                 <SheetHeader>
-                  <SheetTitle>Converter</SheetTitle>
-                  <SheetDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
-                  </SheetDescription>
+                  <SheetTitle className="text-zinc-400 dark:text-zinc-500">
+                    Converter
+                  </SheetTitle>
+                  <SheetDescription></SheetDescription>
+                  <div className="w-full flex flex-col gap-3">
+                    {TAB2_LIST?.map(
+                      (tab: { name: string; icon: React.ReactElement }) => {
+                        return (
+                          <div
+                            key={uuidv4()}
+                            className="p-2 flex items-center gap-3 rounded-md text-black dark:text-white
+                                          hover:bg-zinc-200 dark:hover:bg-zinc-600"
+                            onClick={() => {
+                              setMode(tab?.name);
+                            }}
+                          >
+                            <div>{tab?.icon}</div>
+                            <div className="text-[1.05rem] hover:cursor-default">
+                              {tab?.name}
+                            </div>
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
                 </SheetHeader>
               </SheetContent>
             </Sheet>
-            <h1 className="text-xl font-bold">Standard</h1>
+            <h1 className="text-xl font-bold max-w-[200px] truncate">{mode}</h1>
             <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700">
               <HiOutlineArrowTopRightOnSquare size={20} />
             </div>
@@ -171,24 +293,48 @@ const CalculatorContent = () => {
           <p className="text-5xl font-bold">{formatNumber(result)}</p>
         </div>
       </div>
-      <div className="self-end grid grid-row-6 grid-cols-4 gap-1 p-1">
-        {BUTTON_LIST?.map(
-          (btn: { name: string; icon: React.ReactElement | null }) => {
-            return (
-              <div
-                key={uuidv4()}
-                className="p-4 rounded-md text-center flex items-center justify-center
+      <div className="self-end">
+        <div className="grid grid-rows-1 grid-cols-6 gap-1 p-1">
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700 flex items-center justify-center">
+            <span className="text-sm hover:cursor-default">MC</span>
+          </div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700 flex items-center justify-center">
+            <span className="text-sm hover:cursor-default">MR</span>
+          </div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700 flex items-center justify-center">
+            <span className="text-sm hover:cursor-default">M+</span>
+          </div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700 flex items-center justify-center">
+            <span className="text-sm hover:cursor-default">M-</span>
+          </div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700 flex items-center justify-center">
+            <span className="text-sm hover:cursor-default">MS</span>
+          </div>
+          <div className="p-2 rounded-md hover:bg-zinc-300 hover:dark:bg-zinc-700 flex items-center justify-center">
+            <span className="text-sm hover:cursor-default flex items-center gap-1 justify-center">
+              M <FaChevronDown size={10} />
+            </span>
+          </div>
+        </div>
+        <div className="grid grid-rows-6 grid-cols-4 gap-1 p-1">
+          {BUTTON_LIST?.map(
+            (btn: { name: string; icon: React.ReactElement | null }) => {
+              return (
+                <div
+                  key={uuidv4()}
+                  className="p-4 rounded-md text-center flex items-center justify-center
                             bg-zinc-300 dark:bg-zinc-700
                             hover:bg-zinc-200 hover:dark:bg-zinc-600 hover:cursor-default"
-                onClick={() => {
-                  handleCalc(btn?.name);
-                }}
-              >
-                {btn?.icon !== null ? btn?.icon : btn?.name}
-              </div>
-            );
-          }
-        )}
+                  onClick={() => {
+                    handleCalc(btn?.name);
+                  }}
+                >
+                  {btn?.icon !== null ? btn?.icon : btn?.name}
+                </div>
+              );
+            }
+          )}
+        </div>
       </div>
     </div>
   );
