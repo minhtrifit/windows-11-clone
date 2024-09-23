@@ -15,7 +15,7 @@ npm install react-canvas-draw@1.2.1 --force
 npm i --save-dev @types/react-canvas-draw@1.2.3 --force
 ```
 
-### ⌨️ Add more app for project
+### ⌨️ Add more apps for project
 
 You are developer & want to improve this project. Follow these steps:
 

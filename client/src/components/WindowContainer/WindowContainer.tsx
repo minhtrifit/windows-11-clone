@@ -5,21 +5,23 @@ import { v4 as uuidv4 } from "uuid";
 import { useNavbarStore, useSettingStore, useWindowStore } from "@/lib/store";
 import { APP_NAME, FILE_EXPLORER_APP_NAME } from "@/lib/utils";
 import { APP_TYPE } from "@/lib/types";
-import WindowCpn from "@/components/WindowCpn/WindowCpn";
-import BrowserContent from "@/components/WindowContentCpn/BrowserContent/BrowserContent";
-import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
-import DestopIcon from "../DestopIcon/DestopIcon";
+
 import { FaEdge, FaFolder, FaPaintBrush } from "react-icons/fa";
 import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { PiNotepadFill, PiMathOperationsFill } from "react-icons/pi";
 import { SiVisualstudiocode } from "react-icons/si";
+
+import { AuthContext } from "../Providers/AuthProvider/AuthProvider";
 import DestopNavbar from "../DestopNavbar/DestopNavbar";
+import WindowCpn from "@/components/WindowCpn/WindowCpn";
+import DestopIcon from "../DestopIcon/DestopIcon";
+import BrowserContent from "@/components/WindowContentCpn/BrowserContent/BrowserContent";
+import FolderContent from "../WindowContentCpn/FolderContent/FolderContent";
 import SettingContent from "../WindowContentCpn/SettingContent/SettingContent";
 import NotepadContent from "../WindowContentCpn/FolderContent/NotepadContent/NotepadContent";
 import VisualCodeContent from "../WindowContentCpn/VisualCodeContent/VisualCodeContent";
 import IframeContent from "../WindowContentCpn/IframeContent/IframeContent";
 import PaintContent from "../WindowContentCpn/PaintContent/PaintContent";
-import { AuthContext } from "../Providers/AuthProvider/AuthProvider";
 import CalculatorContent from "../WindowContentCpn/CalculatorContent/CalculatorContent";
 
 const DESTOP_APP_LIST: APP_TYPE[] = [
