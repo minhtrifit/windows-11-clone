@@ -14,6 +14,7 @@ import {
   FaEdge,
   FaFolder,
   FaPaintBrush,
+  FaSpotify,
 } from "react-icons/fa";
 import { IoPower, IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { VscDebugRestart, VscSignOut } from "react-icons/vsc";
@@ -42,6 +43,7 @@ import VisualCodeContent from "@/components/WindowContentCpn/VisualCodeContent/V
 import IframeContent from "@/components/WindowContentCpn/IframeContent/IframeContent";
 import PaintContent from "@/components/WindowContentCpn/PaintContent/PaintContent";
 import CalculatorContent from "@/components/WindowContentCpn/CalculatorContent/CalculatorContent";
+import SpotifyContent from "@/components/WindowContentCpn/SpotifyContent/SpotifyContent";
 
 const PINNED_APP_LIST: APP_TYPE[] = [
   {
@@ -132,6 +134,17 @@ const PINNED_APP_LIST: APP_TYPE[] = [
     targetElementname: APP_NAME.calculator,
     targetElementTabName: "Calculator",
     targetElementTabIcon: <PiMathOperationsFill size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/assets/spotify.ico",
+    iconName: "Spotify",
+    iconWidth: 40,
+    iconHeight: 40,
+    targetElement: <SpotifyContent />,
+    targetElementname: APP_NAME.spotify,
+    targetElementTabName: "Spotify",
+    targetElementTabIcon: <FaSpotify size={20} />,
     isTargetElementTab: false,
   },
 ];

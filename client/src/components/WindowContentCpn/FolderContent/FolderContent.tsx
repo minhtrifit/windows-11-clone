@@ -10,6 +10,7 @@ import { APP_TYPE } from "@/lib/types";
 import WindowCpn from "@/components/WindowCpn/WindowCpn";
 import {
   autoGenerateName,
+  capitalizeFirstLetter,
   FILE_EXPLORER_APP_NAME,
   FILE_EXPLORER_TAB_NAME,
   getAppByName,
@@ -171,10 +172,10 @@ const SLIDEBAR_ITEMS = [
   },
 ];
 
-const FILEBASE_STORAGE_PATH = {
+export const FILEBASE_STORAGE_PATH = {
   pictures: "file_explorer/pictures",
   videos: "file_explorer/videos",
-  musics: "file_explorer/pictures",
+  music: "file_explorer/music",
 };
 
 const THIC_PC_LIST = [
@@ -299,7 +300,9 @@ const FolderContent = () => {
         const res: any = await createNewFileStoreFile(
           FILE_EXPLORER_APP_NAME.pictures,
           file?.url,
-          file?.name ? file?.name.split(".")[0]?.toLowerCase() : uuidv4(),
+          file?.name
+            ? capitalizeFirstLetter(file?.name.split(".")[0])
+            : uuidv4(),
           file?.size
         );
         console.log(res);
@@ -315,7 +318,9 @@ const FolderContent = () => {
         const res: any = await createNewFileStoreFile(
           FILE_EXPLORER_APP_NAME.videos,
           file?.url,
-          file?.name ? file?.name.split(".")[0]?.toLowerCase() : uuidv4(),
+          file?.name
+            ? capitalizeFirstLetter(file?.name.split(".")[0])
+            : uuidv4(),
           file?.size
         );
         console.log(res);

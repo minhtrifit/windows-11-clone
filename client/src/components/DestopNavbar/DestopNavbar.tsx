@@ -5,7 +5,7 @@ import { APP_NAME, FILE_EXPLORER_APP_NAME } from "@/lib/utils";
 import { APP_TYPE } from "@/lib/types";
 import AppIcon from "../NavbarIcon/AppIcon/AppIcon";
 import StartIcon from "../NavbarIcon/StartIcon/StartIcon";
-import { FaEdge, FaFolder, FaPaintBrush } from "react-icons/fa";
+import { FaEdge, FaFolder, FaPaintBrush, FaSpotify } from "react-icons/fa";
 import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { SiVisualstudiocode } from "react-icons/si";
 import { PiCalculatorFill } from "react-icons/pi";
@@ -16,6 +16,7 @@ import VisualCodeContent from "../WindowContentCpn/VisualCodeContent/VisualCodeC
 import IframeContent from "../WindowContentCpn/IframeContent/IframeContent";
 import PaintContent from "../WindowContentCpn/PaintContent/PaintContent";
 import CalculatorContent from "../WindowContentCpn/CalculatorContent/CalculatorContent";
+import SpotifyContent from "../WindowContentCpn/SpotifyContent/SpotifyContent";
 
 export const NAVBAR_APP_LIST: APP_TYPE[] = [
   {
@@ -100,6 +101,16 @@ export const OPTION_NAVBAR_APP_LIST: APP_TYPE[] = [
     targetElementname: APP_NAME.calculator,
     targetElementTabName: "Calculator",
     targetElementTabIcon: <PiCalculatorFill size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/assets/spotify.ico",
+    iconWidth: 28,
+    iconHeight: 28,
+    targetElement: <SpotifyContent />,
+    targetElementname: APP_NAME.spotify,
+    targetElementTabName: "Spotify",
+    targetElementTabIcon: <FaSpotify size={20} />,
     isTargetElementTab: false,
   },
 ];

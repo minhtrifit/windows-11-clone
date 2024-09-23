@@ -14,6 +14,7 @@ export const APP_NAME = {
   ["app_custom"]: "app_custom",
   ["paint"]: "paint",
   ["calculator"]: "calculator",
+  ["spotify"]: "spotify",
 };
 
 export const FILE_EXPLORER_APP_NAME = {
@@ -179,4 +180,8 @@ export const getFormattedTime = (): string => {
     minute: "numeric",
     hour12: true, // For AM/PM format
   });
+};
+
+export const capitalizeFirstLetter = (name: string) => {
+  return name.charAt(0).toUpperCase() + name.slice(1);
 };
