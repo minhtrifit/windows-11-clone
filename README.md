@@ -1,8 +1,15 @@
-# WINDOWS 11 CLONE CLIENT DOCUMENTATION
+# WINDOWS 11 CLONE DOCUMENTATION
 
-## 💻 Developer Workspace
+# Table of Contents
 
-### 🛡️ Conflict npm packages
+1. [Developer Workspace](#developer-workspace)
+   1. [Conflict npm packages](#conflict-npm-packages)
+   2. [Add more apps](#add-more-apps)
+   3. [Firebase setup](#firebase-setup)
+
+## 💻 Developer Workspace <a name="developer-workspace"></a>
+
+### 🛡️ Conflict npm packages <a name="conflict-npm-packages"></a>
 
 This project use somes old node version npm packages (< ver 18.), list is below. If you want to install more packages, you can choose some options:
 
@@ -15,7 +22,7 @@ npm install react-canvas-draw@1.2.1 --force
 npm i --save-dev @types/react-canvas-draw@1.2.3 --force
 ```
 
-### ⌨️ Add more apps for project
+### ⌨️ Add more apps for project <a name="add-more-apps"></a>
 
 You are developer & want to improve this project. Follow these steps:
 
@@ -27,7 +34,7 @@ You are developer & want to improve this project. Follow these steps:
 
 ![add app example 2](showcase/2.png)
 
-You new app will display on desktop:
+Your new app will display on desktop:
 
 ![add app example 3](showcase/3.png)
 
@@ -37,7 +44,7 @@ You new app will display on desktop:
 
 ![add app example 5](showcase/5.png)
 
-### 🔥 Firebase setup
+### 🔥 Firebase setup <a name="firebase-setup"></a>
 
 **Make sure that you have enabled following firebase services:**
 
