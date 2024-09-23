@@ -55,6 +55,23 @@ const CalculatorContent = () => {
     return expression.replace(/(\d+)(?=$)/, "sqrt($1)");
   };
 
+  const exponentiateLastNumber = (expression: string) => {
+    const numbers: any = expression.match(/\d+/g);
+
+    if (numbers.length === 1) {
+      return `${numbers[0]}^2`;
+    }
+
+    const lastNumber: string = numbers[numbers.length - 1];
+
+    const newExpression: string = expression.replace(
+      lastNumber,
+      `${lastNumber}^2`
+    );
+
+    return newExpression;
+  };
+
   const formatNumber = (num: number) => {
     if (num % 1 !== 0 && num.toString().split(".")[1].length > 5) {
       return parseFloat(num.toFixed(5));
@@ -90,8 +107,12 @@ const CalculatorContent = () => {
       const newValue = calcValue + "*";
       setCalcValue(newValue);
     } else if (value === "squared") {
-      const lastValue = calcValue.charAt(calcValue.length - 1);
-      const newValue = lastValue + "^2";
+      // const lastValue = calcValue.charAt(calcValue.length - 1);
+      // const newValue = lastValue + "^2";
+      // setCalcValue(newValue);
+
+      const newValue = exponentiateLastNumber(calcValue);
+      console.log("AAA:", newValue);
       setCalcValue(newValue);
     } else if (value === "square") {
       const lastNumber = getLastNumber(calcValue);
