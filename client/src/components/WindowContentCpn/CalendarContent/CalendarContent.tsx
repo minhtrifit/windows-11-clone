@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { createEventId } from "@/lib/utils";
 // import { INITIAL_EVENTS } from "@/lib/utils";s
 import { EventAddArg, formatDate } from "@fullcalendar/core";
@@ -7,6 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Calendar } from "@/components/ui/calendar";
+import { AuthContext } from "@/components/Providers/AuthProvider/AuthProvider";
 import "./styles.css";
 
 const renderEventContent = (eventInfo: any) => {
@@ -35,6 +36,8 @@ const renderSidebarEvent = (event: any) => {
 };
 
 const CalendarContent = () => {
+  const { user }: any = useContext(AuthContext);
+
   const calendarRef = useRef<any>(null);
 
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -49,7 +52,7 @@ const CalendarContent = () => {
     };
 
     console.log(Calender);
-    // localStorage.setItem("calender", JSON.stringify(Calender));
+    localStorage.setItem("calender", JSON.stringify(Calender));
   };
 
   const handleWeekendsToggle = () => {
@@ -79,7 +82,22 @@ const CalendarContent = () => {
         `Are you sure you want to delete the event '${clickInfo.event.title}'`
       )
     ) {
-      clickInfo.event.remove();
+      if (user?.email && clickInfo?.event?._def?.publicId) {
+        const newEvents = currentEvents.filter((e: any) => {
+          return e?._def?.publicId !== clickInfo?.event?._def?.publicId;
+        });
+
+        clickInfo.event.remove();
+        setCurrentEvents(newEvents);
+
+        const Calender = {
+          username: user?.email,
+          events: newEvents,
+        };
+
+        console.log("DELETE:", Calender);
+        localStorage.setItem("calender", JSON.stringify(Calender));
+      }
     }
   };
 
@@ -93,20 +111,44 @@ const CalendarContent = () => {
     const data = currentEvents;
     data.push(newEvent);
 
-    handleSaveCalender("minhtrifit", data);
+    if (user?.email) handleSaveCalender(user?.email, data);
+  };
+
+  const handleChangeEvent = (changeEvent: any) => {
+    const updateEvents: any = [];
+    // console.log(changeEvent?.event);
+
+    for (let i = 0; i < currentEvents?.length; ++i) {
+      if (
+        currentEvents[i]?._def?.publicId === changeEvent?.event?._def?.publicId
+      ) {
+        updateEvents.push(changeEvent?.event);
+      } else updateEvents.push(currentEvents[i]);
+    }
+
+    setCurrentEvents(updateEvents);
+    const Calender = {
+      username: user?.email,
+      events: updateEvents,
+    };
+
+    console.log("UPDATE:", Calender);
+    localStorage.setItem("calender", JSON.stringify(Calender));
   };
 
   useEffect(() => {
-    if (true) {
+    if (user?.email) {
       const calenderStr = localStorage.getItem("calender");
 
       if (calenderStr !== null) {
         const Calender = JSON.parse(calenderStr);
 
+        console.log("CALENDAR:", Calender);
+
         setCurrentEvents(Calender.events);
       }
     }
-  }, []);
+  }, [user?.email]);
 
   useEffect(() => {
     // Delay the rendering to ensure the layout is ready
@@ -177,7 +219,7 @@ const CalendarContent = () => {
                 selectMirror={true}
                 dayMaxEvents={true}
                 weekends={weekendsVisible}
-                //   initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+                initialEvents={currentEvents} // alternatively, use the `events` setting to fetch from a feed
                 select={handleDateSelect}
                 eventContent={renderEventContent} // custom render function
                 eventClick={handleEventClick}
@@ -185,7 +227,9 @@ const CalendarContent = () => {
                 eventAdd={function (e) {
                   handleAddEvent(e);
                 }}
-                //   eventChange={function () {}}
+                eventChange={function (e) {
+                  handleChangeEvent(e);
+                }}
                 //   eventRemove={function () {}}
               />
             )}
