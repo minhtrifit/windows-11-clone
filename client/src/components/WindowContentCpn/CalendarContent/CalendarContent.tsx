@@ -125,7 +125,7 @@ const CalendarContent = () => {
   return (
     <div className="w-full h-full rounded-b-md text-black dark:text-white bg-[#efefef] dark:bg-[#252525]">
       <div className="w-full h-full flex">
-        <div className="w-[25%] p-3 flex flex-col gap-5 rounded-bl-md bg-[#eaeaea] dark:bg-[#202327]">
+        <div className="w-[25%] p-3 hidden xl:flex flex-col gap-5 rounded-bl-md bg-[#eaeaea] dark:bg-[#202327]">
           <div className="flex items-center gap-3">
             <input
               type="checkbox"
@@ -152,7 +152,7 @@ const CalendarContent = () => {
             </div>
           </div>
         </div>
-        <div className="w-[75%] max-h-full overflow-y-auto rounded-br-md flex items-center justify-center">
+        <div className="w-[100%] xl:w-[75%] max-h-full overflow-y-auto rounded-br-md flex items-center justify-center">
           <div className="w-[100%] h-full bg-white dark:bg-[#252525] p-3">
             {rendered && (
               <FullCalendar
