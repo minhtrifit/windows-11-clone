@@ -6,7 +6,13 @@ import { useNavbarStore, useSettingStore, useWindowStore } from "@/lib/store";
 import { APP_NAME, FILE_EXPLORER_APP_NAME } from "@/lib/utils";
 import { APP_TYPE } from "@/lib/types";
 
-import { FaEdge, FaFolder, FaPaintBrush, FaSpotify } from "react-icons/fa";
+import {
+  FaEdge,
+  FaFolder,
+  FaPaintBrush,
+  FaSpotify,
+  FaCalendarAlt,
+} from "react-icons/fa";
 import { IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { PiNotepadFill, PiCalculatorFill } from "react-icons/pi";
 import { SiVisualstudiocode } from "react-icons/si";
@@ -24,6 +30,7 @@ import IframeContent from "../WindowContentCpn/IframeContent/IframeContent";
 import PaintContent from "../WindowContentCpn/PaintContent/PaintContent";
 import CalculatorContent from "../WindowContentCpn/CalculatorContent/CalculatorContent";
 import SpotifyContent from "../WindowContentCpn/SpotifyContent/SpotifyContent";
+import CalendarContent from "../WindowContentCpn/CalendarContent/CalendarContent";
 
 const DESTOP_APP_LIST: APP_TYPE[] = [
   {
@@ -125,6 +132,17 @@ const DESTOP_APP_LIST: APP_TYPE[] = [
     targetElementname: APP_NAME.spotify,
     targetElementTabName: "Spotify",
     targetElementTabIcon: <FaSpotify size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/calendar.ico",
+    iconName: "Calendar",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: <CalendarContent />,
+    targetElementname: APP_NAME.calendar,
+    targetElementTabName: "Calendar",
+    targetElementTabIcon: <FaCalendarAlt size={20} />,
     isTargetElementTab: false,
   },
 ];

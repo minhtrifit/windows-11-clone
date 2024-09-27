@@ -15,6 +15,7 @@ import {
   FaFolder,
   FaPaintBrush,
   FaSpotify,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import { IoPower, IoSettingsSharp, IoAppsSharp } from "react-icons/io5";
 import { VscDebugRestart, VscSignOut } from "react-icons/vsc";
@@ -44,6 +45,7 @@ import IframeContent from "@/components/WindowContentCpn/IframeContent/IframeCon
 import PaintContent from "@/components/WindowContentCpn/PaintContent/PaintContent";
 import CalculatorContent from "@/components/WindowContentCpn/CalculatorContent/CalculatorContent";
 import SpotifyContent from "@/components/WindowContentCpn/SpotifyContent/SpotifyContent";
+import CalendarContent from "@/components/WindowContentCpn/CalendarContent/CalendarContent";
 
 const PINNED_APP_LIST: APP_TYPE[] = [
   {
@@ -145,6 +147,17 @@ const PINNED_APP_LIST: APP_TYPE[] = [
     targetElementname: APP_NAME.spotify,
     targetElementTabName: "Spotify",
     targetElementTabIcon: <FaSpotify size={20} />,
+    isTargetElementTab: false,
+  },
+  {
+    iconUrl: "/Icons/applications/calendar.ico",
+    iconName: "Calendar",
+    iconWidth: 45,
+    iconHeight: 45,
+    targetElement: <CalendarContent />,
+    targetElementname: APP_NAME.calendar,
+    targetElementTabName: "Calendar",
+    targetElementTabIcon: <FaCalendarAlt size={20} />,
     isTargetElementTab: false,
   },
 ];
