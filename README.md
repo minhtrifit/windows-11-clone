@@ -2,14 +2,71 @@
 
 <img src="https://img.shields.io/github/stars/minhtrifit/windows-11-clone"/> ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/minhtrifit/windows-11-clone)
 
+![Thumbnail](./showcase/thumbnail.png)
+
 # 📋 Table of Contents
 
-1. [Project Setup](#project-setup)
+1. [Project Showcase](#project-showcase)
+2. [Project Setup](#project-setup)
    1. [Firebase setup](#firebase-setup)
    2. [Source code setup](#source-code-setup)
-2. [Developer Workspace](#developer-workspace)
+3. [Developer Workspace](#developer-workspace)
    1. [Conflict npm packages](#conflict-npm-packages)
    2. [Add more apps](#add-more-apps)
+
+## 🔮 Project Showcase <a name="project-showcase"></a>
+
+- Login Screen
+
+![login](showcase/login.png)
+
+- Home Screen
+
+![Home](showcase/home.png)
+
+- Browser Feature
+
+![Home](showcase/browser.png)
+
+- File Explorer Feature
+
+![Home](showcase/file_explorer.png)
+
+- Image Feature
+
+![Home](showcase/image.png)
+
+- Video Feature
+
+![Home](showcase/video.png)
+
+- Text Document Feature
+
+![Home](showcase/text_document.png)
+
+- Visual Code Feature
+
+![Home](showcase/vscode.png)
+
+- Paint Feature
+
+![Home](showcase/paint.png)
+
+- Settings Feature
+
+![Home](showcase/settings.png)
+
+- Calculator Feature
+
+![Home](showcase/calculator.png)
+
+- Spotify Feature
+
+![Home](showcase/spotify.png)
+
+- Calendar Feature
+
+![Home](showcase/calendar.png)
 
 ## 💽 Project Setup <a name="project-setup"></a>
 
@@ -126,3 +183,14 @@ Your new app will display on desktop:
 3. You can develop & put new app content file for `targetElement` with url: `src/components/WindowContentCpn`:
 
 ![add app example 5](showcase/5.png)
+
+## ▶️ YouTube Demo
+
+[![Thumnail](./showcase/thumbnail.png)](https://youtu.be/PtsflG2W43g)
+
+## 💌 Contact
+
+- Author - [minhtrifit](https://minhtrifit-dev.vercel.app)
+- [Github](https://github.com/minhtrifit)
+
+> CopyRight© minhtrifit

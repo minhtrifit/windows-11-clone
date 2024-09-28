@@ -226,7 +226,7 @@ const WindowContainer = () => {
 
   return (
     <div ref={parentRef} className="relative w-[100%] h-[100%] flex">
-      <div className="h-full p-2 flex flex-col flex-wrap gap-5">
+      <div className="h-[calc(100vh-50px)] p-2 flex flex-col flex-wrap gap-5">
         {DESTOP_APP_LIST?.map((app: APP_TYPE) => {
           return (
             <DestopIcon
