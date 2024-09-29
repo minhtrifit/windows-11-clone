@@ -6,13 +6,25 @@
 
 # 📋 Table of Contents
 
-1. [Project Showcase](#project-showcase)
-2. [Project Setup](#project-setup)
+1. [Technical Stack](#technical-stack)
+2. [Project Showcase](#project-showcase)
+3. [Project Setup](#project-setup)
    1. [Firebase setup](#firebase-setup)
    2. [Source code setup](#source-code-setup)
-3. [Developer Workspace](#developer-workspace)
+4. [Developer Workspace](#developer-workspace)
    1. [Conflict npm packages](#conflict-npm-packages)
    2. [Add more apps](#add-more-apps)
+
+## 📁 Technical Stack <a name="technical-stack"></a>
+
+<p align="left"> <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> </a> <a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="40" height="40"/> </a> <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="typescript" width="40" height="40"/> </a> </p>
+
+- [Next.js14](https://nextjs.org) - The React Framework for the Web
+- [React.js](https://react.dev) - The library for web and native user interfaces
+- [Shadcn UI](https://ui.shadcn.com) - Beautifully designed components that you can copy and paste into your apps. Accessible. Customizable. Open Source.
+- [Tailwind CSS](https://tailwindcss.com) - Rapidly build modern websites without ever leaving your HTML
+- [TypeScript](https://www.typescriptlang.org) - JavaScript with syntax for types.
+- [Firebase](https://firebase.google.com) - Build & Run AI-Powered Apps.
 
 ## 🔮 Project Showcase <a name="project-showcase"></a>
 
@@ -129,10 +141,10 @@ NEXT_PUBLIC_MY_PORTFOLIO_APP_URL=https://sparkling-nasturtium-3d4d3c.netlify.app
 
 📥 Installation packages:
 
-Intall packages & dependencies
+Intall packages & dependencies (use --force tag to install conflict packages version, detail in **Conflict npm packages** topic).
 
 ```console
-npm install
+npm install --force
 ```
 
 Or install packages with legacy peer dependencies.
